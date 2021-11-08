@@ -1,3 +1,5 @@
+import "./style.css";
+
 interface ViewerProps {
   content: string;
   meta: {
