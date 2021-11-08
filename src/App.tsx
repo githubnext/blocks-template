@@ -8,8 +8,15 @@ function App() {
     "https://github.com/githubocto/flat/blob/main/src/git.ts"
   );
 
-  const urlParts = useMemo(() => parseUrl(fileUrl), [fileUrl]);
-  if (!urlParts) return null;
+  const urlParts = useMemo(() => {
+    try {
+      return parseUrl(fileUrl);
+    } catch (e) {
+      console.log(e);
+      return null;
+    }
+  }, [fileUrl]);
+  if (!urlParts) return <div>No file contents found</div>;
   const { owner, name: repo, branch, filepath: path } = urlParts;
 
   const meta = {
