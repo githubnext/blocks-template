@@ -1,10 +1,12 @@
 import { useMemo, useState } from "react";
 import parseUrl from "parse-github-url";
+import { SandpackRunner } from "@codesandbox/sandpack-react";
+import "@codesandbox/sandpack-react/dist/index.css";
 
-const modules = import.meta.globEager("./viewers/**/*");
+const modules = import.meta.glob("./viewers/**/*");
 
-import Viewer from "./Viewer";
 import { useFileContent } from "./hooks";
+import { useQuery } from "react-query";
 
 interface AppInnerProps {
   viewer: string;
@@ -12,6 +14,136 @@ interface AppInnerProps {
   owner: string;
   path: string;
   branch: string;
+}
+
+function findPackageNamesInSourceCode(code: string, packageNames: string[]) {
+  return packageNames.filter((pkg) => code.includes(pkg));
+}
+
+function separatePathFromFile(path: string) {
+  const parts = path.split("/");
+  const file = parts.pop();
+  const dir = parts.join("/");
+  return { file, dir };
+}
+
+function useRawImportSource(viewer: string) {
+  return useQuery(
+    viewer,
+    async () => {
+      const { dir, file } = separatePathFromFile(viewer);
+
+      const viewerSource = await import(`${viewer}?raw`);
+      const pkgJson = await import("../package.json");
+
+      const allOtherFilePaths = Object.keys(modules)
+        .filter((module) => {
+          return module.startsWith(dir);
+        })
+        .filter((module) => file && !module.endsWith(file));
+
+      const allOtherFileSources = await Promise.all(
+        allOtherFilePaths.map(async (p) => {
+          const importType = p.endsWith(".css") ? "inline" : "raw";
+
+          return {
+            path: p,
+            source: await import(`${p}?${importType}`),
+          };
+        })
+      );
+
+      const packageNames = Object.keys(pkgJson.dependencies);
+
+      // Needs to use all the things
+      const helperPackages = allOtherFileSources.flatMap((f) =>
+        findPackageNamesInSourceCode(f.source.default, packageNames)
+      );
+
+      const entryPackages = findPackageNamesInSourceCode(
+        viewerSource.default,
+        packageNames
+      );
+
+      const allPackages = new Set([...helperPackages, ...entryPackages]);
+
+      return {
+        source: viewerSource.default,
+        files: allOtherFileSources.reduce<Record<string, string>>(
+          (acc, next) => {
+            const { file } = separatePathFromFile(next.path);
+            acc[`/${file as string}`] = next.source.default;
+            return acc;
+          },
+          {}
+        ),
+        dependencies: Array.from(allPackages).reduce<Record<string, string>>(
+          (acc, next) => {
+            // @ts-ignore
+            acc[next] = pkgJson.dependencies[next];
+            return acc;
+          },
+          {}
+        ),
+      };
+    },
+    {
+      keepPreviousData: false,
+      refetchOnWindowFocus: false,
+      retry: false,
+      cacheTime: 0,
+    }
+  );
+}
+
+interface SandboxedViewerProps {
+  viewer: string;
+  meta: ViewerMeta;
+  originalContent: string;
+}
+
+function SandboxedViewer(props: SandboxedViewerProps) {
+  const { viewer, originalContent, meta } = props;
+  const { data, status } = useRawImportSource(viewer);
+
+  if (status === "loading")
+    return (
+      <div className="p-4">
+        <p className="text-sm">Loading...</p>
+      </div>
+    );
+  if (status === "error")
+    return (
+      <div className="p-4">
+        <p className="text-sm">Error!</p>
+      </div>
+    );
+
+  if (status === "success" && data) {
+    const injectedSource = `
+      ${data.source}
+      export default function WrappedViewer() {
+        return <Viewer meta={${JSON.stringify(meta)}} content={${JSON.stringify(
+      originalContent
+    )}} />
+      }
+    `;
+
+    return (
+      <div className="flex-1 h-full sandbox-wrapper">
+        <SandpackRunner
+          template="react"
+          code={injectedSource}
+          customSetup={{
+            dependencies: data.dependencies,
+            files: data.files,
+          }}
+        />
+      </div>
+    );
+  }
+
+  return null;
 }
 
 function AppInner(props: AppInnerProps) {
@@ -38,8 +170,6 @@ function AppInner(props: AppInnerProps) {
     );
 
   if (status === "success" && data) {
-    const ViewerComponent = modules[viewer].default as React.FC<ViewerProps>;
-
     const meta = {
       owner: owner,
       repo: repo,
@@ -51,7 +181,13 @@ function AppInner(props: AppInnerProps) {
       name: "",
     };
 
-    return <ViewerComponent content={data[0].content || ""} meta={meta} />;
+    return (
+      <SandboxedViewer
+        meta={meta}
+        originalContent={data[0].content || ""}
+        viewer={viewer}
+      />
+    );
   }
 
   return null;
@@ -107,11 +243,13 @@ function App() {
             <option disabled value="">
               Select a viewer
             </option>
-            {Object.keys(modules).map((key) => (
-              <option value={key} key={key}>
-                {key}
-              </option>
-            ))}
+            {Object.keys(modules)
+              .filter((module) => module.endsWith("index.tsx"))
+              .map((key) => (
+                <option value={key} key={key}>
+                  {key}
+                </option>
+              ))}
           </select>
         </div>
       </div>

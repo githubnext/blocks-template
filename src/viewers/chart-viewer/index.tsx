@@ -1,3 +1,8 @@
-export default function ChartViewer() {
-  return <div>Chart goes here</div>;
+export function Viewer(props: ViewerProps) {
+  return (
+    <div>
+      <div>Chart goes here</div>
+      {props.content}
+    </div>
+  );
 }
