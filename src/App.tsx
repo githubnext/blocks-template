@@ -1,10 +1,12 @@
 import { useMemo, useState } from "react";
 import parseUrl from "parse-github-url";
+import { SandpackRunner } from "@codesandbox/sandpack-react";
+import "@codesandbox/sandpack-react/dist/index.css";
 
-const modules = import.meta.globEager("./viewers/**/*");
+const modules = import.meta.glob("./viewers/**/*");
 
-import Viewer from "./Viewer";
 import { useFileContent } from "./hooks";
+import { useQuery } from "react-query";
 
 interface AppInnerProps {
   viewer: string;
@@ -12,6 +14,93 @@ interface AppInnerProps {
   owner: string;
   path: string;
   branch: string;
+}
+
+function separatePathFromFile(path: string) {
+  const parts = path.split("/");
+  const file = parts.pop();
+  const dir = parts.join("/");
+  return { file, dir };
+}
+
+function useRawImportSource(viewer: string) {
+  return useQuery(
+    viewer,
+    async () => {
+      const { dir, file } = separatePathFromFile(viewer);
+
+      const viewerSource = await import(`${viewer}?raw`);
+
+      const allOtherFilePaths = Object.keys(modules)
+        .filter((module) => {
+          return module.startsWith(dir);
+        })
+        .filter((module) => file && !module.endsWith(file));
+
+      const allOtherFileSources = await Promise.all(
+        allOtherFilePaths.map(async (p) => {
+          const importType = p.endsWith(".css") ? "inline" : "raw";
+
+          return {
+            path: p,
+            source: await import(`${p}?${importType}`),
+          };
+        })
+      );
+
+      return {
+        source: viewerSource.default,
+        files: allOtherFileSources.reduce<Record<string, string>>(
+          (acc, next) => {
+            const { file } = separatePathFromFile(next.path);
+            acc[`/${file as string}`] = next.source.default;
+            return acc;
+          },
+          {}
+        ),
+        dependencies: {},
+        // dependencies: pkgJson.dependencies,
+      };
+    },
+    {
+      keepPreviousData: false,
+      refetchOnWindowFocus: false,
+      retry: false,
+      cacheTime: 0,
+    }
+  );
+}
+
+function SandboxedViewer({ viewer }: { viewer: string }) {
+  const { data, status } = useRawImportSource(viewer);
+
+  if (status === "loading")
+    return (
+      <div className="p-4">
+        <p className="text-sm">Loading...</p>
+      </div>
+    );
+  if (status === "error")
+    return (
+      <div className="p-4">
+        <p className="text-sm">Error!</p>
+      </div>
+    );
+
+  if (status === "success" && data) {
+    return (
+      <SandpackRunner
+        template="react"
+        code={data.source}
+        customSetup={{
+          dependencies: data.dependencies,
+          files: data.files,
+        }}
+      />
+    );
+  }
+
+  return null;
 }
 
 function AppInner(props: AppInnerProps) {
@@ -38,8 +127,7 @@ function AppInner(props: AppInnerProps) {
     );
 
   if (status === "success" && data) {
-    const ViewerComponent = modules[viewer].default as React.FC<ViewerProps>;
-
+    // const ViewerComponent = modules[viewer].default as React.FC<ViewerProps>;
     const meta = {
       owner: owner,
       repo: repo,
@@ -51,7 +139,7 @@ function AppInner(props: AppInnerProps) {
       name: "",
     };
 
-    return <ViewerComponent content={data[0].content || ""} meta={meta} />;
+    return <SandboxedViewer viewer={viewer} />;
   }
 
   return null;
@@ -107,11 +195,13 @@ function App() {
             <option disabled value="">
               Select a viewer
             </option>
-            {Object.keys(modules).map((key) => (
-              <option value={key} key={key}>
-                {key}
-              </option>
-            ))}
+            {Object.keys(modules)
+              .filter((module) => module.endsWith("index.tsx"))
+              .map((key) => (
+                <option value={key} key={key}>
+                  {key}
+                </option>
+              ))}
           </select>
         </div>
       </div>

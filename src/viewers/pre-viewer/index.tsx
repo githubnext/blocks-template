@@ -1,3 +1,3 @@
 export default function PreViewer() {
-  return <div>Hey</div>;
+  return <pre>Chart goes here</pre>;
 }
