@@ -10,5 +10,4 @@ interface ViewerProps {
     sha: string;
     username: string;
   };
-  // onUpdateMetadata: (metadata: any) => Promise<void>;
 }

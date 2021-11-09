@@ -16,6 +16,10 @@ interface AppInnerProps {
   branch: string;
 }
 
+function findPackageNamesInSourceCode(code: string, packageNames: string[]) {
+  return packageNames.filter((pkg) => code.includes(pkg));
+}
+
 function separatePathFromFile(path: string) {
   const parts = path.split("/");
   const file = parts.pop();
@@ -30,6 +34,7 @@ function useRawImportSource(viewer: string) {
       const { dir, file } = separatePathFromFile(viewer);
 
       const viewerSource = await import(`${viewer}?raw`);
+      const pkgJson = await import("../package.json");
 
       const allOtherFilePaths = Object.keys(modules)
         .filter((module) => {
@@ -48,6 +53,20 @@ function useRawImportSource(viewer: string) {
         })
       );
 
+      const packageNames = Object.keys(pkgJson.dependencies);
+
+      // Needs to use all the things
+      const helperPackages = allOtherFileSources.flatMap((f) =>
+        findPackageNamesInSourceCode(f.source.default, packageNames)
+      );
+
+      const entryPackages = findPackageNamesInSourceCode(
+        viewerSource.default,
+        packageNames
+      );
+
+      const allPackages = new Set([...helperPackages, ...entryPackages]);
+
       return {
         source: viewerSource.default,
         files: allOtherFileSources.reduce<Record<string, string>>(
@@ -58,8 +77,14 @@ function useRawImportSource(viewer: string) {
           },
           {}
         ),
-        dependencies: {},
-        // dependencies: pkgJson.dependencies,
+        dependencies: Array.from(allPackages).reduce<Record<string, string>>(
+          (acc, next) => {
+            // @ts-ignore
+            acc[next] = pkgJson.dependencies[next];
+            return acc;
+          },
+          {}
+        ),
       };
     },
     {
@@ -89,14 +114,16 @@ function SandboxedViewer({ viewer }: { viewer: string }) {
 
   if (status === "success" && data) {
     return (
-      <SandpackRunner
-        template="react"
-        code={data.source}
-        customSetup={{
-          dependencies: data.dependencies,
-          files: data.files,
-        }}
-      />
+      <div className="flex-1 h-full sandbox-wrapper">
+        <SandpackRunner
+          template="react"
+          code={data.source}
+          customSetup={{
+            dependencies: data.dependencies,
+            files: data.files,
+          }}
+        />
+      </div>
     );
   }
 
@@ -127,7 +154,6 @@ function AppInner(props: AppInnerProps) {
     );
 
   if (status === "success" && data) {
-    // const ViewerComponent = modules[viewer].default as React.FC<ViewerProps>;
     const meta = {
       owner: owner,
       repo: repo,
