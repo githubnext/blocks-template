@@ -3,10 +3,7 @@ import parseUrl from "parse-github-url";
 import { SandpackRunner } from "@codesandbox/sandpack-react";
 import "@codesandbox/sandpack-react/dist/index.css";
 
-const modules = import.meta.glob("./viewers/**/*");
-
-import { useFileContent } from "./hooks";
-import { useQuery } from "react-query";
+import { useFileContent, usePackageJson, useRawImportSource } from "./hooks";
 
 interface AppInnerProps {
   viewer: string;
@@ -14,97 +11,19 @@ interface AppInnerProps {
   owner: string;
   path: string;
   branch: string;
-}
-
-function findPackageNamesInSourceCode(code: string, packageNames: string[]) {
-  return packageNames.filter((pkg) => code.includes(pkg));
-}
-
-function separatePathFromFile(path: string) {
-  const parts = path.split("/");
-  const file = parts.pop();
-  const dir = parts.join("/");
-  return { file, dir };
-}
-
-function useRawImportSource(viewer: string) {
-  return useQuery(
-    viewer,
-    async () => {
-      const { dir, file } = separatePathFromFile(viewer);
-
-      const viewerSource = await import(`${viewer}?raw`);
-      const pkgJson = await import("../package.json");
-
-      const allOtherFilePaths = Object.keys(modules)
-        .filter((module) => {
-          return module.startsWith(dir);
-        })
-        .filter((module) => file && !module.endsWith(file));
-
-      const allOtherFileSources = await Promise.all(
-        allOtherFilePaths.map(async (p) => {
-          const importType = p.endsWith(".css") ? "inline" : "raw";
-
-          return {
-            path: p,
-            source: await import(`${p}?${importType}`),
-          };
-        })
-      );
-
-      const packageNames = Object.keys(pkgJson.dependencies);
-
-      // Needs to use all the things
-      const helperPackages = allOtherFileSources.flatMap((f) =>
-        findPackageNamesInSourceCode(f.source.default, packageNames)
-      );
-
-      const entryPackages = findPackageNamesInSourceCode(
-        viewerSource.default,
-        packageNames
-      );
-
-      const allPackages = new Set([...helperPackages, ...entryPackages]);
-
-      return {
-        source: viewerSource.default,
-        files: allOtherFileSources.reduce<Record<string, string>>(
-          (acc, next) => {
-            const { file } = separatePathFromFile(next.path);
-            acc[`/${file as string}`] = next.source.default;
-            return acc;
-          },
-          {}
-        ),
-        dependencies: Array.from(allPackages).reduce<Record<string, string>>(
-          (acc, next) => {
-            // @ts-ignore
-            acc[next] = pkgJson.dependencies[next];
-            return acc;
-          },
-          {}
-        ),
-      };
-    },
-    {
-      keepPreviousData: false,
-      refetchOnWindowFocus: false,
-      retry: false,
-      cacheTime: 0,
-    }
-  );
+  dependencies: object;
 }
 
 interface SandboxedViewerProps {
   viewer: string;
   meta: ViewerMeta;
   originalContent: string;
+  dependencies: object;
 }
 
 function SandboxedViewer(props: SandboxedViewerProps) {
-  const { viewer, originalContent, meta } = props;
-  const { data, status } = useRawImportSource(viewer);
+  const { viewer, originalContent, meta, dependencies } = props;
+  const { data, status } = useRawImportSource(viewer, dependencies);
 
   if (status === "loading")
     return (
@@ -147,7 +66,7 @@ function SandboxedViewer(props: SandboxedViewerProps) {
 }
 
 function AppInner(props: AppInnerProps) {
-  const { viewer, repo, owner, path, branch } = props;
+  const { viewer, repo, owner, path, branch, dependencies } = props;
   const { data, status } = useFileContent({
     owner: owner,
     repo: repo,
@@ -184,6 +103,7 @@ function AppInner(props: AppInnerProps) {
     return (
       <SandboxedViewer
         meta={meta}
+        dependencies={dependencies}
         originalContent={data[0].content || ""}
         viewer={viewer}
       />
@@ -198,6 +118,8 @@ function App() {
   const [fileUrl, setFileUrl] = useState(
     "https://github.com/githubocto/flat/blob/main/src/git.ts"
   );
+
+  const { data: pkgJson, status } = usePackageJson();
 
   const urlParts = useMemo(() => {
     if (!fileUrl) return null;
@@ -236,6 +158,7 @@ function App() {
               setSelectedViewer(e.target.value);
             }}
             value={selectedViewer}
+            disabled={!pkgJson || status !== "success"}
             className="form-select text-sm"
             name="viewer"
             id="viewer"
@@ -243,13 +166,30 @@ function App() {
             <option disabled value="">
               Select a viewer
             </option>
-            {Object.keys(modules)
-              .filter((module) => module.endsWith("index.tsx"))
-              .map((key) => (
-                <option value={key} key={key}>
-                  {key}
-                </option>
-              ))}
+            <optgroup label="Folder Viewers">
+              {pkgJson &&
+                pkgJson.viewers
+                  .filter((v) => v.type === "folder")
+                  .map((viewer, index) => {
+                    return (
+                      <option value={viewer.entry} key={index}>
+                        {viewer.title}
+                      </option>
+                    );
+                  })}
+            </optgroup>
+            <optgroup label="File Viewers">
+              {pkgJson &&
+                pkgJson.viewers
+                  .filter((v) => v.type === "file")
+                  .map((viewer, index) => {
+                    return (
+                      <option value={viewer.entry} key={index}>
+                        {viewer.title}
+                      </option>
+                    );
+                  })}
+            </optgroup>
           </select>
         </div>
       </div>
@@ -264,6 +204,7 @@ function App() {
         {selectedViewer && fileUrl && urlParts && (
           <AppInner
             viewer={selectedViewer}
+            dependencies={pkgJson?.dependencies as object}
             owner={urlParts.owner as string}
             repo={urlParts.name as string}
             path={urlParts.filepath as string}
