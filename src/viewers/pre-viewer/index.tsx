@@ -1,3 +1,3 @@
-export default function PreViewer() {
+export function Viewer() {
   return <pre>Chart goes here</pre>;
 }

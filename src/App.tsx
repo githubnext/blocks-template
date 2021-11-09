@@ -96,7 +96,14 @@ function useRawImportSource(viewer: string) {
   );
 }
 
-function SandboxedViewer({ viewer }: { viewer: string }) {
+interface SandboxedViewerProps {
+  viewer: string;
+  meta: ViewerMeta;
+  originalContent: string;
+}
+
+function SandboxedViewer(props: SandboxedViewerProps) {
+  const { viewer, originalContent, meta } = props;
   const { data, status } = useRawImportSource(viewer);
 
   if (status === "loading")
@@ -113,11 +120,20 @@ function SandboxedViewer({ viewer }: { viewer: string }) {
     );
 
   if (status === "success" && data) {
+    const injectedSource = `
+      ${data.source}
+      export default function WrappedViewer() {
+        return <Viewer meta={${JSON.stringify(meta)}} content={${JSON.stringify(
+      originalContent
+    )}} />
+      }
+    `;
+
     return (
       <div className="flex-1 h-full sandbox-wrapper">
         <SandpackRunner
           template="react"
-          code={data.source}
+          code={injectedSource}
           customSetup={{
             dependencies: data.dependencies,
             files: data.files,
@@ -165,7 +181,13 @@ function AppInner(props: AppInnerProps) {
       name: "",
     };
 
-    return <SandboxedViewer viewer={viewer} />;
+    return (
+      <SandboxedViewer
+        meta={meta}
+        originalContent={data[0].content || ""}
+        viewer={viewer}
+      />
+    );
   }
 
   return null;
