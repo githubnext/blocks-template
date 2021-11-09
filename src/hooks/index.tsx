@@ -96,7 +96,7 @@ export function useRawImportSource(viewer: string, dependencies: object) {
         (f) => f.includes(dir.replace("./", "")) && !f.endsWith(file)
       );
 
-      const viewerSource = await import(`../${viewer}?raw`);
+      const viewerSource = await import(/* @vite-ignore */ `../${viewer}?raw`);
 
       const relevantFileSources = await Promise.all(
         relevantFilePaths.map(async (p) => {
@@ -104,7 +104,8 @@ export function useRawImportSource(viewer: string, dependencies: object) {
 
           return {
             path: p,
-            source: await import(`${p}?${importType}`),
+
+            source: await import(/* @vite-ignore */ `${p}?${importType}`),
           };
         })
       );
