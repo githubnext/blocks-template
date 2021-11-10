@@ -4,11 +4,8 @@ import { FolderViewer } from "./folder-viewer";
 export interface AppInnerProps {
   viewer: string;
   viewerType: "file" | "folder";
-  repo: string;
-  owner: string;
-  path: string;
-  branch: string;
   dependencies: object;
+  urlParts: ParsedGitHubUrl;
 }
 
 export function AppInner(props: AppInnerProps) {

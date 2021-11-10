@@ -8,9 +8,10 @@ function App() {
   const [selectedViewer, setSelectedViewer] = useState("");
   const [fileUrl, setFileUrl] = useState(
     // File example
-    "https://github.com/githubocto/flat/blob/main/src/git.ts"
+    // "https://github.com/githubocto/flat/blob/main/src/git.ts"
     // Folder example
     // "https://github.com/githubocto/flat/tree/main"
+    "https://github.com/githubocto/flat/tree/main/src/backends"
   );
 
   const { data: pkgJson, status } = usePackageJson();
@@ -19,9 +20,9 @@ function App() {
     if (!fileUrl) return null;
 
     try {
-      return parseUrl(fileUrl);
+      const parsed = parseUrl(fileUrl);
+      return parsed as ParsedGitHubUrl;
     } catch (e) {
-      console.log(e);
       return null;
     }
   }, [fileUrl]);
@@ -29,7 +30,7 @@ function App() {
   return (
     <div className="h-screen flex flex-col overflow-hidden">
       <div className="bg-gray-100 border-b p-4 flex-shrink-0 flex items-center">
-        <div className="w-64">
+        <div className="w-[400px]">
           <label className="text-xs font-medium block mb-1" htmlFor="url">
             GitHub File URL
           </label>
@@ -88,6 +89,7 @@ function App() {
         </div>
       </div>
       <div className="flex-1 overflow-auto">
+        <pre>{JSON.stringify(urlParts, null, 2)}</pre>
         {(!selectedViewer || !fileUrl) && (
           <div className="p-4">
             <p className="text-sm">
@@ -103,10 +105,7 @@ function App() {
               pkgJson?.viewers.find((v) => v.entry === selectedViewer)?.type
             }
             dependencies={pkgJson?.dependencies as object}
-            owner={urlParts.owner as string}
-            repo={urlParts.name as string}
-            path={urlParts.filepath as string}
-            branch={urlParts.branch as string}
+            urlParts={urlParts}
           />
         )}
       </div>

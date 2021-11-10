@@ -47,10 +47,21 @@ function SandboxedViewer(props: SandboxedViewerProps) {
 }
 
 export function FolderViewer(props: AppInnerProps) {
-  const { viewer, repo, owner, path, branch, dependencies } = props;
+  const { viewer, urlParts, dependencies } = props;
+
+  if (urlParts.filepath) {
+    throw new Error("This isn't a folder.");
+  }
+
+  if (!urlParts.owner || !urlParts.name || !urlParts.branch || !urlParts.path) {
+    throw new Error("Invalid url");
+  }
+
+  const { owner, name, path, branch } = urlParts;
+
   const { data, status } = useFolderContent({
     owner: owner,
-    repo: repo,
+    repo: name,
     path: path,
     fileRef: branch,
   });
@@ -60,7 +71,7 @@ export function FolderViewer(props: AppInnerProps) {
   if (status === "success" && data) {
     const meta = {
       owner: owner,
-      repo: repo,
+      repo: name,
       path: path,
       language: "",
       sha: branch,

@@ -18,7 +18,7 @@ export interface UseFolderContentParams extends RepoContext {
 }
 
 export type DirectoryItem = components["schemas"]["content-directory"][number];
-export type TreeItem = components["schemas"]["git-tree"]["tree"];
+export type TreeItem = components["schemas"]["git-tree"]["tree"][number];
 
 function convertContentToString(d: DirectoryItem) {
   return {
@@ -32,11 +32,16 @@ async function getFolderContent(
 ): Promise<TreeItem[]> {
   const { repo, owner, path, fileRef } = params;
 
+  const [_, dirPath] = path.split(`tree/${fileRef}`);
+
   const apiUrl = `https://api.github.com/repos/${owner}/${repo}/git/trees/${fileRef}?recursive=1`;
   const res = await fetch(apiUrl);
   const { tree } = await res.json();
 
-  return tree;
+  return (tree as TreeItem[]).filter((item) => {
+    const dirPathWithoutLeadingSlash = dirPath.replace(/^\//, "");
+    return dirPath === "/" || item.path?.startsWith(dirPathWithoutLeadingSlash);
+  });
 }
 
 async function getFileContent(

@@ -50,11 +50,23 @@ function SandboxedViewer(props: SandboxedViewerProps) {
 }
 
 export function FileViewer(props: AppInnerProps) {
-  const { viewer, repo, owner, path, branch, dependencies } = props;
+  const { viewer, dependencies, urlParts } = props;
+
+  if (
+    !urlParts.owner ||
+    !urlParts.name ||
+    !urlParts.branch ||
+    !urlParts.filepath
+  ) {
+    throw new Error("Invalid url");
+  }
+
+  const { owner, name, branch, filepath } = urlParts;
+
   const { data, status } = useFileContent({
     owner: owner,
-    repo: repo,
-    path: path,
+    repo: name,
+    path: filepath,
     fileRef: branch,
   });
 
@@ -63,8 +75,8 @@ export function FileViewer(props: AppInnerProps) {
   if (status === "success" && data) {
     const meta = {
       owner: owner,
-      repo: repo,
-      path: path,
+      repo: name,
+      path: filepath,
       language: "",
       sha: branch,
       username: "",
