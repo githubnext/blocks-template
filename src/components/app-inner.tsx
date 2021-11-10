@@ -1,3 +1,4 @@
+import gitUrlParse from "git-url-parse";
 import React from "react";
 import { ErrorBoundary } from "react-error-boundary";
 import { FileViewer } from "./file-viewer";
@@ -7,7 +8,7 @@ export interface AppInnerProps {
   viewer: string;
   viewerType: "file" | "folder";
   dependencies: object;
-  urlParts: ParsedGitHubUrl;
+  urlParts: gitUrlParse.GitUrl;
   onReset: () => void;
 }
 

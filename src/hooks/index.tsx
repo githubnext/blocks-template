@@ -31,19 +31,23 @@ async function getFolderContent(
   params: UseFolderContentParams
 ): Promise<TreeItem[]> {
   const { repo, owner, path, fileRef } = params;
+  let branch = fileRef;
 
-  const [_, dirPath] = path.split(`tree/${fileRef}`);
+  if (!branch) {
+    const repoRes = await fetch(
+      `https://api.github.com/repos/${owner}/${repo}`
+    );
+    const repoDetails = await repoRes.json();
+    branch = repoDetails.default_branch;
+  }
 
-  const apiUrl = `https://api.github.com/repos/${owner}/${repo}/git/trees/${fileRef}?recursive=1`;
+  const apiUrl = `https://api.github.com/repos/${owner}/${repo}/git/trees/${branch}?recursive=1`;
+
   const res = await fetch(apiUrl);
   const { tree } = await res.json();
 
   return (tree as TreeItem[]).filter((item) => {
-    return (
-      !dirPath ||
-      dirPath === "/" ||
-      item.path?.startsWith(dirPath.replace(/^\//, ""))
-    );
+    return item.path?.includes(path);
   });
 }
 

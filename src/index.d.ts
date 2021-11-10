@@ -35,24 +35,3 @@ interface FolderViewerProps {
     username: string;
   };
 }
-
-interface ParsedGitHubUrl {
-  protocol: string | null;
-  slashes: string | null;
-  auth: string | null;
-  host: string | null;
-  port: string | null;
-  hostname: string | null;
-  hash: string | null;
-  search: string | null;
-  query: string | null;
-  pathname: string | null;
-  path: string | null;
-  href: string | null;
-  filepath: string | null;
-  branch: string | null;
-  owner: string | null;
-  name: string | null;
-  repo: string | null;
-  repository: string | null;
-}

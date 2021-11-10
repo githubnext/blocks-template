@@ -1,5 +1,5 @@
 import { useMemo, useState } from "react";
-import parseUrl from "parse-github-url";
+import GitUrlParse from "git-url-parse";
 
 import { usePackageJson } from "./hooks";
 import { AppInner } from "./components/app-inner";
@@ -8,9 +8,9 @@ function App() {
   const [selectedViewer, setSelectedViewer] = useState("");
   const [fileUrl, setFileUrl] = useState(
     // File example
-    "https://github.com/githubocto/flat/blob/main/src/git.ts"
-    // Folder example
-    // "https://github.com/githubocto/flat/tree/main"
+    // "https://github.com/githubocto/flat/blob/main/src/git.ts"
+    // // Folder example
+    "https://github.com/githubocto/flat"
     // "https://github.com/githubocto/flat/tree/main/src/backends"
   );
 
@@ -20,8 +20,7 @@ function App() {
     if (!fileUrl) return null;
 
     try {
-      const parsed = parseUrl(fileUrl);
-      return parsed as ParsedGitHubUrl;
+      return GitUrlParse(fileUrl);
     } catch (e) {
       return null;
     }

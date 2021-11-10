@@ -53,9 +53,10 @@ export function FileViewer(props: Omit<AppInnerProps, "onReset">) {
   const { viewer, dependencies, urlParts } = props;
 
   if (
+    urlParts.filepathtype !== "blob" ||
     !urlParts.owner ||
     !urlParts.name ||
-    !urlParts.branch ||
+    !urlParts.ref ||
     !urlParts.filepath
   ) {
     throw new Error(
@@ -63,13 +64,13 @@ export function FileViewer(props: Omit<AppInnerProps, "onReset">) {
     );
   }
 
-  const { owner, name, branch, filepath } = urlParts;
+  const { owner, name, ref, filepath } = urlParts;
 
   const { data, status } = useFileContent({
     owner: owner,
     repo: name,
     path: filepath,
-    fileRef: branch,
+    fileRef: ref,
   });
 
   if (status === "loading") return <LoadingState />;
@@ -80,7 +81,7 @@ export function FileViewer(props: Omit<AppInnerProps, "onReset">) {
       repo: name,
       path: filepath,
       language: "",
-      sha: branch,
+      sha: ref,
       username: "",
       download_url: "",
       name: "",

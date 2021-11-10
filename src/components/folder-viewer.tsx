@@ -49,23 +49,23 @@ function SandboxedViewer(props: SandboxedViewerProps) {
 export function FolderViewer(props: Omit<AppInnerProps, "onReset">) {
   const { viewer, urlParts, dependencies } = props;
 
-  if (urlParts.filepath) {
+  if (urlParts.filepathtype === "blob") {
     throw new Error(
       "Unable to parse this GitHub URL. Are you sure you've linked to a directory and not a file?"
     );
   }
 
-  if (!urlParts.owner || !urlParts.name || !urlParts.branch || !urlParts.path) {
+  if (!urlParts.owner || !urlParts.name) {
     throw new Error("Unable to parse this GitHub URL");
   }
 
-  const { owner, name, path, branch } = urlParts;
+  const { owner, name, filepath, ref } = urlParts;
 
   const { data, status } = useFolderContent({
     owner: owner,
     repo: name,
-    path: path,
-    fileRef: branch,
+    path: filepath,
+    fileRef: ref,
   });
 
   if (status === "loading") return <LoadingState />;
@@ -74,9 +74,9 @@ export function FolderViewer(props: Omit<AppInnerProps, "onReset">) {
     const meta = {
       owner: owner,
       repo: name,
-      path: path,
+      path: filepath,
       language: "",
-      sha: branch,
+      sha: ref,
       username: "",
       download_url: "",
       name: "",
