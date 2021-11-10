@@ -46,6 +46,7 @@ function ErrorFallback({
 
 export function AppInner(props: AppInnerProps) {
   const { onReset, ...rest } = props;
+
   return (
     <ErrorBoundary onReset={onReset} FallbackComponent={ErrorFallback}>
       <React.Fragment>

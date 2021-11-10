@@ -39,8 +39,11 @@ async function getFolderContent(
   const { tree } = await res.json();
 
   return (tree as TreeItem[]).filter((item) => {
-    const dirPathWithoutLeadingSlash = dirPath.replace(/^\//, "");
-    return dirPath === "/" || item.path?.startsWith(dirPathWithoutLeadingSlash);
+    return (
+      !dirPath ||
+      dirPath === "/" ||
+      item.path?.startsWith(dirPath.replace(/^\//, ""))
+    );
   });
 }
 
