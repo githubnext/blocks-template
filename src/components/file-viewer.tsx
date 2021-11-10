@@ -49,7 +49,9 @@ function SandboxedViewer(props: SandboxedViewerProps) {
   return null;
 }
 
-export function FileViewer(props: Omit<AppInnerProps, "onReset">) {
+export function FileViewer(
+  props: Omit<AppInnerProps, "onReset" | "viewerType">
+) {
   const { viewer, dependencies, urlParts } = props;
 
   if (

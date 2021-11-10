@@ -6,13 +6,7 @@ import { AppInner } from "./components/app-inner";
 
 function App() {
   const [selectedViewer, setSelectedViewer] = useState("");
-  const [fileUrl, setFileUrl] = useState(
-    // File example
-    // "https://github.com/githubocto/flat/blob/main/src/git.ts"
-    // // Folder example
-    // "https://github.com/githubocto/flat"
-    "https://github.com/githubocto/flat/tree/main/src/backends"
-  );
+  const [fileUrl, setFileUrl] = useState("");
 
   const { data: pkgJson, status } = usePackageJson();
 

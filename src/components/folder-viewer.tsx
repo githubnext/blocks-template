@@ -46,7 +46,9 @@ function SandboxedViewer(props: SandboxedViewerProps) {
   return null;
 }
 
-export function FolderViewer(props: Omit<AppInnerProps, "onReset">) {
+export function FolderViewer(
+  props: Omit<AppInnerProps, "onReset" | "viewerType">
+) {
   const { viewer, urlParts, dependencies } = props;
 
   if (urlParts.filepathtype === "blob") {

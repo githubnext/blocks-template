@@ -1,7 +1,0 @@
-body {
-  background: blue !important;
-}
-
-.upside-down {
-  transform: rotate(180deg);
-}

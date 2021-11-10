@@ -46,13 +46,17 @@ function ErrorFallback({
 }
 
 export function AppInner(props: AppInnerProps) {
-  const { onReset, ...rest } = props;
+  const { onReset, viewerType, ...rest } = props;
 
   return (
-    <ErrorBoundary onReset={onReset} FallbackComponent={ErrorFallback}>
+    <ErrorBoundary
+      resetKeys={[viewerType]}
+      onReset={onReset}
+      FallbackComponent={ErrorFallback}
+    >
       <React.Fragment>
-        {props.viewerType === "file" && <FileViewer {...rest} />}
-        {props.viewerType === "folder" && <FolderViewer {...rest} />}
+        {viewerType === "file" && <FileViewer {...rest} />}
+        {viewerType === "folder" && <FolderViewer {...rest} />}
       </React.Fragment>
     </ErrorBoundary>
   );

@@ -12,6 +12,7 @@ interface ViewerMeta {
 interface CommonViewerProps {
   metadata: any;
   onUpdateMetadata: () => any;
+  onRequestUpdateContent: () => any;
 }
 
 interface FileViewerProps extends CommonViewerProps {
