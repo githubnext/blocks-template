@@ -9,12 +9,17 @@ interface ViewerMeta {
   username: string;
 }
 
-interface FileViewerProps {
+interface CommonViewerProps {
+  metadata: any;
+  onUpdateMetadata: () => any;
+}
+
+interface FileViewerProps extends CommonViewerProps {
   content: string;
   meta: ViewerMeta;
 }
 
-interface FolderViewerProps {
+interface FolderViewerProps extends CommonViewerProps {
   tree: {
     path: string;
     mode: string;
