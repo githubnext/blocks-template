@@ -16,7 +16,7 @@ interface FileViewerProps {
 
 interface FolderViewerProps {
   files: File[];
-  contents: string;
+  content: string;
   meta: {
     theme: string;
     download_url: string;

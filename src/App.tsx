@@ -1,122 +1,16 @@
 import { useMemo, useState } from "react";
 import parseUrl from "parse-github-url";
-import { SandpackRunner } from "@codesandbox/sandpack-react";
-import "@codesandbox/sandpack-react/dist/index.css";
 
-import { useFileContent, usePackageJson, useRawImportSource } from "./hooks";
-
-interface AppInnerProps {
-  viewer: string;
-  repo: string;
-  owner: string;
-  path: string;
-  branch: string;
-  dependencies: object;
-}
-
-interface SandboxedViewerProps {
-  viewer: string;
-  meta: ViewerMeta;
-  originalContent: string;
-  dependencies: object;
-}
-
-function SandboxedViewer(props: SandboxedViewerProps) {
-  const { viewer, originalContent, meta, dependencies } = props;
-  const { data, status } = useRawImportSource(viewer, dependencies);
-
-  if (status === "loading")
-    return (
-      <div className="p-4">
-        <p className="text-sm">Loading...</p>
-      </div>
-    );
-  if (status === "error")
-    return (
-      <div className="p-4">
-        <p className="text-sm">Error!</p>
-      </div>
-    );
-
-  if (status === "success" && data) {
-    const injectedSource = `
-      ${data.source}
-      export default function WrappedViewer() {
-        return <Viewer meta={${JSON.stringify(meta)}} content={${JSON.stringify(
-      originalContent
-    )}} />
-      }
-    `;
-
-    return (
-      <div className="flex-1 h-full sandbox-wrapper">
-        <SandpackRunner
-          template="react"
-          code={injectedSource}
-          customSetup={{
-            dependencies: data.dependencies,
-            files: data.files,
-          }}
-        />
-      </div>
-    );
-  }
-
-  return null;
-}
-
-function AppInner(props: AppInnerProps) {
-  const { viewer, repo, owner, path, branch, dependencies } = props;
-  const { data, status } = useFileContent({
-    owner: owner,
-    repo: repo,
-    path: path,
-    fileRef: branch,
-  });
-
-  if (status === "loading")
-    return (
-      <div className="p-4">
-        <p className="text-sm">Loading...</p>
-      </div>
-    );
-
-  if (status === "error")
-    return (
-      <div className="p-4">
-        <p className="text-sm">Error: {data}</p>
-      </div>
-    );
-
-  if (status === "success" && data) {
-    const meta = {
-      owner: owner,
-      repo: repo,
-      path: path,
-      language: "",
-      sha: branch,
-      username: "",
-      download_url: "",
-      name: "",
-    };
-
-    return (
-      <SandboxedViewer
-        meta={meta}
-        dependencies={dependencies}
-        originalContent={data[0].content || ""}
-        viewer={viewer}
-      />
-    );
-  }
-
-  return null;
-}
+import { usePackageJson } from "./hooks";
+import { AppInner } from "./components/app-inner";
 
 function App() {
   const [selectedViewer, setSelectedViewer] = useState("");
   const [fileUrl, setFileUrl] = useState(
-    "https://github.com/githubocto/flat/blob/main/src/git.ts"
+    // File example
+    // "https://github.com/githubocto/flat/blob/main/src/git.ts"
+    // Folder example
+    "https://github.com/githubocto/flat/tree/main"
   );
 
   const { data: pkgJson, status } = usePackageJson();
@@ -204,6 +98,10 @@ function App() {
         {selectedViewer && fileUrl && urlParts && (
           <AppInner
             viewer={selectedViewer}
+            // @ts-ignore
+            viewerType={
+              pkgJson?.viewers.find((v) => v.entry === selectedViewer)?.type
+            }
             dependencies={pkgJson?.dependencies as object}
             owner={urlParts.owner as string}
             repo={urlParts.name as string}

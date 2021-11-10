@@ -12,13 +12,30 @@ export interface UseFileContentParams extends RepoContext {
   fileRef?: string;
 }
 
+export interface UseFolderContentParams extends RepoContext {
+  path: string;
+  fileRef?: string;
+}
+
 export type DirectoryItem = components["schemas"]["content-directory"][number];
+export type TreeItem = components["schemas"]["git-tree"]["tree"];
 
 function convertContentToString(d: DirectoryItem) {
   return {
     ...d,
     content: Buffer.from(d.content ? d.content : "", "base64").toString(),
   };
+}
+
+async function getFolderContent(
+  params: UseFolderContentParams
+): Promise<TreeItem[]> {
+  const { repo, owner, path, fileRef } = params;
+
+  const apiUrl = `https://api.github.com/repos/${owner}/${repo}/git/trees/${fileRef}?recursive=1`;
+  const res = await fetch(apiUrl);
+  const tree = await res.json();
+  return tree;
 }
 
 async function getFileContent(
@@ -42,7 +59,6 @@ async function getFileContent(
 
 export function useFileContent(
   params: UseFileContentParams,
-
   config?: UseQueryOptions<DirectoryItem[]>
 ) {
   const { repo, owner, path, fileRef } = params;
@@ -51,6 +67,30 @@ export function useFileContent(
     ["file", params],
     () =>
       getFileContent({
+        repo,
+        owner,
+        path,
+        fileRef,
+      }),
+    // @ts-ignore
+    {
+      ...config,
+      retry: false,
+      refetchOnWindowFocus: false,
+    }
+  );
+}
+
+export function useFolderContent(
+  params: UseFolderContentParams,
+  config?: UseQueryOptions<TreeItem[]>
+) {
+  const { repo, owner, path, fileRef } = params;
+
+  return useQuery(
+    ["folder", params],
+    () =>
+      getFolderContent({
         repo,
         owner,
         path,

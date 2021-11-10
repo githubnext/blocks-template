@@ -24,6 +24,12 @@
       "title": "Upside-Down Viewer",
       "description": "A ridiculous upside-down viewer",
       "entry": "/viewers/upside-down-viewer/index.tsx"
+    },
+    {
+      "type": "folder",
+      "title": "Folder Viewer",
+      "description": "A ridiculous upside-down viewer",
+      "entry": "/viewers/folder-viewer/index.tsx"
     }
   ],
   "dependencies": {
