@@ -1,4 +1,4 @@
-export function Viewer(props: ViewerProps) {
+export function Viewer(props: FileViewerProps) {
   return (
     <div>
       <div>Chart goes here</div>

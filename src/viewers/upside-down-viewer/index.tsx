@@ -1,7 +1,7 @@
 import { useShout } from "./hooks";
 import "./style.css";
 
-export default function Viewer(props: ViewerProps) {
+export function Viewer(props: FileViewerProps) {
   useShout();
 
   return (

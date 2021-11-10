@@ -1,6 +1,6 @@
 // import "./style.css";
 
-function Viewer(props: ViewerProps) {
+function Viewer(props: FileViewerProps) {
   const { content, meta } = props;
   const { owner, repo } = meta;
 
