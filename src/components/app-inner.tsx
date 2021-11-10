@@ -5,7 +5,7 @@ import { FileViewer } from "./file-viewer";
 import { FolderViewer } from "./folder-viewer";
 
 export interface AppInnerProps {
-  viewer: string;
+  viewerId: string;
   viewerType: "file" | "folder";
   dependencies: object;
   urlParts: gitUrlParse.GitUrl;

@@ -5,7 +5,7 @@ import { usePackageJson } from "./hooks";
 import { AppInner } from "./components/app-inner";
 
 function App() {
-  const [selectedViewer, setSelectedViewer] = useState("");
+  const [viewerId, setViewerId] = useState("");
   const [fileUrl, setFileUrl] = useState(
     "https://github.com/githubocto/flat/blob/main/src/git.ts"
   );
@@ -45,9 +45,9 @@ function App() {
           </label>
           <select
             onChange={(e) => {
-              setSelectedViewer(e.target.value);
+              setViewerId(e.target.value);
             }}
-            value={selectedViewer}
+            value={viewerId}
             disabled={!pkgJson || status !== "success"}
             className="form-select text-sm"
             name="viewer"
@@ -84,20 +84,20 @@ function App() {
         </div>
       </div>
       <div className="flex-1 overflow-auto">
-        {(!selectedViewer || !fileUrl) && (
+        {(!viewerId || !fileUrl) && (
           <div className="p-4">
             <p className="text-sm">
               Please select a viewer and enter a file path.
             </p>
           </div>
         )}
-        {selectedViewer && fileUrl && urlParts && (
+        {viewerId && fileUrl && urlParts && (
           <AppInner
             onReset={() => setFileUrl("")}
-            viewer={selectedViewer}
+            viewerId={viewerId}
             // @ts-ignore
             viewerType={
-              pkgJson?.viewers.find((v) => v.entry === selectedViewer)?.type
+              pkgJson?.viewers.find((v) => v.entry === viewerId)?.type
             }
             dependencies={pkgJson?.dependencies as object}
             urlParts={urlParts}

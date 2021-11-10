@@ -6,15 +6,15 @@ import { ErrorState } from "./error-state";
 import { LoadingState } from "./loading-state";
 
 interface SandboxedViewerProps {
-  viewer: string;
+  viewerId: string;
   meta: ViewerMeta;
   tree: TreeItem[];
   dependencies: object;
 }
 
 function SandboxedViewer(props: SandboxedViewerProps) {
-  const { viewer, meta, dependencies, tree } = props;
-  const { data, status } = useRawImportSource(viewer, dependencies);
+  const { viewerId, meta, dependencies, tree } = props;
+  const { data, status } = useRawImportSource(viewerId, dependencies);
 
   if (status === "loading") return <LoadingState />;
   if (status === "error") return <ErrorState />;
@@ -49,7 +49,7 @@ function SandboxedViewer(props: SandboxedViewerProps) {
 export function FolderViewer(
   props: Omit<AppInnerProps, "onReset" | "viewerType">
 ) {
-  const { viewer, urlParts, dependencies } = props;
+  const { viewerId, urlParts, dependencies } = props;
 
   if (urlParts.filepathtype === "blob") {
     throw new Error(
@@ -89,7 +89,7 @@ export function FolderViewer(
         tree={data}
         meta={meta}
         dependencies={dependencies}
-        viewer={viewer}
+        viewerId={viewerId}
       />
     );
   }

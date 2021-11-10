@@ -54,7 +54,7 @@ function SandboxedViewer(props: SandboxedViewerProps) {
 export function FileViewer(
   props: Omit<AppInnerProps, "onReset" | "viewerType">
 ) {
-  const { viewer, dependencies, urlParts } = props;
+  const { viewerId, dependencies, urlParts } = props;
 
   if (
     urlParts.filepathtype !== "blob" ||
@@ -95,7 +95,7 @@ export function FileViewer(
       <SandboxedViewer
         {...data}
         dependencies={dependencies}
-        viewerId={viewer}
+        viewerId={viewerId}
         metadata={defaultMetadata}
         onUpdateMetadata={() => {}}
         onRequestUpdateContent={() => {}}
