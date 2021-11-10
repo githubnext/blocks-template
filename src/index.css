@@ -2,3 +2,9 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.sandbox-wrapper .sp-wrapper,
+.sandbox-wrapper .sp-layout,
+.sandbox-wrapper .sp-stack {
+  height: 100% !important;
+}

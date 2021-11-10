@@ -41,6 +41,9 @@ function SandboxedViewer(props: SandboxedViewerProps) {
             dependencies: data.dependencies,
             files: data.files,
           }}
+          options={{
+            showNavigator: false,
+          }}
         />
       </div>
     );
