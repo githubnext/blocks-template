@@ -8,9 +8,9 @@ function App() {
   const [selectedViewer, setSelectedViewer] = useState("");
   const [fileUrl, setFileUrl] = useState(
     // File example
-    // "https://github.com/githubocto/flat/blob/main/src/git.ts"
+    "https://github.com/githubocto/flat/blob/main/src/git.ts"
     // Folder example
-    "https://github.com/githubocto/flat/tree/main"
+    // "https://github.com/githubocto/flat/tree/main"
   );
 
   const { data: pkgJson, status } = usePackageJson();

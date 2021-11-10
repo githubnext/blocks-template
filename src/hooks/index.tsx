@@ -34,7 +34,8 @@ async function getFolderContent(
 
   const apiUrl = `https://api.github.com/repos/${owner}/${repo}/git/trees/${fileRef}?recursive=1`;
   const res = await fetch(apiUrl);
-  const tree = await res.json();
+  const { tree } = await res.json();
+
   return tree;
 }
 

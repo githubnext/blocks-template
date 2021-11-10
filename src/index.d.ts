@@ -15,7 +15,14 @@ interface FileViewerProps {
 }
 
 interface FolderViewerProps {
-  files: File[];
+  tree: {
+    path: string;
+    mode: string;
+    type: string;
+    sha: string;
+    size: number;
+    url: string;
+  }[];
   content: string;
   meta: {
     theme: string;
