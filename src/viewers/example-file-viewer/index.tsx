@@ -6,7 +6,7 @@ import {
 
 export function Viewer(props: FileViewerProps) {
   const { context, content } = props;
-  const language = getLanguageFromFilename(context.filename);
+  const language = getLanguageFromFilename(context.file);
 
   useTailwindCdn();
 

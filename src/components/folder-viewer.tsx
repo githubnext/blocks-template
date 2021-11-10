@@ -1,19 +1,18 @@
 import { SandpackRunner } from "@codesandbox/sandpack-react";
+import { FolderViewerProps } from "@githubnext/utils";
 
-import { TreeItem, useFolderContent, useRawImportSource } from "../hooks";
+import { useFolderContent, useRawImportSource } from "../hooks";
 import { AppInnerProps } from "./app-inner";
 import { ErrorState } from "./error-state";
 import { LoadingState } from "./loading-state";
 
-interface SandboxedViewerProps {
+type SandboxedViewerProps = FolderViewerProps & {
   viewerId: string;
-  meta: ViewerMeta;
-  tree: TreeItem[];
   dependencies: object;
-}
+};
 
 function SandboxedViewer(props: SandboxedViewerProps) {
-  const { viewerId, meta, dependencies, tree } = props;
+  const { context, tree, viewerId, dependencies } = props;
   const { data, status } = useRawImportSource(viewerId, dependencies);
 
   if (status === "loading") return <LoadingState />;
@@ -23,9 +22,9 @@ function SandboxedViewer(props: SandboxedViewerProps) {
     const injectedSource = `
       ${data.source}
       export default function WrappedViewer() {
-        return <Viewer meta={${JSON.stringify(meta)}} tree={${JSON.stringify(
-      tree
-    )}} />
+        return <Viewer context={${JSON.stringify(
+          context
+        )}} tree={${JSON.stringify(tree)}} />
       }
     `;
 
@@ -73,26 +72,20 @@ export function FolderViewer(
   if (status === "loading") return <LoadingState />;
   if (status === "error") return <ErrorState />;
   if (status === "success" && data) {
-    const meta = {
-      owner: owner,
-      repo: name,
-      path: filepath,
-      language: "",
-      sha: ref,
-      username: "",
-      download_url: "",
-      name: "",
-    };
-
     return (
       <SandboxedViewer
-        tree={data}
-        meta={meta}
+        {...data}
         dependencies={dependencies}
         viewerId={viewerId}
+        metadata={defaultMetadata}
+        onUpdateMetadata={noop}
+        onRequestUpdateContent={noop}
       />
     );
   }
 
   return null;
 }
+
+const defaultMetadata = {};
+const noop = () => {};

@@ -1,7 +1,6 @@
 import { useQuery, UseQueryOptions } from "react-query";
 import { components } from "@octokit/openapi-types";
-import { Buffer } from "buffer";
-import { FileData } from "@githubnext/utils";
+import { FileData, FolderData } from "@githubnext/utils";
 
 export interface RepoContext {
   repo: string;
@@ -23,18 +22,48 @@ export type TreeItem = components["schemas"]["git-tree"]["tree"][number];
 
 async function getFolderContent(
   params: UseFolderContentParams
-): Promise<TreeItem[]> {
+): Promise<FolderData> {
   const { repo, owner, path, fileRef } = params;
   let branch = fileRef || "HEAD";
 
   const apiUrl = `https://api.github.com/repos/${owner}/${repo}/git/trees/${branch}?recursive=1`;
 
-  const res = await fetch(apiUrl);
-  const { tree } = await res.json();
+  const res = await fetch(apiUrl, {
+    headers: {
+      Accept: `Bearer ${PAT}`,
+    },
+  });
+  const { tree: rawTree } = await res.json();
 
-  return (tree as TreeItem[]).filter((item) => {
+  const files = (rawTree as TreeItem[]).filter((item) => {
     return item.path?.includes(path);
   });
+
+  const tree = files.map((item) => {
+    return {
+      path: item.path || "",
+      mode: item.mode || "",
+      type: item.type || "",
+      sha: item.sha || "",
+      size: item.size || 0,
+      url: item.url || "",
+    };
+  });
+
+  const context = {
+    download_url: apiUrl,
+    folder: path.split("/").pop() || "",
+    path: path,
+    repo: repo,
+    owner: owner,
+    sha: branch,
+    username: "mona",
+  };
+
+  return {
+    tree,
+    context,
+  };
 }
 
 const PAT = import.meta.env.VITE_GITHUB_PAT;
@@ -61,7 +90,7 @@ async function getFileContent(params: UseFileContentParams): Promise<FileData> {
 
   const context = {
     download_url: apiUrl,
-    filename: path.split("/").pop() || "",
+    file: path.split("/").pop() || "",
     path: path,
     repo: repo,
     owner: owner,
@@ -101,7 +130,7 @@ export function useFileContent(
 
 export function useFolderContent(
   params: UseFolderContentParams,
-  config?: UseQueryOptions<TreeItem[]>
+  config?: UseQueryOptions<FolderData>
 ) {
   const { repo, owner, path, fileRef } = params;
 

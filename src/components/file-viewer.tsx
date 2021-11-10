@@ -80,17 +80,6 @@ export function FileViewer(
   if (status === "loading") return <LoadingState />;
   if (status === "error") return <ErrorState />;
   if (status === "success" && data) {
-    const meta = {
-      owner: owner,
-      repo: name,
-      path: filepath,
-      language: "",
-      sha: ref,
-      username: "",
-      download_url: "",
-      name: "",
-    };
-
     return (
       <SandboxedViewer
         {...data}
