@@ -1,6 +1,7 @@
 import { useQuery, UseQueryOptions } from "react-query";
 import { components } from "@octokit/openapi-types";
 import { Buffer } from "buffer";
+import { FileData } from "@githubnext/utils";
 
 export interface RepoContext {
   repo: string;
@@ -20,13 +21,6 @@ export interface UseFolderContentParams extends RepoContext {
 export type DirectoryItem = components["schemas"]["content-directory"][number];
 export type TreeItem = components["schemas"]["git-tree"]["tree"][number];
 
-function convertContentToString(d: DirectoryItem) {
-  return {
-    ...d,
-    content: Buffer.from(d.content ? d.content : "", "base64").toString(),
-  };
-}
-
 async function getFolderContent(
   params: UseFolderContentParams
 ): Promise<TreeItem[]> {
@@ -43,28 +37,47 @@ async function getFolderContent(
   });
 }
 
-async function getFileContent(
-  params: UseFileContentParams
-): Promise<DirectoryItem[]> {
-  const { repo, owner, path, fileRef } = params;
+const PAT = import.meta.env.VITE_GITHUB_PAT;
 
-  const apiUrl = `https://api.github.com/repos/${owner}/${repo}/contents/${path}?ref=${fileRef}`;
-  const res = await fetch(apiUrl);
+async function getFileContent(params: UseFileContentParams): Promise<FileData> {
+  const { repo, owner, path, fileRef } = params;
+  const branch = fileRef || "HEAD";
+
+  const apiUrl = `https://raw.githubusercontent.com/${owner}/${repo}/${branch}/${path}`;
+  const res = await fetch(
+    apiUrl,
+    PAT
+      ? {
+          headers: {
+            Accept: `Bearer ${PAT}`,
+          },
+        }
+      : {}
+  );
 
   if (res.status !== 200) throw new Error("Something bad happened");
 
-  const data = await res.json();
+  const content = await res.text();
 
-  if (Array.isArray(data)) {
-    return data.map(convertContentToString);
-  } else {
-    return [convertContentToString(data)];
-  }
+  const context = {
+    download_url: apiUrl,
+    filename: path.split("/").pop() || "",
+    path: path,
+    repo: repo,
+    owner: owner,
+    sha: "HEAD",
+    username: "mona",
+  };
+
+  return {
+    content,
+    context,
+  };
 }
 
 export function useFileContent(
   params: UseFileContentParams,
-  config?: UseQueryOptions<DirectoryItem[]>
+  config?: UseQueryOptions<FileData>
 ) {
   const { repo, owner, path, fileRef } = params;
 

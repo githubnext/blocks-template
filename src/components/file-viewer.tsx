@@ -7,17 +7,16 @@ import { LoadingState } from "./loading-state";
 import { SandpackRunner } from "@codesandbox/sandpack-react";
 
 import { useRawImportSource } from "../hooks";
+import { FileViewerProps } from "@githubnext/utils";
 
-interface SandboxedViewerProps {
-  viewer: string;
-  meta: ViewerMeta;
-  originalContent: string;
+type SandboxedViewerProps = FileViewerProps & {
+  viewerId: string;
   dependencies: object;
-}
+};
 
 function SandboxedViewer(props: SandboxedViewerProps) {
-  const { viewer, originalContent, meta, dependencies } = props;
-  const { data, status } = useRawImportSource(viewer, dependencies);
+  const { context, viewerId, content, dependencies } = props;
+  const { data, status } = useRawImportSource(viewerId, dependencies);
 
   if (status === "loading") return <LoadingState />;
   if (status === "error") return <ErrorState />;
@@ -26,9 +25,9 @@ function SandboxedViewer(props: SandboxedViewerProps) {
     const injectedSource = `
       ${data.source}
       export default function WrappedViewer() {
-        return <Viewer meta={${JSON.stringify(meta)}} content={${JSON.stringify(
-      originalContent
-    )}} />
+        return <Viewer context={${JSON.stringify(
+          context
+        )}} content={${JSON.stringify(content)}} />
       }
     `;
 
@@ -94,13 +93,17 @@ export function FileViewer(
 
     return (
       <SandboxedViewer
-        meta={meta}
+        {...data}
         dependencies={dependencies}
-        originalContent={data[0].content || ""}
-        viewer={viewer}
+        viewerId={viewer}
+        metadata={defaultMetadata}
+        onUpdateMetadata={() => {}}
+        onRequestUpdateContent={() => {}}
       />
     );
   }
 
   return null;
 }
+
+const defaultMetadata = {};
