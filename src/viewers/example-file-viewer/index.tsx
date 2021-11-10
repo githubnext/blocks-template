@@ -1,17 +1,20 @@
 import {
   FileViewerProps,
   useTailwindCdn,
-  extensionToLanguage,
+  getLanguageFromFilename,
 } from "@githubnext/utils";
 
 export function Viewer(props: FileViewerProps) {
   const { context, content } = props;
+  const language = getLanguageFromFilename(context.filename);
 
   useTailwindCdn();
 
   return (
     <div>
-      <p className="text-sm">File: {context.path}</p>
+      <p className="text-sm">
+        File: {context.path} {language}
+      </p>
       <pre className="p-4 text-gray-600">{content}</pre>
     </div>
   );
