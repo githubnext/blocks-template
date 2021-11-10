@@ -10,8 +10,8 @@ function App() {
     // File example
     // "https://github.com/githubocto/flat/blob/main/src/git.ts"
     // // Folder example
-    "https://github.com/githubocto/flat"
-    // "https://github.com/githubocto/flat/tree/main/src/backends"
+    // "https://github.com/githubocto/flat"
+    "https://github.com/githubocto/flat/tree/main/src/backends"
   );
 
   const { data: pkgJson, status } = usePackageJson();

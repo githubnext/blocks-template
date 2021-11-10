@@ -31,15 +31,7 @@ async function getFolderContent(
   params: UseFolderContentParams
 ): Promise<TreeItem[]> {
   const { repo, owner, path, fileRef } = params;
-  let branch = fileRef;
-
-  if (!branch) {
-    const repoRes = await fetch(
-      `https://api.github.com/repos/${owner}/${repo}`
-    );
-    const repoDetails = await repoRes.json();
-    branch = repoDetails.default_branch;
-  }
+  let branch = fileRef || "HEAD";
 
   const apiUrl = `https://api.github.com/repos/${owner}/${repo}/git/trees/${branch}?recursive=1`;
 
