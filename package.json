@@ -11,13 +11,15 @@
       "type": "file",
       "title": "Example File Viewer",
       "description": "A basic file viewer",
-      "entry": "/viewers/example-file-viewer/index.tsx"
+      "entry": "/viewers/example-file-viewer/index.tsx",
+      "extensions": ["*"]
     },
     {
       "type": "folder",
       "title": "Example Folder Viewer",
       "description": "A basic folder viewer",
-      "entry": "/viewers/example-folder-viewer/index.tsx"
+      "entry": "/viewers/example-folder-viewer/index.tsx",
+      "extensions": ["*"]
     }
   ],
   "dependencies": {
