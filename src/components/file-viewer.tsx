@@ -49,7 +49,7 @@ function SandboxedViewer(props: SandboxedViewerProps) {
   return null;
 }
 
-export function FileViewer(props: AppInnerProps) {
+export function FileViewer(props: Omit<AppInnerProps, "onReset">) {
   const { viewer, dependencies, urlParts } = props;
 
   if (
@@ -58,7 +58,9 @@ export function FileViewer(props: AppInnerProps) {
     !urlParts.branch ||
     !urlParts.filepath
   ) {
-    throw new Error("Invalid url");
+    throw new Error(
+      "Unable to parse this GitHub URL. Are you sure you've linked to a file and not a directory?"
+    );
   }
 
   const { owner, name, branch, filepath } = urlParts;

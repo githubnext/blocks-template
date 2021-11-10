@@ -8,10 +8,10 @@ function App() {
   const [selectedViewer, setSelectedViewer] = useState("");
   const [fileUrl, setFileUrl] = useState(
     // File example
-    // "https://github.com/githubocto/flat/blob/main/src/git.ts"
+    "https://github.com/githubocto/flat/blob/main/src/git.ts"
     // Folder example
     // "https://github.com/githubocto/flat/tree/main"
-    "https://github.com/githubocto/flat/tree/main/src/backends"
+    // "https://github.com/githubocto/flat/tree/main/src/backends"
   );
 
   const { data: pkgJson, status } = usePackageJson();
@@ -89,7 +89,6 @@ function App() {
         </div>
       </div>
       <div className="flex-1 overflow-auto">
-        <pre>{JSON.stringify(urlParts, null, 2)}</pre>
         {(!selectedViewer || !fileUrl) && (
           <div className="p-4">
             <p className="text-sm">
@@ -99,6 +98,7 @@ function App() {
         )}
         {selectedViewer && fileUrl && urlParts && (
           <AppInner
+            onReset={() => setFileUrl("")}
             viewer={selectedViewer}
             // @ts-ignore
             viewerType={

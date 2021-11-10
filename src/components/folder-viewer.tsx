@@ -46,15 +46,17 @@ function SandboxedViewer(props: SandboxedViewerProps) {
   return null;
 }
 
-export function FolderViewer(props: AppInnerProps) {
+export function FolderViewer(props: Omit<AppInnerProps, "onReset">) {
   const { viewer, urlParts, dependencies } = props;
 
   if (urlParts.filepath) {
-    throw new Error("This isn't a folder.");
+    throw new Error(
+      "Unable to parse this GitHub URL. Are you sure you've linked to a directory and not a file?"
+    );
   }
 
   if (!urlParts.owner || !urlParts.name || !urlParts.branch || !urlParts.path) {
-    throw new Error("Invalid url");
+    throw new Error("Unable to parse this GitHub URL");
   }
 
   const { owner, name, path, branch } = urlParts;
