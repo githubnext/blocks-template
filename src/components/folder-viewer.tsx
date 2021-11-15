@@ -31,7 +31,7 @@ function SandboxedViewer(props: SandboxedViewerProps) {
     return (
       <div className="flex-1 h-full sandbox-wrapper">
         <SandpackRunner
-          template="react"
+          template="react-ts"
           code={injectedSource}
           customSetup={{
             dependencies: data.dependencies,
