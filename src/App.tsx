@@ -1,6 +1,5 @@
 import { useMemo, useState } from "react";
 import GitUrlParse from "git-url-parse";
-import { SandpackRunner } from "@codesandbox/sandpack-react";
 
 import { usePackageJson } from "./hooks";
 import { AppInner } from "./components/app-inner";
