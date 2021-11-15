@@ -1,5 +1,6 @@
 import { useMemo, useState } from "react";
 import GitUrlParse from "git-url-parse";
+import { SandpackRunner } from "@codesandbox/sandpack-react";
 
 import { usePackageJson } from "./hooks";
 import { AppInner } from "./components/app-inner";
@@ -22,7 +23,7 @@ function App() {
     }
   }, [fileUrl]);
 
-  const viewer = pkgJson?.viewers.find((v) => v.entry === viewerId)
+  const viewer = pkgJson?.viewers.find((v) => v.entry === viewerId);
 
   return (
     <div className="h-screen flex flex-col overflow-hidden">

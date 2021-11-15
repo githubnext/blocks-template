@@ -33,9 +33,11 @@ export function FileViewer(
 
   const getFileContent = useCallback(async (path: string) => {
     const importType = path.endsWith(".css") ? "inline" : "raw";
-    const contents = await import(/* @vite-ignore */ `../${path}?${importType}`)
-    return contents.default
-  }, [])
+    const contents = await import(
+      /* @vite-ignore */ `../${path}?${importType}`
+    );
+    return contents.default;
+  }, []);
 
   if (status === "loading") return <LoadingState />;
   if (status === "error") return <ErrorState />;
@@ -54,7 +56,7 @@ export function FileViewer(
           viewer={viewer}
           metadata={defaultMetadata}
           onUpdateMetadata={() => {
-            return new Promise(() => { });
+            return new Promise(() => {});
           }}
           session={{ token: "" }}
         />
