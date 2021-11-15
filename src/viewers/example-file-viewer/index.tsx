@@ -11,7 +11,7 @@ export function Viewer(props: FileViewerProps) {
   useTailwindCdn();
 
   return (
-    <div>
+    <div className="p-4">
       <p className="text-sm">
         File: {context.path} {language}
       </p>
