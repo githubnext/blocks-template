@@ -12,6 +12,8 @@ interface Viewer {
   extensions?: string[];
 }
 export interface AppInnerProps {
+  metadata: any;
+  onUpdateMetadata: (metadata: any) => Promise<void>;
   viewer: Viewer;
   dependencies: Record<string, string>;
   urlParts: gitUrlParse.GitUrl;
@@ -54,7 +56,6 @@ function ErrorFallback({
 export function AppInner(props: AppInnerProps) {
   const { onReset, viewer, ...rest } = props;
   const viewerType = viewer?.type;
-
 
   return (
     <ErrorBoundary

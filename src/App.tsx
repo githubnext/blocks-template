@@ -1,5 +1,6 @@
 import { useMemo, useState } from "react";
 import GitUrlParse from "git-url-parse";
+import "@githubnext/utils/dist/index.css"
 
 import { usePackageJson } from "./hooks";
 import { AppInner } from "./components/app-inner";

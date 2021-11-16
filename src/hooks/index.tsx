@@ -177,7 +177,7 @@ export function useRawImportSource(viewer: string, dependencies: object) {
       const { dir, file } = separatePathFromFile(viewer);
       if (!file) throw new Error("No viewer file found");
 
-      const literallyEverything = await import.meta.glob(`/src/**/*`);
+      const literallyEverything = await import.meta.glob(`/**/*`);
 
       const relevantFilePaths = Object.keys(literallyEverything).filter(
         (f) => f.includes(dir.replace("./", "")) && !f.endsWith(file)

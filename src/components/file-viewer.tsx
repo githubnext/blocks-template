@@ -8,7 +8,7 @@ import { SandboxedViewer } from "@githubnext/utils";
 export function FileViewer(
   props: Omit<AppInnerProps, "onReset" | "viewerType">
 ) {
-  const { viewer, dependencies, urlParts } = props;
+  const { viewer, metadata = {}, onUpdateMetadata, dependencies, urlParts } = props;
 
   if (
     urlParts.filepathtype !== "blob" ||
@@ -34,7 +34,7 @@ export function FileViewer(
   const getFileContent = useCallback(async (path: string) => {
     const importType = path.endsWith(".css") ? "inline" : "raw";
     const contents = await import(
-      /* @vite-ignore */ `../${path}?${importType}`
+      /* @vite-ignore */ `../../..${path}?${importType}`
     );
     return contents.default;
   }, []);
@@ -48,17 +48,15 @@ export function FileViewer(
           getFileContent={getFileContent}
           contents={data.content}
           context={{
-            theme: "light",
             ...data.context,
-            name,
+            file: name,
           }}
           dependencies={dependencies}
           viewer={viewer}
-          metadata={defaultMetadata}
-          onUpdateMetadata={() => {
-            return new Promise(() => {});
-          }}
+          metadata={metadata}
+          onUpdateMetadata={onUpdateMetadata}
           session={{ token: "" }}
+          onRequestUpdateContent={() => { }}
         />
       </div>
     );
