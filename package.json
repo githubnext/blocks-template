@@ -27,7 +27,7 @@
     }
   ],
   "dependencies": {
-    "@githubnext/utils": "^0.9.5",
+    "@githubnext/utils": "^0.9.18",
     "@octokit/rest": "^18.12.0",
     "git-url-parse": "^11.6.0",
     "lodash": "^4.17.21",

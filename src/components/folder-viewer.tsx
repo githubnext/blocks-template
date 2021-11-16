@@ -8,7 +8,7 @@ import { SandboxedViewer } from "@githubnext/utils";
 export function FolderViewer(
   props: Omit<AppInnerProps, "onReset" | "viewerType">
 ) {
-  const { viewer, metadata = {}, onUpdateMetadata, dependencies, urlParts } = props;
+  const { viewer, metadata = {}, dependencies, urlParts } = props;
 
   if (
     urlParts.filepathtype !== "blob" ||
@@ -52,9 +52,7 @@ export function FolderViewer(
           dependencies={dependencies}
           viewer={viewer}
           metadata={metadata}
-          onUpdateMetadata={onUpdateMetadata}
           session={{ token: "" }}
-          onRequestUpdateContent={() => { }}
         />
       </div>
     );

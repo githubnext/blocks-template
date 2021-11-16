@@ -1,6 +1,7 @@
 import { useQuery, UseQueryOptions } from "react-query";
 import { components } from "@octokit/openapi-types";
 import { FileData, FolderData } from "@githubnext/utils";
+import { useEffect, useState } from "react";
 
 export interface RepoContext {
   repo: string;
@@ -77,10 +78,10 @@ async function getFileContent(params: UseFileContentParams): Promise<FileData> {
     apiUrl,
     PAT
       ? {
-          headers: {
-            Accept: `Bearer ${PAT}`,
-          },
-        }
+        headers: {
+          Accept: `Bearer ${PAT}`,
+        },
+      }
       : {}
   );
 
@@ -237,4 +238,32 @@ export function useRawImportSource(viewer: string, dependencies: object) {
       cacheTime: 0,
     }
   );
+}
+
+
+const getFromLocalStorage = (key: string) => {
+  try {
+    const item = window.localStorage.getItem(key);
+    return item ? JSON.parse(item) : null;
+  } catch (error) {
+    console.log(error);
+    return;
+  }
+}
+export const useLocalStorage = (key: string, initialValue: any) => {
+  const [storedValue, setStoredValue] = useState(getFromLocalStorage(key) || initialValue);
+  useEffect(() => {
+    setStoredValue(getFromLocalStorage(key) || initialValue);
+  }, [key])
+
+  const setValue = (value: any) => {
+    try {
+      setStoredValue(value);
+      window.localStorage.setItem(key, JSON.stringify(value));
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  return [storedValue, setValue]
 }

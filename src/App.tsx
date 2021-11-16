@@ -1,17 +1,48 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import GitUrlParse from "git-url-parse";
 import "@githubnext/utils/dist/index.css"
 
-import { usePackageJson } from "./hooks";
+import { useLocalStorage, usePackageJson } from "./hooks";
 import { AppInner } from "./components/app-inner";
+import { FileContext, FolderContext } from "@githubnext/utils";
 
+
+interface MetadataEvent {
+  context: FileContext | FolderContext
+  metadata: any
+}
 function App() {
-  const [viewerId, setViewerId] = useState("");
+  const [viewerId, setViewerId] = useState("/src/viewers/example-file-viewer/index.tsx");
   const [fileUrl, setFileUrl] = useState(
     "https://github.com/githubocto/flat/blob/main/src/git.ts"
   );
 
   const { data: pkgJson, status } = usePackageJson();
+
+  const metadataKey = `composable-github-viewer-template--${viewerId}-${fileUrl}`
+  const [metadata, setMetadata] = useLocalStorage(metadataKey, {})
+
+  useEffect(() => {
+    const onUpdateMetadata = (event: MessageEvent) => {
+      // TODO: restrict by event.origin
+      if (event.data.codesandbox) return
+      if (event.data.type !== "update-metadata") return
+      const newMetadata = event?.data?.metadata || {};
+
+      setMetadata(newMetadata)
+    }
+    window.addEventListener("message", onUpdateMetadata as EventListener)
+    return () => {
+      window.removeEventListener("message", onUpdateMetadata as EventListener)
+    }
+  }, [metadataKey])
+
+  const onUpdateMetadata = (newMetadata: any) => {
+    return new Promise<void>((resolve, reject) => {
+      setMetadata(newMetadata)
+      resolve()
+    })
+  }
 
   const urlParts = useMemo(() => {
     if (!fileUrl) return null;
@@ -96,6 +127,8 @@ function App() {
         )}
         {!!viewer && !!fileUrl && !!urlParts && (
           <AppInner
+            metadata={metadata}
+            onUpdateMetadata={onUpdateMetadata}
             onReset={() => setFileUrl("")}
             viewer={viewer}
             dependencies={pkgJson?.dependencies as Record<string, string>}
