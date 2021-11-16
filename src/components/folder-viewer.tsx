@@ -33,7 +33,7 @@ export function FolderViewer(
 
   const getFileContent = useCallback(async (path: string) => {
     const importType = path.endsWith(".css") ? "inline" : "raw";
-    const contents = await import(/* @vite-ignore */ `../${path}?${importType}`)
+    const contents = await import(/* @vite-ignore */ `../../..${path}?${importType}`)
     return contents.default
   }, [])
 
