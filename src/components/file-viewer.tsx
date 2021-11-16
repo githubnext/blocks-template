@@ -46,7 +46,7 @@ export function FileViewer(
       <div className="sandbox-wrapper h-full w-full">
         <SandboxedViewer
           getFileContent={getFileContent}
-          contents={data.content}
+          contents={data.content || ""}
           context={{
             ...data.context,
             file: name,

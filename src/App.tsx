@@ -127,6 +127,7 @@ function App() {
         )}
         {!!viewer && !!fileUrl && !!urlParts && (
           <AppInner
+            key={viewer.entry}
             metadata={metadata}
             onUpdateMetadata={onUpdateMetadata}
             onReset={() => setFileUrl("")}

@@ -44,7 +44,7 @@ export function FolderViewer(
       <div className="sandbox-wrapper h-full w-full">
         <SandboxedViewer
           getFileContent={getFileContent}
-          tree={data.tree}
+          tree={data.tree || []}
           context={{
             ...data.context,
             folder: name,
