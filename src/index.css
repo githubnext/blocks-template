@@ -3,6 +3,16 @@
 @tailwind components;
 @tailwind utilities;
 
+.sandbox-wrapper .sp-loading:before {
+  content: "Loading...";
+  position: absolute;
+  top: 30%;
+  left: 50%;
+  font-size: 1.2em;
+  opacity: 0.5;
+  transform: translate(-50%, -50%);
+  font-style: italic;
+}
 .sandbox-wrapper .sp-wrapper,
 .sandbox-wrapper .sp-layout,
 .sandbox-wrapper .sp-stack {

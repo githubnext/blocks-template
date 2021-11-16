@@ -1,66 +1,28 @@
-import { SandpackRunner } from "@codesandbox/sandpack-react";
-import { FolderViewerProps } from "@githubnext/utils";
-
-import { useFolderContent, useRawImportSource } from "../hooks";
+import { useCallback } from "react";
+import { useFolderContent } from "../hooks";
 import { AppInnerProps } from "./app-inner";
 import { ErrorState } from "./error-state";
 import { LoadingState } from "./loading-state";
-
-type SandboxedViewerProps = FolderViewerProps & {
-  viewerId: string;
-  dependencies: object;
-};
-
-function SandboxedViewer(props: SandboxedViewerProps) {
-  const { context, tree, viewerId, dependencies } = props;
-  const { data, status } = useRawImportSource(viewerId, dependencies);
-
-  if (status === "loading") return <LoadingState />;
-  if (status === "error") return <ErrorState />;
-
-  if (status === "success" && data) {
-    const injectedSource = `
-      ${data.source}
-      export default function WrappedViewer() {
-        return <Viewer context={${JSON.stringify(
-          context
-        )}} tree={${JSON.stringify(tree)}} />
-      }
-    `;
-
-    return (
-      <div className="flex-1 h-full sandbox-wrapper">
-        <SandpackRunner
-          template="react-ts"
-          code={injectedSource}
-          customSetup={{
-            dependencies: data.dependencies,
-            files: data.files,
-          }}
-        />
-      </div>
-    );
-  }
-
-  return null;
-}
+import { SandboxedViewer } from "@githubnext/utils";
 
 export function FolderViewer(
   props: Omit<AppInnerProps, "onReset" | "viewerType">
 ) {
-  const { viewerId, urlParts, dependencies } = props;
+  const { viewer, dependencies, urlParts } = props;
 
-  if (urlParts.filepathtype === "blob") {
+  if (
+    urlParts.filepathtype !== "blob" ||
+    !urlParts.owner ||
+    !urlParts.name ||
+    !urlParts.ref ||
+    !urlParts.filepath
+  ) {
     throw new Error(
-      "Unable to parse this GitHub URL. Are you sure you've linked to a directory and not a file?"
+      "Unable to parse this GitHub URL. Are you sure you've linked to a file and not a directory?"
     );
   }
 
-  if (!urlParts.owner || !urlParts.name) {
-    throw new Error("Unable to parse this GitHub URL");
-  }
-
-  const { owner, name, filepath, ref } = urlParts;
+  const { owner, name, ref, filepath } = urlParts;
 
   const { data, status } = useFolderContent({
     owner: owner,
@@ -69,18 +31,34 @@ export function FolderViewer(
     fileRef: ref,
   });
 
+  const getFileContent = useCallback(async (path: string) => {
+    const importType = path.endsWith(".css") ? "inline" : "raw";
+    const contents = await import(/* @vite-ignore */ `../${path}?${importType}`)
+    return contents.default
+  }, [])
+
   if (status === "loading") return <LoadingState />;
   if (status === "error") return <ErrorState />;
   if (status === "success" && data) {
     return (
-      <SandboxedViewer
-        {...data}
-        dependencies={dependencies}
-        viewerId={viewerId}
-        metadata={defaultMetadata}
-        onUpdateMetadata={noop}
-        onRequestUpdateContent={noop}
-      />
+      <div className="sandbox-wrapper h-full w-full">
+        <SandboxedViewer
+          getFileContent={getFileContent}
+          tree={data.tree}
+          context={{
+            theme: "light",
+            ...data.context,
+            name,
+          }}
+          dependencies={dependencies}
+          viewer={viewer}
+          metadata={defaultMetadata}
+          onUpdateMetadata={() => {
+            return new Promise(() => { });
+          }}
+          session={{ token: "" }}
+        />
+      </div>
     );
   }
 
@@ -88,4 +66,3 @@ export function FolderViewer(
 }
 
 const defaultMetadata = {};
-const noop = () => {};

@@ -22,6 +22,8 @@ function App() {
     }
   }, [fileUrl]);
 
+  const viewer = pkgJson?.viewers.find((v) => v.entry === viewerId);
+
   return (
     <div className="h-screen flex flex-col overflow-hidden">
       <div className="bg-gray-100 border-b p-4 flex-shrink-0 flex items-center">
@@ -91,15 +93,11 @@ function App() {
             </p>
           </div>
         )}
-        {viewerId && fileUrl && urlParts && (
+        {!!viewer && !!fileUrl && !!urlParts && (
           <AppInner
             onReset={() => setFileUrl("")}
-            viewerId={viewerId}
-            // @ts-ignore
-            viewerType={
-              pkgJson?.viewers.find((v) => v.entry === viewerId)?.type
-            }
-            dependencies={pkgJson?.dependencies as object}
+            viewer={viewer}
+            dependencies={pkgJson?.dependencies as Record<string, string>}
             urlParts={urlParts}
           />
         )}
