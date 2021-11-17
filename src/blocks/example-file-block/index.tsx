@@ -1,11 +1,11 @@
 import {
-  FileViewerProps,
+  FileBlockProps,
   useTailwindCdn,
   getLanguageFromFilename,
 } from "@githubnext/utils";
 import "./index.css"
 
-export function Viewer(props: FileViewerProps) {
+export function Block(props: FileBlockProps) {
   const { context, content } = props;
   const language = getLanguageFromFilename(context.file);
 

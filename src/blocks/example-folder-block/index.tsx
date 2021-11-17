@@ -1,6 +1,6 @@
-import { FolderViewerProps, useTailwindCdn } from "@githubnext/utils";
+import { FolderBlockProps, useTailwindCdn } from "@githubnext/utils";
 
-export function Viewer(props: FolderViewerProps) {
+export function Block(props: FolderBlockProps) {
   useTailwindCdn();
 
   return (

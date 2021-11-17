@@ -1,10 +1,10 @@
 import gitUrlParse from "git-url-parse";
 import React from "react";
 import { ErrorBoundary } from "react-error-boundary";
-import { FileViewer } from "./file-viewer";
-import { FolderViewer } from "./folder-viewer";
+import { FileBlock } from "./file-block";
+import { FolderBlock } from "./folder-block";
 
-interface Viewer {
+interface Block {
   type: string;
   title: string;
   description: string;
@@ -15,7 +15,7 @@ export interface AppInnerProps {
   metadata: any;
   doMimicProductionEnvironment: boolean;
   onUpdateMetadata: (metadata: any) => Promise<void>;
-  viewer: Viewer;
+  block: Block;
   dependencies: Record<string, string>;
   urlParts: gitUrlParse.GitUrl;
   onReset: () => void;
@@ -55,18 +55,18 @@ function ErrorFallback({
 }
 
 export function AppInner(props: AppInnerProps) {
-  const { onReset, viewer, ...rest } = props;
-  const viewerType = viewer?.type;
+  const { onReset, block, ...rest } = props;
+  const blockType = block?.type;
 
   return (
     <ErrorBoundary
-      resetKeys={[viewerType]}
+      resetKeys={[blockType]}
       onReset={onReset}
       FallbackComponent={ErrorFallback}
     >
       <React.Fragment>
-        {viewerType === "file" && <FileViewer {...rest} viewer={viewer} />}
-        {viewerType === "folder" && <FolderViewer {...rest} viewer={viewer} />}
+        {blockType === "file" && <FileBlock {...rest} block={block} />}
+        {blockType === "folder" && <FolderBlock {...rest} block={block} />}
       </React.Fragment>
     </ErrorBoundary>
   );

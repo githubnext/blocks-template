@@ -1,26 +1,26 @@
 {
-  "name": "custom-viewer-template",
+  "name": "custom-block-template",
   "version": "0.0.0",
   "scripts": {
     "dev": "vite --port 4000",
     "build": "tsc && vite build",
     "serve": "vite preview"
   },
-  "viewers": [
+  "blocks": [
     {
       "type": "file",
-      "title": "Example File Viewer",
-      "description": "A basic file viewer",
-      "entry": "/src/viewers/example-file-viewer/index.tsx",
+      "title": "Example File Block",
+      "description": "A basic file block",
+      "entry": "/src/blocks/example-file-block/index.tsx",
       "extensions": [
         "*"
       ]
     },
     {
       "type": "folder",
-      "title": "Example Folder Viewer",
-      "description": "A basic folder viewer",
-      "entry": "/src/viewers/example-folder-viewer/index.tsx",
+      "title": "Example Folder Block",
+      "description": "A basic folder block",
+      "entry": "/src/blocks/example-folder-block/index.tsx",
       "extensions": [
         "*"
       ]

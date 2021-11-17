@@ -3,8 +3,8 @@ import { useEffect, useState } from "react";
 import loadable from "@loadable/component";
 import { FileContext, FolderContext, RepoFiles } from "@githubnext/utils";
 
-interface LocalViewerProps {
-  viewer: {
+interface LocalBlockProps {
+  block: {
     type: string;
     title: string;
     description: string;
@@ -16,32 +16,32 @@ interface LocalViewerProps {
   metadata?: any;
   context: FileContext | FolderContext
 }
-export const LocalViewer = (props: LocalViewerProps) => {
+export const LocalBlock = (props: LocalBlockProps) => {
   const {
-    viewer,
+    block,
     contents,
     tree,
     metadata = {},
     context,
   } = props;
 
-  const [Viewer, setViewer] = useState<React.ComponentType<any> | null>(null);
+  const [Block, setBlock] = useState<React.ComponentType<any> | null>(null);
 
   const getContents = async () => {
     const content = await loadable(() => import(
-      `../../..${viewer.entry}`
-    ).then(module => module.Viewer))
-    setViewer(content)
+      `../../..${block.entry}`
+    ).then(module => module.Block))
+    setBlock(content)
   }
-  useEffect(() => { getContents() }, [viewer.entry])
+  useEffect(() => { getContents() }, [block.entry])
 
   const onUpdateMetadata = (newMetadata: any) => {
     window.dispatchEvent(new CustomEvent("update-metadata", { detail: newMetadata }))
   }
 
-  if (!Viewer) return null
+  if (!Block) return null
   return (
-    <Viewer
+    <Block
       context={context}
       content={contents}
       tree={tree}

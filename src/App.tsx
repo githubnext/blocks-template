@@ -6,7 +6,7 @@ import { useLocalStorage, usePackageJson } from "./hooks";
 
 
 function App() {
-  const [viewerId, setViewerId] = useState("/src/viewers/example-file-viewer/index.tsx");
+  const [blockId, setBlockId] = useState("/src/blocks/example-file-block/index.tsx");
   const [fileUrl, setFileUrl] = useState(
     "https://github.com/githubocto/flat/blob/main/src/git.ts"
   );
@@ -14,7 +14,7 @@ function App() {
 
   const { data: pkgJson, status } = usePackageJson();
 
-  const metadataKey = `composable-github-viewer-template--${viewerId}-${fileUrl}`
+  const metadataKey = `composable-github-block-template--${blockId}-${fileUrl}`
   const [metadata, setMetadata] = useLocalStorage(metadataKey, {})
 
   useEffect(() => {
@@ -49,7 +49,7 @@ function App() {
     }
   }, [fileUrl]);
 
-  const viewer = pkgJson?.viewers.find((v) => v.entry === viewerId);
+  const block = pkgJson?.blocks.find((v) => v.entry === blockId);
 
   return (
     <div className="h-screen flex flex-col overflow-hidden">
@@ -69,42 +69,42 @@ function App() {
           />
         </div>
         <div className="ml-4">
-          <label className="text-xs font-medium block mb-1" htmlFor="viewer">
-            Viewer
+          <label className="text-xs font-medium block mb-1" htmlFor="block">
+            Block
           </label>
           <select
             onChange={(e) => {
-              setViewerId(e.target.value);
+              setBlockId(e.target.value);
             }}
-            value={viewerId}
+            value={blockId}
             disabled={!pkgJson || status !== "success"}
             className="form-select text-sm"
-            name="viewer"
-            id="viewer"
+            name="block"
+            id="block"
           >
             <option disabled value="">
-              Select a viewer
+              Select a block
             </option>
-            <optgroup label="Folder Viewers">
+            <optgroup label="Folder Blocks">
               {pkgJson &&
-                pkgJson.viewers
+                pkgJson.blocks
                   .filter((v) => v.type === "folder")
-                  .map((viewer, index) => {
+                  .map((block, index) => {
                     return (
-                      <option value={viewer.entry} key={index}>
-                        {viewer.title}
+                      <option value={block.entry} key={index}>
+                        {block.title}
                       </option>
                     );
                   })}
             </optgroup>
-            <optgroup label="File Viewers">
+            <optgroup label="File Blocks">
               {pkgJson &&
-                pkgJson.viewers
+                pkgJson.blocks
                   .filter((v) => v.type === "file")
-                  .map((viewer, index) => {
+                  .map((block, index) => {
                     return (
-                      <option value={viewer.entry} key={index}>
-                        {viewer.title}
+                      <option value={block.entry} key={index}>
+                        {block.title}
                       </option>
                     );
                   })}
@@ -112,7 +112,7 @@ function App() {
           </select>
         </div>
         <div className="ml-4">
-          <label className="text-xs font-medium block mb-1" htmlFor="viewer">
+          <label className="text-xs font-medium block mb-1" htmlFor="block">
             Environment
           </label>
           <select
@@ -121,8 +121,8 @@ function App() {
             }}
             value={doMimicProductionEnvironment ? "true" : "false"}
             className="form-select text-sm"
-            name="viewer"
-            id="viewer"
+            name="block"
+            id="block"
           >
             <option value="false" >
               Local dev environment (iterate more quickly)
@@ -134,20 +134,20 @@ function App() {
         </div>
       </div>
       <div className="flex-1 overflow-auto">
-        {(!viewerId || !fileUrl) && (
+        {(!blockId || !fileUrl) && (
           <div className="p-4">
             <p className="text-sm">
-              Please select a viewer and enter a file path.
+              Please select a block and enter a file path.
             </p>
           </div>
         )}
-        {!!viewer && !!fileUrl && !!urlParts && (
+        {!!block && !!fileUrl && !!urlParts && (
           <AppInner
-            key={viewer.entry}
+            key={block.entry}
             metadata={metadata}
             onUpdateMetadata={onUpdateMetadata}
             onReset={() => setFileUrl("")}
-            viewer={viewer}
+            block={block}
             dependencies={pkgJson?.dependencies as Record<string, string>}
             urlParts={urlParts}
             doMimicProductionEnvironment={doMimicProductionEnvironment}

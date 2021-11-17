@@ -171,12 +171,12 @@ function separatePathFromFile(path: string) {
   return { file, dir };
 }
 
-export function useRawImportSource(viewer: string, dependencies: object) {
+export function useRawImportSource(block: string, dependencies: object) {
   return useQuery(
-    viewer,
+    block,
     async () => {
-      const { dir, file } = separatePathFromFile(viewer);
-      if (!file) throw new Error("No viewer file found");
+      const { dir, file } = separatePathFromFile(block);
+      if (!file) throw new Error("No block file found");
 
       const literallyEverything = await import.meta.glob(`/**/*`);
 
@@ -184,7 +184,7 @@ export function useRawImportSource(viewer: string, dependencies: object) {
         (f) => f.includes(dir.replace("./", "")) && !f.endsWith(file)
       );
 
-      const viewerSource = await import(/* @vite-ignore */ `../${viewer}?raw`);
+      const blockSource = await import(/* @vite-ignore */ `../${block}?raw`);
 
       const relevantFileSources = await Promise.all(
         relevantFilePaths.map(async (p) => {
@@ -205,14 +205,14 @@ export function useRawImportSource(viewer: string, dependencies: object) {
       );
 
       const entryPackages = findPackageNamesInSourceCode(
-        viewerSource.default,
+        blockSource.default,
         packageNames
       );
 
       const allPackages = new Set([...helperPackages, ...entryPackages]);
 
       return {
-        source: viewerSource.default,
+        source: blockSource.default,
         files: relevantFileSources.reduce<Record<string, string>>(
           (acc, next) => {
             const { file } = separatePathFromFile(next.path);
