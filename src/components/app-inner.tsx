@@ -13,6 +13,7 @@ interface Viewer {
 }
 export interface AppInnerProps {
   metadata: any;
+  doMimicProductionEnvironment: boolean;
   onUpdateMetadata: (metadata: any) => Promise<void>;
   viewer: Viewer;
   dependencies: Record<string, string>;

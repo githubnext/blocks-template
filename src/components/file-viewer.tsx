@@ -4,14 +4,14 @@ import { AppInnerProps } from "./app-inner";
 import { ErrorState } from "./error-state";
 import { LoadingState } from "./loading-state";
 import { SandboxedViewer } from "@githubnext/utils";
+import { LocalViewer } from "./local-viewer";
 
 export function FileViewer(
   props: Omit<AppInnerProps, "onReset" | "viewerType">
 ) {
-  const { viewer, metadata = {}, dependencies, urlParts } = props;
-
+  const { viewer, metadata = {}, dependencies, urlParts, doMimicProductionEnvironment } = props;
   if (
-    urlParts.filepathtype !== "blob" ||
+    urlParts.filepathtype === "dir" ||
     !urlParts.owner ||
     !urlParts.name ||
     !urlParts.ref ||
@@ -42,11 +42,11 @@ export function FileViewer(
   if (status === "loading") return <LoadingState />;
   if (status === "error") return <ErrorState />;
   if (status === "success" && data) {
-    return (
+    return doMimicProductionEnvironment ? (
       <div className="sandbox-wrapper h-full w-full">
         <SandboxedViewer
           getFileContent={getFileContent}
-          contents={data.content || ""}
+          contents={data.content}
           context={{
             ...data.context,
             file: name,
@@ -57,10 +57,20 @@ export function FileViewer(
           session={{ token: "" }}
         />
       </div>
-    );
+    ) : (
+      <div className="sandbox-wrapper h-full w-full">
+        <LocalViewer
+          contents={data.content}
+          context={{
+            ...data.context,
+            file: name,
+          }}
+          viewer={viewer}
+          metadata={metadata}
+        />
+      </div>
+    )
   }
 
   return null;
 }
-
-const defaultMetadata = {};

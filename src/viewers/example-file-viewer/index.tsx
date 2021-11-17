@@ -3,6 +3,7 @@ import {
   useTailwindCdn,
   getLanguageFromFilename,
 } from "@githubnext/utils";
+import "./index.css"
 
 export function Viewer(props: FileViewerProps) {
   const { context, content } = props;

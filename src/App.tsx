@@ -1,21 +1,16 @@
-import { useEffect, useMemo, useState } from "react";
+import "@githubnext/utils/dist/index.css";
 import GitUrlParse from "git-url-parse";
-import "@githubnext/utils/dist/index.css"
-
-import { useLocalStorage, usePackageJson } from "./hooks";
+import { useEffect, useMemo, useState } from "react";
 import { AppInner } from "./components/app-inner";
-import { FileContext, FolderContext } from "@githubnext/utils";
+import { useLocalStorage, usePackageJson } from "./hooks";
 
 
-interface MetadataEvent {
-  context: FileContext | FolderContext
-  metadata: any
-}
 function App() {
   const [viewerId, setViewerId] = useState("/src/viewers/example-file-viewer/index.tsx");
   const [fileUrl, setFileUrl] = useState(
     "https://github.com/githubocto/flat/blob/main/src/git.ts"
   );
+  const [doMimicProductionEnvironment, setDoMimicProductionEnvironment] = useState(false);
 
   const { data: pkgJson, status } = usePackageJson();
 
@@ -116,6 +111,27 @@ function App() {
             </optgroup>
           </select>
         </div>
+        <div className="ml-4">
+          <label className="text-xs font-medium block mb-1" htmlFor="viewer">
+            Environment
+          </label>
+          <select
+            onChange={(e) => {
+              setDoMimicProductionEnvironment(e.target.value === "true");
+            }}
+            value={doMimicProductionEnvironment ? "true" : "false"}
+            className="form-select text-sm"
+            name="viewer"
+            id="viewer"
+          >
+            <option value="false" >
+              Local dev environment (iterate more quickly)
+            </option>
+            <option value="true" >
+              Production environment (test for bugs in production environment)
+            </option>
+          </select>
+        </div>
       </div>
       <div className="flex-1 overflow-auto">
         {(!viewerId || !fileUrl) && (
@@ -134,6 +150,7 @@ function App() {
             viewer={viewer}
             dependencies={pkgJson?.dependencies as Record<string, string>}
             urlParts={urlParts}
+            doMimicProductionEnvironment={doMimicProductionEnvironment}
           />
         )}
       </div>
