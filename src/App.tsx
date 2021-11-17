@@ -33,7 +33,7 @@ function App() {
   }, [metadataKey])
 
   const onUpdateMetadata = (newMetadata: any) => {
-    return new Promise<void>((resolve, reject) => {
+    return new Promise<void>((resolve) => {
       setMetadata(newMetadata)
       resolve()
     })

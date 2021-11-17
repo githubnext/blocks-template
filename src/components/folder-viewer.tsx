@@ -14,16 +14,16 @@ export function FolderViewer(
   if (
     urlParts.filepathtype === "blob" ||
     !urlParts.owner ||
-    !urlParts.name ||
-    !urlParts.ref ||
-    !urlParts.filepath
+    !urlParts.name
   ) {
-    throw new Error(
-      "Unable to parse this GitHub URL. Are you sure you've linked to a folder and not a file?"
+    return (
+      <div className="p-6 text-center bg-red-50 text-red-600 py-20 h-full italic">
+        Unable to parse this GitHub URL. Are you sure you've linked to a folder and not a file?
+      </div>
     );
   }
 
-  const { owner, name, ref, filepath } = urlParts;
+  const { owner, name, ref = "main", filepath = "/" } = urlParts;
 
   const { data, status } = useFolderContent({
     owner: owner,

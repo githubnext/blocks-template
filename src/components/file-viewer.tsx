@@ -17,9 +17,9 @@ export function FileViewer(
     !urlParts.ref ||
     !urlParts.filepath
   ) {
-    throw new Error(
-      "Unable to parse this GitHub URL. Are you sure you've linked to a file and not a directory?"
-    );
+    <div className="p-6 text-center bg-red-50 text-red-600 py-20 h-full italic">
+      Unable to parse this GitHub URL. Are you sure you've linked to a folder and not a file?
+    </div>
   }
 
   const { owner, name, ref, filepath } = urlParts;
