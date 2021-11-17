@@ -36,7 +36,11 @@ export const LocalBlock = (props: LocalBlockProps) => {
   useEffect(() => { getContents() }, [block.entry])
 
   const onUpdateMetadata = (newMetadata: any) => {
-    window.dispatchEvent(new CustomEvent("update-metadata", { detail: newMetadata }))
+    window.postMessage({
+      type: "update-metadata",
+      context,
+      metadata: newMetadata,
+    }, "*")
   }
 
   if (!Block) return null
