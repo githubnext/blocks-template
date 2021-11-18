@@ -493,10 +493,10 @@
     codesandbox-import-util-types "^2.2.3"
     codesandbox-import-utils "^2.2.3"
 
-"@githubnext/utils@^0.9.18":
-  version "0.9.18"
-  resolved "https://registry.yarnpkg.com/@githubnext/utils/-/utils-0.9.18.tgz#eb6a2af16e3326fe2944921e5aba6a3b097c3723"
-  integrity sha512-xOGL7ZKcI2j6FxC6fPw+W1LFeSFT4zGuJpaqYtFx5zb1dILPBZ7hhX5LtrGpIH5qTliK5kPoOQ9Ps3berrGBXg==
+"@githubnext/utils@^0.10.0":
+  version "0.10.0"
+  resolved "https://registry.yarnpkg.com/@githubnext/utils/-/utils-0.10.0.tgz#dda60306a6eac7dde230b87e28a432c789f898c6"
+  integrity sha512-+hMvjwWIh/JCJHKjzdVmwAoA9Ewe+TQuNEuv2woZ+hQG21HNofRb4RcWr++/qdgumyPonbmD8Y+5A3VSrSE95A==
   dependencies:
     "@codesandbox/sandpack-react" "^0.3.3"
     parse-static-imports "^1.1.0"
