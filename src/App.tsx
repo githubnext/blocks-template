@@ -4,40 +4,42 @@ import { useEffect, useMemo, useState } from "react";
 import { AppInner } from "./components/app-inner";
 import { useLocalStorage, usePackageJson } from "./hooks";
 
-
 function App() {
-  const [blockId, setBlockId] = useState("/src/blocks/example-file-block/index.tsx");
+  const [blockId, setBlockId] = useState(
+    "/src/blocks/example-file-block/index.tsx"
+  );
   const [fileUrl, setFileUrl] = useState(
     "https://github.com/githubocto/flat/blob/main/src/git.ts"
   );
-  const [doMimicProductionEnvironment, setDoMimicProductionEnvironment] = useState(false);
+  const [doMimicProductionEnvironment, setDoMimicProductionEnvironment] =
+    useState(false);
 
   const { data: pkgJson, status } = usePackageJson();
 
-  const metadataKey = `composable-github-block-template--${blockId}-${fileUrl}`
-  const [metadata, setMetadata] = useLocalStorage(metadataKey, {})
+  const metadataKey = `composable-github-block-template--${blockId}-${fileUrl}`;
+  const [metadata, setMetadata] = useLocalStorage(metadataKey, {});
 
   useEffect(() => {
     const onUpdateMetadata = (event: MessageEvent) => {
       // TODO: restrict by event.origin
-      if (event.data.codesandbox) return
-      if (event.data.type !== "update-metadata") return
+      if (event.data.codesandbox) return;
+      if (event.data.type !== "update-metadata") return;
       const newMetadata = event?.data?.metadata || {};
 
-      setMetadata(newMetadata)
-    }
-    window.addEventListener("message", onUpdateMetadata as EventListener)
+      setMetadata(newMetadata);
+    };
+    window.addEventListener("message", onUpdateMetadata as EventListener);
     return () => {
-      window.removeEventListener("message", onUpdateMetadata as EventListener)
-    }
-  }, [metadataKey])
+      window.removeEventListener("message", onUpdateMetadata as EventListener);
+    };
+  }, [metadataKey]);
 
   const onUpdateMetadata = (newMetadata: any) => {
     return new Promise<void>((resolve) => {
-      setMetadata(newMetadata)
-      resolve()
-    })
-  }
+      setMetadata(newMetadata);
+      resolve();
+    });
+  };
 
   const urlParts = useMemo(() => {
     if (!fileUrl) return null;
@@ -124,10 +126,10 @@ function App() {
             name="block"
             id="block"
           >
-            <option value="false" >
+            <option value="false">
               Local dev environment (iterate more quickly)
             </option>
-            <option value="true" >
+            <option value="true">
               Production environment (test for bugs in production environment)
             </option>
           </select>

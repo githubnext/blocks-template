@@ -4,3 +4,4 @@ dist-ssr
 *.local
 .yalc.lock
 .yalc
+dist

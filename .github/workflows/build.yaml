@@ -1,19 +1,36 @@
-name: build production code
-
+name: Create Release
 on: [push]
-
 jobs:
-  build_job:
+  build:
     runs-on: ubuntu-latest
-    name: Build the block source code
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Install dependencies
+        run: yarn install
+
+      - name: Compile assets
+        run: yarn build
+
+      - name: Create zip
+        run: tar -czvf dist.tar.gz dist
+
+      - name: Create release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          node-version: '14'
-      - run: yarn install
-      - run: yarn build
-      - uses: EndBug/add-and-commit@v7
+          tag_name: ${{ github.ref }}
+          release_name: ${{ github.ref }}
+
+      - name: Upload zip to release
+        uses: actions/upload-release-asset@v1.0.1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          add: 'dist'
-          pull: 'NO-PULL'
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./dist.tar.gz
+          asset_name: dist.tar.gz
+          asset_content_type: application/tar+gz

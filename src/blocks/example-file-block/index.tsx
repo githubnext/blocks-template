@@ -3,7 +3,7 @@ import {
   useTailwindCdn,
   getLanguageFromFilename,
 } from "@githubnext/utils";
-import "./index.css"
+import "./index.css";
 
 export function Block(props: FileBlockProps) {
   const { context, content } = props;

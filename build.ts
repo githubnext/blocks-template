@@ -13,6 +13,7 @@ async function main() {
       entryPoints: [`./` + block.entry],
       bundle: true,
       outfile: `dist/${block.id}.js`,
+      format: "cjs",
     });
   });
 
