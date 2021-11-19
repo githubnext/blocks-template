@@ -14,6 +14,7 @@ async function main() {
       bundle: true,
       outfile: `dist/${block.id}.js`,
       format: "cjs",
+      minify: true,
     });
   });
 
