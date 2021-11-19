@@ -11,7 +11,7 @@ jobs:
         run: yarn install
 
       - name: Compile assets
-        run: yarn build
+        run: node ./build.ts
 
       - name: Create zip
         run: tar -czvf dist.tar.gz dist
