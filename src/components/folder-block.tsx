@@ -50,7 +50,7 @@ export function FolderBlock(
             ...data.context,
             folder: name,
           }}
-          dependencies={dependencies}
+          dependencies={{}}
           block={block}
           metadata={metadata}
           session={{ token: "" }}
