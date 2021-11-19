@@ -16,6 +16,10 @@ yarn dev
 
 A development server should now be running on [localhost:4000](localhost:4000).
 
+## Build Action
+
+TBD, explain that the bundled build file won't really work to run as a self-contained prod app. 
+
 ## Sandbox
 
 When you visit the development server in your browser, you should see two inputs:
