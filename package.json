@@ -9,6 +9,7 @@
   "blocks": [
     {
       "type": "file",
+      "id": "file-block",
       "title": "Example File Block",
       "description": "A basic file block",
       "entry": "/src/blocks/example-file-block/index.tsx",
@@ -18,6 +19,7 @@
     },
     {
       "type": "folder",
+      "id": "folder-block",
       "title": "Example Folder Block",
       "description": "A basic folder block",
       "entry": "/src/blocks/example-folder-block/index.tsx",
@@ -47,6 +49,7 @@
     "@types/react-dom": "^17.0.0",
     "@vitejs/plugin-react": "^1.0.0",
     "autoprefixer": "^10.4.0",
+    "esbuild": "^0.13.14",
     "postcss": "^8.3.11",
     "tailwindcss": "^2.2.19",
     "typescript": "^4.3.2",
