@@ -13,7 +13,6 @@ async function main() {
       entryPoints: [`./` + block.entry],
       bundle: true,
       outdir: `dist/${block.id}`,
-      // outfile: `dist/${block.id}.js`,
       format: "cjs",
       minify: true,
       platform: "node",
