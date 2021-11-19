@@ -12,10 +12,11 @@ async function main() {
     return esbuild.build({
       entryPoints: [`./` + block.entry],
       bundle: true,
-      outfile: `dist/${block.id}.js`,
+      outdir: `dist/${block.id}`,
+      // outfile: `dist/${block.id}.js`,
       format: "cjs",
       minify: true,
-      platform: "node"
+      platform: "node",
     });
   });
 
