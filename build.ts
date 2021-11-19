@@ -15,6 +15,7 @@ async function main() {
       outfile: `dist/${block.id}.js`,
       format: "cjs",
       minify: true,
+      platform: "node"
     });
   });
 
