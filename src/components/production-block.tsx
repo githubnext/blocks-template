@@ -67,7 +67,7 @@ export const ProductionBlock = (props: ProductionBlockProps) => {
   }, [bundleCode, contents, tree, metadata, context, iframeIsLoaded])
 
   if (!bundleCode) return null
-  const url = "http://localhost:3000/block-testing"
+  const url = "https://github-blocks.vercel.app/block-testing"
 
   return (
     <iframe className="w-full h-full border-none" src={url} title="Block testing" onLoad={() => setIframeIsLoaded(true)} ref={iframeElement}
