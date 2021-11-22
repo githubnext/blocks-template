@@ -1,6 +1,6 @@
 import {
   FileBlockProps,
-  // useTailwindCdn,
+  useTailwindCdn,
   getLanguageFromFilename,
 } from "@githubnext/utils";
 import "./index.css";
@@ -9,7 +9,7 @@ export default function (props: FileBlockProps) {
   const { context, content, metadata, onUpdateMetadata } = props;
   const language = getLanguageFromFilename(context.file);
 
-  // useTailwindCdn();
+  useTailwindCdn();
 
   return (
     <div className="p-4 code">
