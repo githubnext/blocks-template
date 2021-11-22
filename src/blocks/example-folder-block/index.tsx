@@ -1,6 +1,6 @@
 import { FolderBlockProps, useTailwindCdn } from "@githubnext/utils";
 
-export function Block(props: FolderBlockProps) {
+export default function (props: FolderBlockProps) {
   useTailwindCdn();
 
   return (

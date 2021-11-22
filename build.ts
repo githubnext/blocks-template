@@ -13,7 +13,8 @@ async function main() {
       entryPoints: [`./` + block.entry],
       bundle: true,
       outdir: `dist/${block.id}`,
-      format: "cjs",
+      format: "iife",
+      globalName: "BlockBundle",
       minify: true,
       platform: "node",
     });

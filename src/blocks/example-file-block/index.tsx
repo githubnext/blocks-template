@@ -5,7 +5,7 @@ import {
 } from "@githubnext/utils";
 import "./index.css";
 
-export function Block(props: FileBlockProps) {
+export default function (props: FileBlockProps) {
   const { context, content } = props;
   const language = getLanguageFromFilename(context.file);
 
