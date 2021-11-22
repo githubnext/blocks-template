@@ -37,14 +37,6 @@ export const ProductionBlock = (props: ProductionBlockProps) => {
   }
   useEffect(() => { getContents() }, [block.entry])
 
-  const onUpdateMetadata = (newMetadata: any) => {
-    window.postMessage({
-      type: "update-metadata",
-      context,
-      metadata: newMetadata,
-    }, "*")
-  }
-
   useEffect(() => {
     if (!bundleCode || !iframeIsLoaded) return
     const iframeWindow = iframeElement.current?.contentWindow
