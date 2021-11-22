@@ -1,4 +1,3 @@
-import "@githubnext/utils/dist/index.css";
 import GitUrlParse from "git-url-parse";
 import { useEffect, useMemo, useState } from "react";
 import { AppInner } from "./components/app-inner";

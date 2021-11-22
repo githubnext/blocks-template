@@ -5,6 +5,7 @@ import { FileBlock } from "./file-block";
 import { FolderBlock } from "./folder-block";
 
 interface Block {
+  id: string;
   type: string;
   title: string;
   description: string;

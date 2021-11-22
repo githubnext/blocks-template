@@ -3,7 +3,7 @@ import { useFileContent } from "../hooks";
 import { AppInnerProps } from "./app-inner";
 import { ErrorState } from "./error-state";
 import { LoadingState } from "./loading-state";
-import { SandboxedBlock } from "@githubnext/utils";
+import { ProductionBlock } from "./production-block"
 import { LocalBlock } from "./local-block";
 
 export function FileBlock(props: Omit<AppInnerProps, "onReset" | "blockType">) {
@@ -40,8 +40,8 @@ export function FileBlock(props: Omit<AppInnerProps, "onReset" | "blockType">) {
     console.log(path);
     const importType = path.endsWith(".css") ? "inline" : "raw";
     const contents = await import(
-      // /* @vite-ignore */ `../../..${path}?${importType}`
-      /* @vite-ignore */ `../dist/file-block.js?raw`
+      /* @vite-ignore */ `../../..${path}?${importType}`
+      // /* @vite-ignore */ `../dist/file-block.js?raw`
     );
     console.log(contents);
     return contents.default;
@@ -52,19 +52,16 @@ export function FileBlock(props: Omit<AppInnerProps, "onReset" | "blockType">) {
   if (status === "success" && data) {
     return doMimicProductionEnvironment ? (
       <div className="sandbox-wrapper h-full w-full">
-        <SandboxedBlock
-          getFileContent={getFileContent}
+        <ProductionBlock
           contents={data.content}
           context={{
             ...data.context,
             file: name,
           }}
-          dependencies={{}}
           block={block}
           metadata={metadata}
-          session={{ token: "" }}
         />
-        {/* <SandboxedBlock
+        {/* <ProductionBlock
           getFileContent={getFileContent}
           contents={data.content}
           context={{
