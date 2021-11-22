@@ -43,7 +43,6 @@ export function FileBlock(props: Omit<AppInnerProps, "onReset" | "blockType">) {
       /* @vite-ignore */ `../../..${path}?${importType}`
       // /* @vite-ignore */ `../dist/file-block.js?raw`
     );
-    console.log(contents);
     return contents.default;
   }, []);
 
