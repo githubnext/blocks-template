@@ -30,7 +30,7 @@ export const LocalBlock = (props: LocalBlockProps) => {
   const getContents = async () => {
     const content = await loadable(() => import(
       `../../..${block.entry}`
-    ).then(module => module.Block))
+    ))
     setBlock(content)
   }
   useEffect(() => { getContents() }, [block.entry])

@@ -3,7 +3,7 @@ import { useFolderContent } from "../hooks";
 import { AppInnerProps } from "./app-inner";
 import { ErrorState } from "./error-state";
 import { LoadingState } from "./loading-state";
-import { SandboxedBlock } from "@githubnext/utils";
+import { ProductionBlock } from "./production-block";
 import { LocalBlock } from "./local-block";
 
 export function FolderBlock(
@@ -43,17 +43,14 @@ export function FolderBlock(
   if (status === "success" && data) {
     return doMimicProductionEnvironment ? (
       <div className="sandbox-wrapper h-full w-full">
-        <SandboxedBlock
-          getFileContent={getFileContent}
+        <ProductionBlock
           tree={data.tree}
           context={{
             ...data.context,
             folder: name,
           }}
-          dependencies={{}}
           block={block}
           metadata={metadata}
-          session={{ token: "" }}
         />
       </div>
     ) : (
