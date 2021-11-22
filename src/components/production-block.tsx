@@ -16,6 +16,10 @@ interface ProductionBlockProps {
   metadata?: any;
   context: FileContext | FolderContext
 }
+interface BundleCode {
+  name: string;
+  content: string;
+}
 export const ProductionBlock = (props: ProductionBlockProps) => {
   const {
     block,
@@ -25,15 +29,29 @@ export const ProductionBlock = (props: ProductionBlockProps) => {
     context,
   } = props;
 
-  const [bundleCode, setBundleCode] = useState("");
+  const [bundleCode, setBundleCode] = useState<BundleCode[]>([]);
   const [iframeIsLoaded, setIframeIsLoaded] = useState(false);
   const iframeElement = useRef<HTMLIFrameElement>(null);
 
   const getContents = async () => {
-    const content = await import(
-      `../../../dist/${block.id}/index.js?raw`
-    ).then((m) => m.default);
-    setBundleCode(content)
+    const allContent = await import.meta.glob(
+      `./../../dist/**`
+    )
+    const relevantPaths = Object.keys(allContent).filter((d: string) => (
+      d.startsWith(`./../../dist/${block.id}`)
+    ))
+    let relevantContent = []
+    for (const path of relevantPaths) {
+      const importType = path.endsWith(".css") ? "inline" : "raw"
+      const content = await import(
+        `${path}?${importType}`
+      ).then((d) => d.default)
+      relevantContent.push({
+        name: path.slice(13),
+        content,
+      })
+    }
+    setBundleCode(relevantContent)
   }
   useEffect(() => { getContents() }, [block.entry])
 
