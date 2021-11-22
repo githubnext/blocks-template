@@ -1,6 +1,5 @@
 import { useEffect, useRef, useState } from "react";
 // @ts-ignore
-import loadable from "@loadable/component";
 import { FileContext, FolderContext, RepoFiles } from "@githubnext/utils";
 
 interface ProductionBlockProps {

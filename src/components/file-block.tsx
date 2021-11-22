@@ -10,7 +10,6 @@ export function FileBlock(props: Omit<AppInnerProps, "onReset" | "blockType">) {
   const {
     block,
     metadata = {},
-    dependencies,
     urlParts,
     doMimicProductionEnvironment,
   } = props;
@@ -36,16 +35,6 @@ export function FileBlock(props: Omit<AppInnerProps, "onReset" | "blockType">) {
     fileRef: ref,
   });
 
-  const getFileContent = useCallback(async (path: string) => {
-    console.log(path);
-    const importType = path.endsWith(".css") ? "inline" : "raw";
-    const contents = await import(
-      /* @vite-ignore */ `../../..${path}?${importType}`
-      // /* @vite-ignore */ `../dist/file-block.js?raw`
-    );
-    return contents.default;
-  }, []);
-
   if (status === "loading") return <LoadingState />;
   if (status === "error") return <ErrorState />;
   if (status === "success" && data) {
@@ -60,18 +49,6 @@ export function FileBlock(props: Omit<AppInnerProps, "onReset" | "blockType">) {
           block={block}
           metadata={metadata}
         />
-        {/* <ProductionBlock
-          getFileContent={getFileContent}
-          contents={data.content}
-          context={{
-            ...data.context,
-            file: name,
-          }}
-          dependencies={dependencies}
-          block={block}
-          metadata={metadata}
-          session={{ token: "" }}
-        /> */}
       </div>
     ) : (
       <div className="sandbox-wrapper h-full w-full">
