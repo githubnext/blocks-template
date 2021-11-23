@@ -7,7 +7,9 @@ import "./index.css";
 
 export default function (props: FileBlockProps) {
   const { context, content, metadata, onUpdateMetadata } = props;
-  const language = getLanguageFromFilename(context.file);
+  const language = Boolean(context.file)
+    ? getLanguageFromFilename(context.file)
+    : "N/A";
 
   useTailwindCdn();
 
@@ -17,7 +19,14 @@ export default function (props: FileBlockProps) {
         File: {context.path} {language}
       </p>
       <div className="py-6">
-        Metadata example: this button has been clicked <button onClick={() => onUpdateMetadata({ number: (metadata.number || 0) + 1 })}>{metadata.number || 0} times</button>
+        Metadata example: this button has been clicked{" "}
+        <button
+          onClick={() =>
+            onUpdateMetadata({ number: (metadata.number || 0) + 1 })
+          }
+        >
+          {metadata.number || 0} times
+        </button>
       </div>
       <pre className="p-4 text-gray-600">{content}</pre>
     </div>
