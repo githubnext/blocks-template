@@ -17,7 +17,14 @@ export function FolderBlock(
     !urlParts.name
   ) {
     return (
-      <div className="p-6 text-center bg-red-50 text-red-600 py-20 h-full italic">
+      <div style={{
+        padding: '10vh 1rem',
+        textAlign: 'center',
+        backgroundColor: '#FEF2F2',
+        color: '#DB2725',
+        height: '100%',
+        fontStyle: 'italic',
+      }}>
         Unable to parse this GitHub URL. Are you sure you've linked to a folder and not a file?
       </div>
     );
@@ -42,7 +49,10 @@ export function FolderBlock(
   if (status === "error") return <ErrorState />;
   if (status === "success" && data) {
     return doMimicProductionEnvironment ? (
-      <div className="sandbox-wrapper h-full w-full">
+      <div className="sandbox-wrapper" style={{
+        height: "100%",
+        width: "100%"
+      }}>
         <ProductionBlock
           tree={data.tree}
           context={{
@@ -54,7 +64,10 @@ export function FolderBlock(
         />
       </div>
     ) : (
-      <div className="sandbox-wrapper h-full w-full">
+      <div className="sandbox-wrapper" style={{
+        height: "100%",
+        width: "100%"
+      }}>
         <LocalBlock
           tree={data.tree}
           context={{

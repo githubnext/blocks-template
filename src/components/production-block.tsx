@@ -70,8 +70,15 @@ export const ProductionBlock = (props: ProductionBlockProps) => {
   const url = "https://github-blocks.vercel.app/block-testing"
 
   return (
-    <iframe className="w-full h-full border-none" src={url} title="Block testing" onLoad={() => setIframeIsLoaded(true)} ref={iframeElement}
-
+    <iframe style={{
+      height: "100%",
+      width: "100%",
+      border: "none",
+    }}
+      src={url}
+      title="Block testing"
+      onLoad={() => setIframeIsLoaded(true)}
+      ref={iframeElement}
     />
   )
 

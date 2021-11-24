@@ -53,15 +53,39 @@ function App() {
   const block = pkgJson?.blocks.find((v) => v.entry === blockId);
 
   return (
-    <div className="h-screen flex flex-col overflow-hidden">
-      <div className="bg-gray-100 border-b p-4 flex-shrink-0 flex items-center">
-        <div className="w-[400px]">
-          <label className="text-xs font-medium block mb-1" htmlFor="url">
+    <div style={{
+      height: "100vh",
+      display: "flex",
+      flexDirection: "column",
+      overflow: "hidden",
+      fontFamily: "sans-serif",
+    }}>
+      <div style={{
+        boxShadow: "0 0 1em rgba(0, 0, 0, 0.1)",
+        flex: "none",
+        display: "flex",
+        alignItems: "center",
+        flexWrap: "wrap",
+        padding: "0.5em",
+        zIndex: 10,
+      }}>
+        <div style={{ flex: 1, minWidth: "min(90vw, 13em)", margin: "0.6em 0.5em" }}>
+          <label style={{
+            fontSize: "0.9em",
+            fontWeight: 500,
+            display: "block",
+            marginBottom: "0.5em",
+          }} htmlFor="url">
             GitHub File URL
           </label>
           <input
             id="url"
-            className="form-input w-full text-sm"
+            style={{
+              width: "calc(100% - 1.2em)",
+              fontSize: "1em",
+              padding: "0.5em",
+              border: "1px solid #ccc",
+            }}
             placeholder="Enter GitHub file URL"
             value={fileUrl}
             onChange={(e) => {
@@ -69,8 +93,13 @@ function App() {
             }}
           />
         </div>
-        <div className="ml-4">
-          <label className="text-xs font-medium block mb-1" htmlFor="block">
+        <div style={{ flex: 1, minWidth: "min(90vw, 13em)", margin: "0.6em 0.5em" }}>
+          <label style={{
+            fontSize: "0.9em",
+            fontWeight: 500,
+            display: "block",
+            marginBottom: "0.5em",
+          }} htmlFor="block">
             Block
           </label>
           <select
@@ -79,7 +108,12 @@ function App() {
             }}
             value={blockId}
             disabled={!pkgJson || status !== "success"}
-            className="form-select text-sm"
+            style={{
+              width: "100%",
+              fontSize: "1em",
+              padding: "0.5em",
+              border: "1px solid #ccc",
+            }}
             name="block"
             id="block"
           >
@@ -112,8 +146,13 @@ function App() {
             </optgroup>
           </select>
         </div>
-        <div className="ml-4">
-          <label className="text-xs font-medium block mb-1" htmlFor="block">
+        <div style={{ flex: 1, minWidth: "min(90vw, 13em)", margin: "0.6em 0.5em" }}>
+          <label style={{
+            fontSize: "0.9em",
+            fontWeight: 500,
+            display: "block",
+            marginBottom: "0.5em",
+          }} htmlFor="block">
             Environment
           </label>
           <select
@@ -121,7 +160,12 @@ function App() {
               setDoMimicProductionEnvironment(e.target.value === "true");
             }}
             value={doMimicProductionEnvironment ? "true" : "false"}
-            className="form-select text-sm"
+            style={{
+              width: "100%",
+              fontSize: "1em",
+              padding: "0.5em",
+              border: "1px solid #ccc",
+            }}
             name="block"
             id="block"
           >
@@ -134,10 +178,15 @@ function App() {
           </select>
         </div>
       </div>
-      <div className="flex-1 overflow-auto">
+      <div style={{
+        flex: 1,
+        overflow: "auto",
+      }}>
         {(!blockId || !fileUrl) && (
-          <div className="p-4">
-            <p className="text-sm">
+          <div style={{
+            padding: "1em",
+          }}>
+            <p>
               Please select a block and enter a file path.
             </p>
           </div>

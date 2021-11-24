@@ -1,5 +1,11 @@
 export const LoadingState = () => (
-  <div className="p-4">
-    <p className="text-sm">Loading...</p>
+  <div style={{
+    padding: '10vh 1rem',
+    textAlign: 'center',
+    color: '#999',
+    height: '100%',
+    fontStyle: 'italic',
+  }}>
+    <p>Loading...</p>
   </div>
 );
