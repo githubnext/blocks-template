@@ -18,7 +18,7 @@ A development server should now be running on [localhost:4000](localhost:4000).
 
 ## Build Action
 
-TBD, explain that the bundled build file won't really work to run as a self-contained prod app. 
+TBD, explain that the bundled build file won't really work to run as a self-contained prod app. Have to create a tag and push the tag, etc...
 
 ## Sandbox
 
