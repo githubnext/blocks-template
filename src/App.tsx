@@ -4,14 +4,16 @@ import { AppInner } from "./components/app-inner";
 import { useLocalStorage, usePackageJson } from "./hooks";
 
 function App() {
-  const [blockId, setBlockId] = useState(
+  const [blockId, setBlockId] = useLocalStorage(
+    "blockId",
     "/src/blocks/example-file-block/index.tsx"
   );
-  const [fileUrl, setFileUrl] = useState(
+  const [fileUrl, setFileUrl] = useLocalStorage(
+    "fileUrl",
     "https://github.com/githubocto/flat/blob/main/src/git.ts"
   );
   const [doMimicProductionEnvironment, setDoMimicProductionEnvironment] =
-    useState(false);
+    useLocalStorage("doMimicProductionEnvironment", false);
 
   const { data: pkgJson, status } = usePackageJson();
 
