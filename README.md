@@ -84,7 +84,7 @@ interface FileBlockProps {
 
 For simple use cases, the `content` prop will be the most useful, as it represents the actual content of the file you're looking at on the GitHub Blocks UI. But if you need additional context (such as the path to the file or the owner/repo in which the file lives), you can access it via the handy `context` prop.
 
-`metadata` is a JSON object that can be used to store arbitrary data about the file. It's up to you to decide what you want to store in this object. To update this object, you can call the `onUpdateMetadata` prop.
+`metadata` is a free-form prop that can be used to store arbitrary data about the file. It's up to you to decide what you want to store in this object: anywhere from definitions of data visualizations in a charts block to annotations for a code block. This is unique per file/folder per block and stored within a [`.github/blocks/file/`](https://github.com/githubnext/blocks-tutorial/tree/main/.github/blocks) folder within the viewed repo. To update the metadata, you can call the `onUpdateMetadata` prop with the updated data, which creates a new commit on the repo.
 
 A few caveats and callouts:
 
@@ -126,6 +126,8 @@ interface FolderBlockProps {
 ```
 
 For simple use cases, the `tree` prop will be the most useful, as it represents the underlying file tree of the folder you're looking at on the GitHub Blocks UI. But if you need additional context (such as the path to the file or the owner/repo in which the file lives), you can access it via the handy `context` prop.
+
+`metadata` is a free-form prop that can be used to store arbitrary data about the file. It's up to you to decide what you want to store in this object: anywhere from definitions of data visualizations in a charts block to annotations for a code block. This is unique per file/folder per block and stored within a [`.github/blocks/folder/`](https://github.com/githubnext/blocks-tutorial/tree/main/.github/blocks) folder within the viewed repo. To update the metadata, you can call the `onUpdateMetadata` prop with the updated data, which creates a new commit on the repo.
 
 A few caveats and callouts:
 
