@@ -26,7 +26,8 @@
       "entry": "/src/blocks/example-file-block/index.tsx",
       "extensions": [
         "*"
-      ]
+      ],
+      "example_path": "https://github.com/facebook/react/blob/main/packages/react-dom/index.js"
     },
     {
       "type": "folder",
@@ -36,7 +37,8 @@
       "entry": "/src/blocks/example-folder-block/index.tsx",
       "extensions": [
         "*"
-      ]
+      ],
+      "example_path": "https://github.com/githubocto/flat"
     }
   ],
   "dependencies": {
