@@ -44,7 +44,7 @@ export const ProductionBlock = (props: ProductionBlockProps) => {
     for (const path of relevantPaths) {
       const importType = path.endsWith(".css") ? "inline" : "raw"
       const content = await import(
-        `${path}?${importType}`
+        /* @vite-ignore */ `${path}?${importType}`
       ).then((d) => d.default)
       relevantContent.push({
         name: path.slice(13),
