@@ -89,7 +89,7 @@ In order to include your custom blocks within that marketplace you have to do a 
 
 You need to tag this repository with the topic `github-blocks` so we can find you repository.
 
-<img width="352" alt="Screen Shot 2021-12-03 at 2 54 55 PM" src="https://user-images.githubusercontent.com/8978670/144665639-f4a9cb1d-cbb2-4ff3-9a7f-cc1364729c85.png">
+<img width="323" alt="Screen Shot 2021-12-03 at 2 54 55 PM" src="https://user-images.githubusercontent.com/8978670/144665902-63543c98-2486-4e13-9c54-f1d4bc6544a4.png">
 
 ### Step 4.2: Push a new tag
 
