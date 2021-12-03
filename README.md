@@ -89,7 +89,7 @@ In order to include your custom blocks within that marketplace you have to do a 
 
 You need to tag this repository with the topic `github-blocks` so we can find you repository.
 
-[PICTURE]
+<img width="352" alt="Screen Shot 2021-12-03 at 2 54 55 PM" src="https://user-images.githubusercontent.com/8978670/144665639-f4a9cb1d-cbb2-4ff3-9a7f-cc1364729c85.png">
 
 ### Step 4.2: Push a new tag
 
@@ -99,7 +99,7 @@ Don't worry! We deal with a lot of this complexity, all you have to do is create
 
 
 ```bash
-git tag X.X.X # Create a new tag
+git tag 0.9.0 # Create a new tag with your own version number
 git push --tags # Push the tag to GitHub
 ```
 
@@ -107,9 +107,9 @@ git push --tags # Push the tag to GitHub
 
 Pushing a new tag should kick-start a GitHub aciton that builds your relase. Wait for that to finish and find a release with your same tag number.
 
-[PICTURE ACTION]
+<img width="1097" alt="Screen Shot 2021-12-03 at 3 03 33 PM" src="https://user-images.githubusercontent.com/8978670/144665796-cb1ff450-c872-47c5-90b3-f74aea10286b.png">
 
-[PICTURE RELEASE]
+<img width="152" alt="Screen Shot 2021-12-03 at 3 02 10 PM" src="https://user-images.githubusercontent.com/8978670/144665673-431e28f9-9e9d-43b3-87f8-1e5d98bed92c.png">
 
 ### Step 4.4: Wait for the Marketplace to find your Blocks
 
