@@ -4,6 +4,16 @@
 
 This template is (built with [Vite](https://vitejs.dev/), [React](https://reactjs.org/) and [Typescript](https://www.typescriptlang.org/)) and we'll guide you through how to use it.
 
+## Setup
+
+This repo is already a template! To use it just click on the "Use this template" button on the top right to set it up for your use. 
+
+<img width="495" alt="Screen Shot 2021-12-06 at 12 29 29 PM" src="https://user-images.githubusercontent.com/8978670/144893319-5d45ab5c-12c0-42b4-99f8-97f658deb03b.png">
+
+The button will take you to a screen to specify what you want to name your own repo.
+
+<img width="801" alt="Screen Shot 2021-12-06 at 12 29 17 PM" src="https://user-images.githubusercontent.com/8978670/144893351-25b24bfa-3400-4e92-9a2a-618b3ac06a5e.png">
+
 ## Step 1. Develop locally
 
 ```bash
