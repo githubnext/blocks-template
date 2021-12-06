@@ -87,7 +87,7 @@ In order to include your custom blocks within that marketplace you have to do a 
 
 ### Step 4.1: Add the topic `github-blocks` to your repo
 
-You need to tag this repository with the topic `github-blocks` so we can find you repository.
+You need to tag this repository with the topic `github-blocks` so we can find your repository.
 
 <img width="323" alt="Screen Shot 2021-12-03 at 2 54 55 PM" src="https://user-images.githubusercontent.com/8978670/144665902-63543c98-2486-4e13-9c54-f1d4bc6544a4.png">
 
@@ -96,7 +96,6 @@ You need to tag this repository with the topic `github-blocks` so we can find yo
 To build a production version of your app, we've included a build system within this template that handles everything for you (a combination of GitHub actions within the `.github/workflows` folder and a `build.ts` script). 
 
 Don't worry! We deal with a lot of this complexity, all you have to do is create a new tag to kick-start the build process. 
-
 
 ```bash
 git tag 0.9.0 # Create a new tag with your own version number
@@ -111,6 +110,10 @@ Pushing a new tag should kick-start a GitHub aciton that builds your relase. Wai
 
 <img width="152" alt="Screen Shot 2021-12-03 at 3 02 10 PM" src="https://user-images.githubusercontent.com/8978670/144665673-431e28f9-9e9d-43b3-87f8-1e5d98bed92c.png">
 
-### Step 4.4: Wait for the Marketplace to find your Blocks
+### Step 4.4: Make sure your repo is public
+
+We can only detect Blocks in public repos!
+
+### Step 4.5: Wait for the Marketplace to find your Blocks
 
 Every hour we search GitHub for new custom Blocks. Wait about an hour before you can see your blocks on the [Blocks Marketplace](https://blocks-marketplace.vercel.app/).
