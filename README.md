@@ -8,11 +8,11 @@ This template is (built with [Vite](https://vitejs.dev/), [React](https://reactj
 
 This repo is already a template! To use it just click on the "Use this template" button on the top right to set it up for your use. 
 
-<img width="495" alt="Screen Shot 2021-12-06 at 12 29 29 PM" src="https://user-images.githubusercontent.com/8978670/144893319-5d45ab5c-12c0-42b4-99f8-97f658deb03b.png">
+<img width="495" alt="Screen Shot 2021-12-06 at 12 29 29 PM" src="https://user-images.githubusercontent.com/8978670/144893319-5d45ab5c-12c0-42b4-99f8-97f658deb03b.png" />
 
 The button will take you to a screen to specify what you want to name your own repo.
 
-<img width="801" alt="Screen Shot 2021-12-06 at 12 29 17 PM" src="https://user-images.githubusercontent.com/8978670/144893351-25b24bfa-3400-4e92-9a2a-618b3ac06a5e.png">
+<img width="801" alt="Screen Shot 2021-12-06 at 12 29 17 PM" src="https://user-images.githubusercontent.com/8978670/144893351-25b24bfa-3400-4e92-9a2a-618b3ac06a5e.png" />
 
 ## Step 1. Develop locally
 
@@ -99,7 +99,7 @@ In order to include your custom blocks within that marketplace you have to do a 
 
 You need to tag this repository with the topic `github-blocks` so we can find your repository.
 
-<img width="323" alt="Screen Shot 2021-12-03 at 2 54 55 PM" src="https://user-images.githubusercontent.com/8978670/144665902-63543c98-2486-4e13-9c54-f1d4bc6544a4.png">
+<img width="323" alt="Screen Shot 2021-12-03 at 2 54 55 PM" src="https://user-images.githubusercontent.com/8978670/144665902-63543c98-2486-4e13-9c54-f1d4bc6544a4.png" />
 
 ### Step 4.2: Push a new tag
 
@@ -116,9 +116,9 @@ git push --tags # Push the tag to GitHub
 
 Pushing a new tag should kick-start a GitHub aciton that builds your relase. Wait for that to finish and find a release with your same tag number.
 
-<img width="1097" alt="Screen Shot 2021-12-03 at 3 03 33 PM" src="https://user-images.githubusercontent.com/8978670/144665796-cb1ff450-c872-47c5-90b3-f74aea10286b.png">
+<img width="1097" alt="Screen Shot 2021-12-03 at 3 03 33 PM" src="https://user-images.githubusercontent.com/8978670/144665796-cb1ff450-c872-47c5-90b3-f74aea10286b.png" />
 
-<img width="152" alt="Screen Shot 2021-12-03 at 3 02 10 PM" src="https://user-images.githubusercontent.com/8978670/144665673-431e28f9-9e9d-43b3-87f8-1e5d98bed92c.png">
+<img width="152" alt="Screen Shot 2021-12-03 at 3 02 10 PM" src="https://user-images.githubusercontent.com/8978670/144665673-431e28f9-9e9d-43b3-87f8-1e5d98bed92c.png" />
 
 ### Step 4.4: Make sure your repo is public
 
