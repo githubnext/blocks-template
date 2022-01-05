@@ -85,8 +85,6 @@ This is where you'll find our two example blocks.
 
 #### GitHub Blocks API
 
-> 📣 Read this if you're a GitHub user interested in building your own custom Blocks!
-
 A Block is a React component that receives a special set of props and returns JSX. We've implemented two type of Blocks: File Blocks and Folder Blocks. Their API is largely the same, receiving the following props:
 
 ```ts
