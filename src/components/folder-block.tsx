@@ -1,4 +1,3 @@
-import { useCallback } from "react";
 import { useFolderContent } from "../hooks";
 import { AppInnerProps } from "./app-inner";
 import { ErrorState } from "./error-state";
@@ -9,7 +8,7 @@ import { LocalBlock } from "./local-block";
 export function FolderBlock(
   props: Omit<AppInnerProps, "onReset" | "blockType">
 ) {
-  const { block, metadata = {}, dependencies, urlParts, doMimicProductionEnvironment } = props;
+  const { block, metadata = {}, urlParts, doMimicProductionEnvironment } = props;
 
   if (
     urlParts.filepathtype === "blob" ||
@@ -38,12 +37,6 @@ export function FolderBlock(
     path: filepath,
     fileRef: ref,
   });
-
-  const getFileContent = useCallback(async (path: string) => {
-    const importType = path.endsWith(".css") ? "inline" : "raw";
-    const contents = await import(/* @vite-ignore */ `../../..${path}?${importType}`)
-    return contents.default
-  }, [])
 
   if (status === "loading") return <LoadingState />;
   if (status === "error") return <ErrorState />;

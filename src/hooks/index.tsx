@@ -69,7 +69,7 @@ async function getFolderContent(
 
 const PAT = import.meta.env.VITE_GITHUB_PAT;
 
-async function getFileContent(params: UseFileContentParams): Promise<FileData> {
+export async function getFileContent(params: UseFileContentParams): Promise<FileData> {
   const { repo, owner, path, fileRef } = params;
   const branch = fileRef || "HEAD";
 
@@ -185,4 +185,23 @@ export const useLocalStorage = (key: string, initialValue: any) => {
   };
 
   return [storedValue, setValue]
+}
+
+
+export async function getRepoInfo(
+  params: RepoContext
+): Promise<string> {
+  const { repo, owner } = params;
+
+  const apiUrl = `https://api.github.com/repos/${owner}/${repo}`;
+
+  const res = await fetch(apiUrl);
+  if (res.status !== 200) {
+    throw new Error(
+      `Error fetching repo info: ${owner}/${repo}\n${await res.text()}`
+    );
+  }
+
+  const resObject = await res.json();
+  return resObject;
 }
