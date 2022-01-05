@@ -6,7 +6,7 @@ This template is (built with [Vite](https://vitejs.dev/), [React](https://reactj
 
 ## Setup
 
-This repo is already a template! To use it just click on the "Use this template" button on the top right to set it up for your use. 
+This repo is already a template! To use it just click on the "Use this template" button on the top right to set it up for your use.
 
 <img width="495" alt="Screen Shot 2021-12-06 at 12 29 29 PM" src="https://user-images.githubusercontent.com/8978670/144893319-5d45ab5c-12c0-42b4-99f8-97f658deb03b.png" />
 
@@ -25,9 +25,9 @@ A development server should now be running on [localhost:4000](localhost:4000).
 
 ## Step 2. View your Blocks within a sandbox
 
-When you visit [localhost:4000](localhost:4000) in your browser, you should see and interface which we'll call a "sandbox" that let's you test out local and production versions of your Block. 
+When you visit [localhost:4000](localhost:4000) in your browser, you should see and interface which we'll call a "sandbox" that let's you test out local and production versions of your Block.
 
-This starter project has one example folder block and one example file block. 
+This starter project has one example folder block and one example file block.
 
 https://user-images.githubusercontent.com/8978670/144666304-b9012177-aed6-4c26-afc3-3de8c8d6d0ad.mov
 
@@ -66,7 +66,7 @@ interface BlockDefinition {
 }
 ```
 
-You have to define these properties for your own custom Block. 
+You have to define these properties for your own custom Block.
 
 From top to bottom:
 
@@ -79,19 +79,83 @@ From top to bottom:
 
 ### Step 3.2: Code your Block
 
-Most of your code will go within: `src/blocks/`. 
+Most of your code will go within: `src/blocks/`.
 
-This is where you'll find our two example blocks. 
+This is where you'll find our two example blocks.
 
-To explore all the possibilities for what you can do here with custom blocks we recommend checking out:
-* [Blocks API](https://github.com/githubnext/blocks): Contains the API for building custom blocks
-* [Blocks examples](https://github.com/githubnext/blocks-examples): a repo with example blocks we've built to showcase the API.    
-* [Blocks utility library](https://github.com/githubnext/utils): a set of helper functions for writing custom blocks
+#### GitHub Blocks API
 
+> 📣 Read this if you're a GitHub user interested in building your own custom Blocks!
+
+A Block is a React component that receives a special set of props and returns JSX. We've implemented two type of Blocks: File Blocks and Folder Blocks. Their API is largely the same, receiving the following props:
+
+```ts
+interface BlockProps {
+  block: {
+    id: string;
+    type: string;
+    title: string;
+    description: string;
+    entry: string;
+    extensions?: string[];
+  };
+  context: {
+    path: string;
+    file: string;
+    repo: string;
+    owner: string;
+    sha: string;
+  };
+  metadata: any;
+
+  // callback functions
+  onUpdateMetadata: (
+    newMetadata: any,
+    path: string,
+    block: Block,
+    currentMetadata: any
+  ) => void;
+  onRequestUpdateContent: (newContent: string) => void;
+  onRequestGitHubData: (type: string, config: any, id: string) => Promise<any>;
+  onNavigateToPath: (path: string) => void;
+
+  // if a File Block
+  content: string;
+
+  // if a Folder Block
+  tree: {
+    path?: string;
+    mode?: string;
+    type?: string;
+    sha?: string;
+    size?: number;
+    url?: string;
+  }[];
+}
+```
+
+For simple use cases, the `content` (the content of the file) or `tree` (a list of the contained files & folders) prop will be the most useful, with info about the file or folder the user is looking at on the GitHub Blocks UI. But if you need additional context (such as the path to the file or the owner/repo in which the file lives), you can access it via the handy `context` prop.
+
+`metadata` is a free-form prop that can be used to store arbitrary data about the file. It's up to you to decide what you want to store in this object: anywhere from definitions of data visualizations in a charts Block to annotations for a code Block. This is unique per file/folder per Block and stored within a [`.github/blocks/file/`](https://github.com/githubnext/blocks-tutorial/tree/main/.github/blocks) folder within the viewed repo. To update the metadata, you can call the `onUpdateMetadata` prop with the updated data, which creates a new commit on the repo.
+
+A few caveats and callouts:
+
+- You can use both third-party _and_ relative imports in your Block code! Simply put, feel free to install any dependencies from NPM, or import a local JS/CSS file and it should be included in the final bundle.
+- Your Block entry file **must have the Block component as its default export**. If it does not, bad things will happen.
+
+##### Utility library for building custom blocks: @githunext/utils
+
+To reduce the cognitive load associated with writing file and folder Block components, we've assembled a helper library called `@githunext/utils` that exposes interface definitions and a few helper functions. This list will undoubtedly change over time, so be sure to check out [the repository page](https://github.com/githubnext/utils) for more detail.
+
+##### Relevant repos
+
+- [Blocks examples](https://github.com/githubnext/blocks-examples): a repo with example blocks we've built to showcase the API.
+- [Blocks template starter project](https://github.com/githubnext/blocks-template): a repo that has been setup to be cloned and be used as a template for creating your own custom Blocks.
+- [Blocks utility library](https://github.com/githubnext/utils): a set of helper functions for writing custom blocks
 
 ## Step 4. Deploy your Blocks to production
 
-We've built a [Blocks Marketplace](https://blocks-marketplace.vercel.app/) where anyone can find and use your Blocks! 
+We've built a [Blocks Marketplace](https://blocks-marketplace.vercel.app/) where anyone can find and use your Blocks!
 
 In order to include your custom blocks within that marketplace you have to do a few things:
 
@@ -103,9 +167,9 @@ You need to tag this repository with the topic `github-blocks` so we can find yo
 
 ### Step 4.2: Push a new tag
 
-To build a production version of your app, we've included a build system within this template that handles everything for you (a combination of GitHub actions within the `.github/workflows` folder and a `build.ts` script). 
+To build a production version of your app, we've included a build system within this template that handles everything for you (a combination of GitHub actions within the `.github/workflows` folder and a `build.ts` script).
 
-Don't worry! We deal with a lot of this complexity, all you have to do is create a new tag to kick-start the build process. 
+Don't worry! We deal with a lot of this complexity, all you have to do is create a new tag to kick-start the build process.
 
 ```bash
 git tag 0.9.0 # Create a new tag with your own version number
