@@ -144,9 +144,11 @@ A few caveats and callouts:
 ##### Relevant repos
 
 [Blocks examples](https://github.com/githubnext/blocks-examples)
+
 Example blocks that we've built to showcase the API.
 
 [Blocks utility library](https://github.com/githubnext/utils)
+
 To reduce the cognitive load associated with writing file and folder Block components, we've assembled a helper library called `@githunext/utils` that exposes interface definitions and a few helper functions. This list will undoubtedly change over time, so be sure to check out [the repository page](https://github.com/githubnext/utils) for more detail.
 
 ## Step 4. Deploy your Blocks to production
