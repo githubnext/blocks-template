@@ -141,15 +141,13 @@ A few caveats and callouts:
 - You can use both third-party _and_ relative imports in your Block code! Simply put, feel free to install any dependencies from NPM, or import a local JS/CSS file and it should be included in the final bundle.
 - Your Block entry file **must have the Block component as its default export**. If it does not, bad things will happen.
 
-##### Utility library for building custom blocks: @githunext/utils
-
-To reduce the cognitive load associated with writing file and folder Block components, we've assembled a helper library called `@githunext/utils` that exposes interface definitions and a few helper functions. This list will undoubtedly change over time, so be sure to check out [the repository page](https://github.com/githubnext/utils) for more detail.
-
 ##### Relevant repos
 
-- [Blocks examples](https://github.com/githubnext/blocks-examples): a repo with example blocks we've built to showcase the API.
-- [Blocks template starter project](https://github.com/githubnext/blocks-template): a repo that has been setup to be cloned and be used as a template for creating your own custom Blocks.
-- [Blocks utility library](https://github.com/githubnext/utils): a set of helper functions for writing custom blocks
+[Blocks examples](https://github.com/githubnext/blocks-examples)
+Example blocks that we've built to showcase the API.
+
+[Blocks utility library](https://github.com/githubnext/utils)
+To reduce the cognitive load associated with writing file and folder Block components, we've assembled a helper library called `@githunext/utils` that exposes interface definitions and a few helper functions. This list will undoubtedly change over time, so be sure to check out [the repository page](https://github.com/githubnext/utils) for more detail.
 
 ## Step 4. Deploy your Blocks to production
 
