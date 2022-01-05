@@ -1,8 +1,20 @@
 # GitHub Blocks Template
 
-In this repository is a template (built with [Vite](https://vitejs.dev/), [React](https://reactjs.org/) and [Typescript](https://www.typescriptlang.org/)) for developing "blocks" for use in [GitHub Blocks](https://github-blocks.vercel.app/).
+> 📣 Use this repository as a starter project if you're a GitHub user interested in building your own custom Blocks!
 
-## Develop locally
+This template is (built with [Vite](https://vitejs.dev/), [React](https://reactjs.org/) and [Typescript](https://www.typescriptlang.org/)) and we'll guide you through how to use it.
+
+## Setup
+
+This repo is already a template! To use it just click on the "Use this template" button on the top right to set it up for your use. 
+
+<img width="495" alt="Screen Shot 2021-12-06 at 12 29 29 PM" src="https://user-images.githubusercontent.com/8978670/144893319-5d45ab5c-12c0-42b4-99f8-97f658deb03b.png" />
+
+The button will take you to a screen to specify what you want to name your own repo.
+
+<img width="801" alt="Screen Shot 2021-12-06 at 12 29 17 PM" src="https://user-images.githubusercontent.com/8978670/144893351-25b24bfa-3400-4e92-9a2a-618b3ac06a5e.png" />
+
+## Step 1. Develop locally
 
 ```bash
 yarn # install dependencies
@@ -11,11 +23,17 @@ yarn dev # start the dev server
 
 A development server should now be running on [localhost:4000](localhost:4000).
 
-## Sandbox
+## Step 2. View your Blocks within a sandbox
 
-When you visit the development server in your browser, you should see two inputs:
+When you visit [localhost:4000](localhost:4000) in your browser, you should see and interface which we'll call a "sandbox" that let's you test out local and production versions of your Block. 
 
-1. An `input` that accepts the direct path to a file or a folder on github.com. Here are some valid file/folder paths.
+This starter project has one example folder block and one example file block. 
+
+https://user-images.githubusercontent.com/8978670/144666304-b9012177-aed6-4c26-afc3-3de8c8d6d0ad.mov
+
+You can play with two bits of the interface to view your Blocks:
+
+1. **Input file or folder**: An `input` that accepts the direct path to a file or a folder on github.com. Here are some valid file/folder paths.
 
 - https://github.com/facebook/react/blob/main/README.md (file)
 - https://github.com/facebook/react/blob/0.3-stable/README.md (file)
@@ -24,13 +42,17 @@ When you visit the development server in your browser, you should see two inputs
 - https://github.com/facebook/react/tree/0.3-stable (folder)
 - https://github.com/facebook/react/tree/main/packages (folder)
 
-2. A `select` that lists out the contents of the `blocks` array that you have defined in `/package.json`. [Read more about customizing these](#developing-blocks)
+2. **List of custom blocks**: A `select` that lists out the contents of the `blocks` array that you have defined in `/package.json`.
 
 Once you've entered a valid path, choose from the different block types and the content should be rendered beneath. Be sure to check your console for errors if you think something has broken!
 
-## Developing blocks
+## Step 3. Customize or build your own Blocks with the GitHub Blocks API
 
-First, open `/package.json` and locate the `blocks` key. You'll notice an array of block objects, with this shape:
+To create or customize your own custom blocks you need to do two things:
+
+### Step 3.1: Define your custom block
+
+If you open up `package.josn` and locate the `blocks` key, you'll notice an array of block objects with the definitions for each custom block. It looks lke this"
 
 ```ts
 interface BlockDefinition {
@@ -44,7 +66,9 @@ interface BlockDefinition {
 }
 ```
 
-From top to bottom,
+You have to define these properties for your own custom Block. 
+
+From top to bottom:
 
 - `type` determines whether this block applies to, well, files or folders.
 - `id` is the identifier string for this block: this needs to be unique within your project. GitHub Blocks uses this to determine which block to render.
@@ -53,111 +77,53 @@ From top to bottom,
 - `extensions` is an array of file extensions (the text of a filename _after_ the first `.`), which lets GitHub Blocks know for which types of files this block should be listed. `*` represents a wildcard value, meaning the block will always be listed.
 - `example_path` (optional) is the path to an example file that will be displayed in the block’s preview on the [Blocks Marketplace](https://blocks-marketplace.vercel.app/).
 
-With your block definition in place, let's take a look at the source code for a given block.
+### Step 3.2: Code your Block
 
-### File Blocks
+Most of your code will go within: `src/blocks/`. 
 
-A file block is a React component that receives a special set of props and returns some JSX. Specifically, the props look like:
+This is where you'll find our two example blocks. 
 
-```ts
-interface FileBlockProps {
-  block: {
-    id: string;
-    type: string;
-    title: string;
-    description: string;
-    entry: string;
-    extensions?: string[];
-  };
-  context: {
-    path: string;
-    file: string;
-    repo: string;
-    owner: string;
-    sha: string;
-  };
-  content: string;
-  metadata: any;
-  onUpdateMetadata: (metadata: any) => void;
-}
-```
+To explore all the possibilities for what you can do here with custom blocks we recommend checking out:
+* [Blocks API](https://github.com/githubnext/blocks): Contains the API for building custom blocks
+* [Blocks examples](https://github.com/githubnext/blocks-examples): a repo with example blocks we've built to showcase the API.    
+* [Blocks utility library](https://github.com/githubnext/utils): a set of helper functions for writing custom blocks
 
-For simple use cases, the `content` prop will be the most useful, as it represents the actual content of the file you're looking at on the GitHub Blocks UI. But if you need additional context (such as the path to the file or the owner/repo in which the file lives), you can access it via the handy `context` prop.
 
-`metadata` is a free-form prop that can be used to store arbitrary data about the file. It's up to you to decide what you want to store in this object: anywhere from definitions of data visualizations in a charts block to annotations for a code block. This is unique per file/folder per block and stored within a [`.github/blocks/file/`](https://github.com/githubnext/blocks-tutorial/tree/main/.github/blocks) folder within the viewed repo. To update the metadata, you can call the `onUpdateMetadata` prop with the updated data, which creates a new commit on the repo.
+## Step 4. Deploy your Blocks to production
 
-A few caveats and callouts:
+We've built a [Blocks Marketplace](https://blocks-marketplace.vercel.app/) where anyone can find and use your Blocks! 
 
-- You can use both third-party _and_ relative imports in your block code! Simply put, feel free to install any dependencies from NPM, or import a local JS/CSS file and it should be included in the final bundle.
-- Your block entry file **must have the block component as its default export**. If it does not, bad things will happen.
+In order to include your custom blocks within that marketplace you have to do a few things:
 
-### Folder Blocks
+### Step 4.1: Add the topic `github-blocks` to your repo
 
-A folder block is also a React component that receives a special set of props and returns some JSX. Specifically, the props look like:
+You need to tag this repository with the topic `github-blocks` so we can find your repository.
 
-```ts
-interface FolderBlockProps {
-  block: {
-    id: string;
-    type: string;
-    title: string;
-    description: string;
-    entry: string;
-    extensions?: string[];
-  };
-  context: {
-    path: string;
-    folder: string;
-    repo: string;
-    owner: string;
-    sha: string;
-  };
-  tree: {
-    path?: string;
-    mode?: string;
-    type?: string;
-    sha?: string;
-    size?: number;
-    url?: string;
-  }[];
-  metadata: any;
-  onUpdateMetadata: (metadata: any) => void;
-}
-```
+<img width="323" alt="Screen Shot 2021-12-03 at 2 54 55 PM" src="https://user-images.githubusercontent.com/8978670/144665902-63543c98-2486-4e13-9c54-f1d4bc6544a4.png" />
 
-For simple use cases, the `tree` prop will be the most useful, as it represents the underlying file tree of the folder you're looking at on the GitHub Blocks UI. But if you need additional context (such as the path to the file or the owner/repo in which the file lives), you can access it via the handy `context` prop.
+### Step 4.2: Push a new tag
 
-`metadata` is a free-form prop that can be used to store arbitrary data about the file. It's up to you to decide what you want to store in this object: anywhere from definitions of data visualizations in a charts block to annotations for a code block. This is unique per file/folder per block and stored within a [`.github/blocks/folder/`](https://github.com/githubnext/blocks-tutorial/tree/main/.github/blocks) folder within the viewed repo. To update the metadata, you can call the `onUpdateMetadata` prop with the updated data, which creates a new commit on the repo.
+To build a production version of your app, we've included a build system within this template that handles everything for you (a combination of GitHub actions within the `.github/workflows` folder and a `build.ts` script). 
 
-A few caveats and callouts:
-
-- You can use both third-party _and_ relative imports in your block code! Simply put, feel free to install any dependencies from NPM, or import a local JS/CSS file and it should be included in the final bundle.
-- Your block entry file **must have the block React component as its default export**. If it does not, bad things will happen.
-
-## Bundling for the Blocks Marketplace
-
-To add your blocks on the [Blocks Marketplace](https://blocks-marketplace.vercel.app/), for anyone to use in GitHub Blocks, you'll need to create a new tag on GitHub. To do this, you'll need to:
+Don't worry! We deal with a lot of this complexity, all you have to do is create a new tag to kick-start the build process. 
 
 ```bash
-git tag <tagname> # Create a new tag
+git tag 0.9.0 # Create a new tag with your own version number
 git push --tags # Push the tag to GitHub
 ```
 
-The tag will be available on the [Blocks Marketplace](https://blocks-marketplace.vercel.app/) once it updates (every day at 23:00 UTC).
+### Step 4.3: Wait for the build process to finish
 
-## @githubnext/utils
+Pushing a new tag should kick-start a GitHub aciton that builds your relase. Wait for that to finish and find a release with your same tag number.
 
-To reduce the cognitive load associated with writing file and folder block components, we've assembled a helper library called `@githunext/utils` that exposes interface definitions and a few helper functions. This list will undoubtedly change over time, so be sure to check out [the repository page](https://github.com/githubnext/utils) for more detail.
+<img width="1097" alt="Screen Shot 2021-12-03 at 3 03 33 PM" src="https://user-images.githubusercontent.com/8978670/144665796-cb1ff450-c872-47c5-90b3-f74aea10286b.png" />
 
-```tsx
-import {
-  FileBlockProps,
-  FolderBlockProps,
-  // A nifty hook that allows you to use Tailwind classes in your block component without *any* set up! 🎉
-  useTailwindCdn,
-  // A helper function that returns the "language" of a file, given a valid file path with extension.
-  getLanguageFromFilename,
-  // a helper function to turn the flat folder `tree` array into a nested tree structure
-  getNestedFileTree,
-} from '@githubnext/utils`
-```
+<img width="152" alt="Screen Shot 2021-12-03 at 3 02 10 PM" src="https://user-images.githubusercontent.com/8978670/144665673-431e28f9-9e9d-43b3-87f8-1e5d98bed92c.png" />
+
+### Step 4.4: Make sure your repo is public
+
+We can only detect Blocks in public repos!
+
+### Step 4.5: Wait for the Marketplace to find your Blocks
+
+Every hour we search GitHub for new custom Blocks. Wait about an hour before you can see your blocks on the [Blocks Marketplace](https://blocks-marketplace.vercel.app/).

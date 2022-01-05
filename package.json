@@ -27,7 +27,7 @@
       "extensions": [
         "*"
       ],
-      "example_file": "https://github.com/facebook/react/blob/main/packages/react-dom/index.js"
+      "example_path": "https://github.com/facebook/react/blob/main/packages/react-dom/index.js"
     },
     {
       "type": "folder",
@@ -38,7 +38,7 @@
       "extensions": [
         "*"
       ],
-      "example_file": "https://github.com/githubocto/flat"
+      "example_path": "https://github.com/githubocto/flat"
     }
   ],
   "dependencies": {
