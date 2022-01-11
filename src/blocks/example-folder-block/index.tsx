@@ -4,33 +4,37 @@ export default function (props: FolderBlockProps) {
   useTailwindCdn();
 
   return (
-    <div className="p-8">
-      <p className="text-sm text-gray-600">This is the folder content.</p>
-      <div className="mt-2 borderborder-gray-200">
-        <table className="w-full divide-y divide-gray-200">
-          <thead className="bg-gray-50">
+    <div className="Box m-4">
+      <div className="Box-header">
+        <h3 className="Box-title">
+          This is the folder content.
+        </h3>
+      </div>
+      <div className="Box-body">
+        <table style={{ textAlign: "left", }}>
+          <thead>
             <tr>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              <th className="p-1">
                 Path
               </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              <th className="p-1">
                 Size
               </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              <th className="p-1">
                 Type
               </th>
             </tr>
           </thead>
           <tbody>
             {props.tree.map((item, index) => (
-              <tr className="even:bg-gray-50 odd:bg-white" key={index}>
-                <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+              <tr key={index}>
+                <td className="p-1">
                   {item.path}
                 </td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                <td className="p-1">
                   {item.size}
                 </td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                <td className="p-1">
                   {item.type}
                 </td>
               </tr>

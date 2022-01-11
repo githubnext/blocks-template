@@ -1,6 +1,5 @@
 import {
   FileBlockProps,
-  useTailwindCdn,
   getLanguageFromFilename,
 } from "@githubnext/utils";
 import "./index.css";
@@ -11,24 +10,26 @@ export default function (props: FileBlockProps) {
     ? getLanguageFromFilename(context.file)
     : "N/A";
 
-  useTailwindCdn();
 
   return (
-    <div className="p-4 code">
-      <p className="text-sm">
-        File: {context.path} {language}
-      </p>
-      <div className="py-6">
+    <div className="Box m-4">
+      <div className="Box-header">
+        <h3 className="Box-title">
+          File: {context.path} {language}
+        </h3>
+      </div>
+      <div className="Box-body">
         Metadata example: this button has been clicked{" "}
         <button
+          className="btn"
           onClick={() =>
             onUpdateMetadata({ number: (metadata.number || 0) + 1 })
           }
         >
           {metadata.number || 0} times
         </button>
+        <pre className="mt-3 p-3">{content}</pre>
       </div>
-      <pre className="p-4 text-gray-600">{content}</pre>
     </div>
   );
 }
