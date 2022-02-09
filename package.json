@@ -47,7 +47,6 @@
     "@loadable/component": "^5.15.0",
     "@octokit/rest": "^18.12.0",
     "@types/lodash.uniqueid": "^4.0.6",
-    "codesandbox": "^2.2.3",
     "git-url-parse": "^11.6.0",
     "lodash.uniqueid": "^4.0.1",
     "parse-static-imports": "^1.1.0",
