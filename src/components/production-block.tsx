@@ -1,16 +1,19 @@
+import { SandpackProvider, SandpackPreview } from "@codesandbox/sandpack-react";
 import { useEffect, useRef, useState } from "react";
 // @ts-ignore
-import { FileContext, FolderContext, RepoFiles } from "@githubnext/utils";
+import { FileContext, FolderContext, RepoFiles, bundleCodesandboxFiles } from "@githubnext/utils";
+import uniqueId from "lodash.uniqueid";
 
+type Block = {
+  id: string;
+  type: string;
+  title: string;
+  description: string;
+  entry: string;
+  extensions?: string[];
+}
 interface ProductionBlockProps {
-  block: {
-    id: string;
-    type: string;
-    title: string;
-    description: string;
-    entry: string;
-    extensions?: string[];
-  };
+  block: Block;
   contents?: string;
   tree?: RepoFiles;
   metadata?: any;
@@ -30,8 +33,8 @@ export const ProductionBlock = (props: ProductionBlockProps) => {
   } = props;
 
   const [bundleCode, setBundleCode] = useState<BundleCode[]>([]);
-  const [iframeIsLoaded, setIframeIsLoaded] = useState(false);
-  const iframeElement = useRef<HTMLIFrameElement>(null);
+  const sandpackWrapper = useRef<HTMLDivElement>(null);
+  const id = useRef(uniqueId("sandboxed-block-"));
 
   const getContents = async () => {
     const allContent = await import.meta.glob(
@@ -55,31 +58,40 @@ export const ProductionBlock = (props: ProductionBlockProps) => {
   }
   useEffect(() => { getContents() }, [block.entry])
 
-  useEffect(() => {
-    if (!bundleCode || !iframeIsLoaded) return
-    const iframeWindow = iframeElement.current?.contentWindow
-    if (!iframeWindow) return
+  if (!bundleCode.length) {
+    return (
+      <div>
+        No bundle found
+      </div>
+    )
+  }
 
-    iframeWindow.postMessage({
-      type: "block-props",
-      block, contents, tree, metadata, context, bundleCode
-    }, "*")
-  }, [bundleCode, contents, tree, metadata, context, iframeIsLoaded])
+  const files = bundleCodesandboxFiles({
+    block, bundleCode, context,
+    id: id.current,
+    contents, tree, metadata,
+  });
 
   if (!bundleCode) return null
-  const url = "https://github-blocks.vercel.app/block-testing"
 
   return (
-    <iframe style={{
-      height: "100%",
+    <div ref={sandpackWrapper} style={{
       width: "100%",
-      border: "none",
-    }}
-      src={url}
-      title="Block testing"
-      onLoad={() => setIframeIsLoaded(true)}
-      ref={iframeElement}
-    />
+      height: "100%",
+    }}>
+      <SandpackProvider
+        template="react"
+        customSetup={{
+          dependencies: {},
+          files: files
+        }}
+        autorun
+      >
+        <SandpackPreview
+          showOpenInCodeSandbox={false}
+          showRefreshButton={false}
+        />
+      </SandpackProvider>
+    </div>
   )
-
 }

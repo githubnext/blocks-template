@@ -42,10 +42,13 @@
     }
   ],
   "dependencies": {
-    "@githubnext/utils": "^0.11.0",
+    "@codesandbox/sandpack-react": "^0.13.13",
+    "@githubnext/utils": "^0.13.1",
     "@loadable/component": "^5.15.0",
     "@octokit/rest": "^18.12.0",
+    "@types/lodash.uniqueid": "^4.0.6",
     "git-url-parse": "^11.6.0",
+    "lodash.uniqueid": "^4.0.1",
     "parse-static-imports": "^1.1.0",
     "react": "^17.0.0",
     "react-dom": "^17.0.0",
