@@ -22,7 +22,7 @@ function App() {
 
   useEffect(() => {
     const onUpdateMetadata = (event: MessageEvent) => {
-      const originRegex = new RegExp(/^https:\/\/\d{1,4}-\d{1,4}-\d{1,4}-sandpack.codesandbox.io$/)
+      const originRegex = new RegExp(/^https:\/\/\d{1,4}-\d{1,4}-\d{1,4}-sandpack\.codesandbox\.io$/)
       if (!originRegex.test(origin) && origin !== window.location.origin) return;
       if (event.data.codesandbox) return;
       if (event.data.type !== "update-metadata") return;
