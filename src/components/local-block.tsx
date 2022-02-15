@@ -44,6 +44,10 @@ export const LocalBlock = (props: LocalBlockProps) => {
     console.log(`Triggered a request to update the file contents`)
     console.log("From:", metadata)
     console.log("To:", newMetadata)
+    window.postMessage({
+      type: "update-metadata",
+      metadata: newMetadata,
+    }, "*");
   }
   const onNavigateToPath = useCallback((path) => {
     console.log(`Triggered a navigation to the file/folder: ${path}`)
@@ -54,6 +58,7 @@ export const LocalBlock = (props: LocalBlockProps) => {
     console.log("To:", content)
   }, [])
   const onRequestGitHubData = async (type: string, config: FileContext | FolderContext, id: string) => {
+    console.log(`Triggered a request to fetch data from GitHub: ${type}`)
     const data = await fetchGitHubData(type, config);
     window.postMessage({
       type: "github-data--response",
