@@ -41,7 +41,7 @@ export const LocalBlock = (props: LocalBlockProps) => {
   useEffect(() => { getContents() }, [block.entry])
 
   const onUpdateMetadata = (newMetadata: any) => {
-    console.log(`Triggered a request to update the file contents`)
+    console.log(`Triggered a request to update the file metadata`)
     console.log("From:", metadata)
     console.log("To:", newMetadata)
     window.postMessage({
