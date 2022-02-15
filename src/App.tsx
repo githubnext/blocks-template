@@ -36,13 +36,6 @@ function App() {
     };
   }, [metadataKey]);
 
-  const onUpdateMetadata = (newMetadata: any) => {
-    return new Promise<void>((resolve) => {
-      setMetadata(newMetadata);
-      resolve();
-    });
-  };
-
   const urlParts = useMemo(() => {
     if (!fileUrl) return null;
 
@@ -198,7 +191,6 @@ function App() {
           <AppInner
             key={block.entry}
             metadata={metadata}
-            onUpdateMetadata={onUpdateMetadata}
             onReset={() => setFileUrl("")}
             block={block}
             dependencies={pkgJson?.dependencies as Record<string, string>}

@@ -25,7 +25,7 @@ A development server should now be running on [localhost:4000](localhost:4000).
 
 ## Step 2. View your Blocks within a sandbox
 
-When you visit [localhost:4000](localhost:4000) in your browser, you should see and interface which we'll call a "sandbox" that let's you test out local and production versions of your Block.
+When you visit [localhost:4000](localhost:4000) in your browser, you should see an interface which we'll call a "sandbox" that lets you test out local and production versions of your Block.
 
 This starter project has one example folder block and one example file block.
 
