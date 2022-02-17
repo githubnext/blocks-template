@@ -72,10 +72,10 @@ From top to bottom:
 
 - `type` determines whether this block applies to, well, files or folders.
 - `id` is the identifier string for this block: this needs to be unique within your project. GitHub Blocks uses this to determine which block to render.
-- `title` and `description` are both presentational attributes that affect how the block will appear on the [Blocks Marketplace](https://blocks-marketplace.vercel.app/)
+- `title` and `description` are both presentational attributes that affect how the block will appear on the [Blocks Marketplace](https://next-devex-blocks-marketplace.azurewebsites.net/)
 - `entry` is the most important attribute: its value should be a file path to your block's entry point (starting with `/` - the root)
 - `extensions` is an array of file extensions (the text of a filename _after_ the first `.`), which lets GitHub Blocks know for which types of files this block should be listed. `*` represents a wildcard value, meaning the block will always be listed.
-- `example_path` (optional) is the path to an example file that will be displayed in the block’s preview on the [Blocks Marketplace](https://blocks-marketplace.vercel.app/).
+- `example_path` (optional) is the path to an example file that will be displayed in the block’s preview on the [Blocks Marketplace](https://next-devex-blocks-marketplace.azurewebsites.net/).
 
 ### Step 3.2: Code your Block
 
@@ -154,7 +154,7 @@ To reduce the cognitive load associated with writing file and folder Block compo
 
 ## Step 4. Deploy your Blocks to production
 
-We've built a [Blocks Marketplace](https://blocks-marketplace.vercel.app/) where anyone can find and use your Blocks!
+We've built a [Blocks Marketplace](https://next-devex-blocks-marketplace.azurewebsites.net/) where anyone can find and use your Blocks!
 
 In order to include your custom blocks within that marketplace you have to do a few things:
 
@@ -189,4 +189,4 @@ We can only detect Blocks in public repos!
 
 ### Step 4.5: Wait for the Marketplace to find your Blocks
 
-Every hour we search GitHub for new custom Blocks. Wait about an hour before you can see your blocks on the [Blocks Marketplace](https://blocks-marketplace.vercel.app/).
+Every hour we search GitHub for new custom Blocks. Wait about an hour before you can see your blocks on the [Blocks Marketplace](https://next-devex-blocks-marketplace.azurewebsites.net/).
