@@ -52,7 +52,7 @@ To create or customize your own custom blocks you need to do two things:
 
 ### Step 3.1: Define your custom block
 
-If you open up `package.josn` and locate the `blocks` key, you'll notice an array of block objects with the definitions for each custom block. It looks lke this"
+If you open up `package.json` and locate the `blocks` key, you'll notice an array of block objects with the definitions for each custom block. It looks lke this:
 
 ```ts
 interface BlockDefinition {
@@ -177,7 +177,7 @@ git push --tags # Push the tag to GitHub
 
 ### Step 4.3: Wait for the build process to finish
 
-Pushing a new tag should kick-start a GitHub aciton that builds your relase. Wait for that to finish and find a release with your same tag number.
+Pushing a new tag should kick-start a GitHub action that builds your relase. Wait for that to finish and find a release with your same tag number.
 
 <img width="1097" alt="Screen Shot 2021-12-03 at 3 03 33 PM" src="https://user-images.githubusercontent.com/8978670/144665796-cb1ff450-c872-47c5-90b3-f74aea10286b.png" />
 
