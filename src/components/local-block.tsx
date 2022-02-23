@@ -99,23 +99,9 @@ const fetchGitHubData = async (type: string, config: FileContext | FolderContext
       owner: config.owner,
       repo: config.repo,
       path: config.path,
-      fileRef: config.fileRef || "HEAD",
+      fileRef: "HEAD",
     })
     return data;
-  } else if (type === "metadata") {
-    try {
-      const res = await getFileContent({
-        owner: config.owner,
-        repo: config.repo,
-        path: getMetadataPath(config.block, config.path),
-        fileRef: "HEAD",
-        cache: new Date().toString(),
-      })
-      const fullMetadata = JSON.parse((res.content || "{}") as string);
-      return fullMetadata || {}
-    } catch (e) {
-      return {}
-    }
   } else if (type === "repo-info") {
     try {
       const res = await getRepoInfo({
