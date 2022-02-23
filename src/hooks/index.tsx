@@ -70,6 +70,7 @@ async function getFolderContent(
 const PAT = import.meta.env.VITE_GITHUB_PAT;
 
 export async function getFileContent(params: UseFileContentParams): Promise<FileData> {
+  // TODO: investigate a better way to parse urls
   const { repo, owner, path, fileRef } = params;
   const branch = fileRef || "HEAD";
 
