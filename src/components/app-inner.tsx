@@ -15,7 +15,6 @@ interface Block {
 export interface AppInnerProps {
   metadata: any;
   doMimicProductionEnvironment: boolean;
-  onUpdateMetadata: (metadata: any) => Promise<void>;
   block: Block;
   dependencies: Record<string, string>;
   urlParts: gitUrlParse.GitUrl;
