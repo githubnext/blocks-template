@@ -6,10 +6,9 @@ import "./index.css";
 
 export default function (props: FileBlockProps) {
   const { context, content, metadata, onUpdateMetadata } = props;
-  const language = Boolean(context.file)
-    ? getLanguageFromFilename(context.file)
+  const language = Boolean(context.path)
+    ? getLanguageFromFilename(context.path)
     : "N/A";
-
 
   return (
     <div className="Box m-4">
