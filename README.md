@@ -154,7 +154,7 @@ To reduce the cognitive load associated with writing file and folder Block compo
 
 ## Step 4. Deploy your Blocks to production
 
-We've built a [Blocks Marketplace](https://next-devex-blocks-marketplace.azurewebsites.net/) where anyone can find and use your Blocks!
+We've built a [Blocks Marketplace](https://blocks-marketplace.githubnext.com/) where anyone can find and use your Blocks!
 
 In order to include your custom blocks within that marketplace you have to do a few things:
 
@@ -189,4 +189,4 @@ We can only detect Blocks in public repos!
 
 ### Step 4.5: Wait for the Marketplace to find your Blocks
 
-Every hour we search GitHub for new custom Blocks. Wait about an hour before you can see your blocks on the [Blocks Marketplace](https://next-devex-blocks-marketplace.azurewebsites.net/).
+Every hour we search GitHub for new custom Blocks. Wait about an hour before you can see your blocks on the [Blocks Marketplace](https://blocks-marketplace.githubnext.com/).
