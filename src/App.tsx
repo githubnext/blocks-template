@@ -48,6 +48,14 @@ function App() {
 
   const block = pkgJson?.blocks.find((v) => v.entry === blockId);
 
+  useEffect(() => {
+    // if we're using an old entry point that no longer exists,
+    // default to the first block in the list
+    if (block) return
+    const defaultBlockId = pkgJson?.blocks[0].entry
+    setBlockId(defaultBlockId)
+  }, [block])
+
   return (
     <div style={{
       height: "100vh",
