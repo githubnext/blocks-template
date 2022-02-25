@@ -72,10 +72,10 @@ From top to bottom:
 
 - `type` determines whether this block applies to, well, files or folders.
 - `id` is the identifier string for this block: this needs to be unique within your project. GitHub Blocks uses this to determine which block to render.
-- `title` and `description` are both presentational attributes that affect how the block will appear on the [Blocks Marketplace](https://next-devex-blocks-marketplace.azurewebsites.net/)
+- `title` and `description` are both presentational attributes that affect how the block will appear on the [Blocks Marketplace](https://blocks-marketplace.githubnext.com/)
 - `entry` is the most important attribute: its value should be a file path to your block's entry point (starting with `/` - the root)
 - `extensions` is an array of file extensions (the text of a filename _after_ the first `.`), which lets GitHub Blocks know for which types of files this block should be listed. `*` represents a wildcard value, meaning the block will always be listed.
-- `example_path` (optional) is the path to an example file that will be displayed in the block’s preview on the [Blocks Marketplace](https://next-devex-blocks-marketplace.azurewebsites.net/).
+- `example_path` (optional) is the path to an example file that will be displayed in the block’s preview on the [Blocks Marketplace](https://blocks-marketplace.githubnext.com/).
 
 ### Step 3.2: Code your Block
 
