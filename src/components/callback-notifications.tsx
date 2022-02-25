@@ -20,7 +20,7 @@ export const CallbackNotifications = ({ }) => {
       if (!originRegex.test(origin) && origin !== window.location.origin) return;
       const eventType = event.data.type || ""
       // @ts-ignore
-      const type = {
+      const type: NotificationType | undefined = {
         "update-metadata": {
           title: "Update metadata",
           info: <>
@@ -49,7 +49,7 @@ export const CallbackNotifications = ({ }) => {
           </>,
           details: JSON.stringify(event.data.config, null, 2),
         },
-      }[eventType] as NotificationType | undefined
+      }[eventType]
       if (!type) return
       const newNotification = type
       console.log(newNotification)
@@ -101,7 +101,7 @@ const Notification = ({ title, info, details }: NotificationType) => {
         {details}
       </pre>
       <p className="f6 lh-condensed mt-2" style={{ color: "#6F7781" }}>
-        These aren't implemented in testing environments, but will work on blocks.githubnext.com!
+        These callbacks aren't implemented in testing environments, but will work on blocks.githubnext.com instead of showing a popup
       </p>
     </div >
   )
