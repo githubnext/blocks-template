@@ -1,7 +1,4 @@
-import {
-  FileBlockProps,
-  getLanguageFromFilename,
-} from "@githubnext/utils";
+import { FileBlockProps, getLanguageFromFilename } from "@githubnext/utils";
 import "./index.css";
 
 export default function (props: FileBlockProps) {
