@@ -52,7 +52,8 @@ function App() {
     // if we're using an old entry point that no longer exists,
     // default to the first block in the list
     if (block) return
-    const defaultBlockId = pkgJson?.blocks[0].entry
+    const defaultBlockId = pkgJson?.blocks[0].entry;
+    if (!defaultBlockId) return
     setBlockId(defaultBlockId)
   }, [block])
 
