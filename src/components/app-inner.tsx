@@ -1,6 +1,7 @@
 import gitUrlParse from "git-url-parse";
 import React from "react";
 import { ErrorBoundary } from "react-error-boundary";
+import { CallbackNotifications } from "./callback-notifications";
 import { FileBlock } from "./file-block";
 import { FolderBlock } from "./folder-block";
 
@@ -106,6 +107,7 @@ export function AppInner(props: AppInnerProps) {
       <React.Fragment>
         {blockType === "file" && <FileBlock {...rest} block={block} />}
         {blockType === "folder" && <FolderBlock {...rest} block={block} />}
+        <CallbackNotifications />
       </React.Fragment>
     </ErrorBoundary>
   );
