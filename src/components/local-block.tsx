@@ -51,14 +51,28 @@ export const LocalBlock = (props: LocalBlockProps) => {
   }
   const onNavigateToPath = useCallback((path) => {
     console.log(`Triggered a navigation to the file/folder: ${path}`)
+    window.postMessage({
+      type: "navigate-to-path",
+      path,
+    }, "*");
   }, [])
   const onRequestUpdateContent = useCallback((content) => {
     console.log(`Triggered a request to update the file contents`)
     console.log("From:", contents)
     console.log("To:", content)
+    window.postMessage({
+      type: "update-file",
+      content,
+    }, "*");
   }, [])
   const onRequestGitHubData = async (type: string, config: FileContext | FolderContext, id: string) => {
     console.log(`Triggered a request to fetch data from GitHub: ${type}`)
+    window.postMessage({
+      type: "github-data--request",
+      id,
+      config,
+      requestType: type,
+    }, "*");
     const data = await fetchGitHubData(type, config);
     window.postMessage({
       type: "github-data--response",
