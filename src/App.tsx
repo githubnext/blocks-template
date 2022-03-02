@@ -46,16 +46,16 @@ function App() {
     }
   }, [fileUrl]);
 
-  const block = pkgJson?.blocks.find((v) => v.entry === blockId);
+  const [block, setBlock] = useState(pkgJson?.blocks.find((v) => v.entry === blockId));
 
   useEffect(() => {
     // if we're using an old entry point that no longer exists,
     // default to the first block in the list
-    if (block) return
     const defaultBlockId = pkgJson?.blocks[0].entry;
     if (!defaultBlockId) return
     setBlockId(defaultBlockId)
-  }, [block])
+    setBlock(pkgJson?.blocks.find((v) => v.entry === defaultBlockId));
+  }, [block, pkgJson])
 
   return (
     <div style={{
