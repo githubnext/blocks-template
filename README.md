@@ -29,7 +29,8 @@ When you visit [localhost:4000](localhost:4000) in your browser, you should see 
 
 This starter project has one example folder block and one example file block.
 
-https://user-images.githubusercontent.com/8978670/144666304-b9012177-aed6-4c26-afc3-3de8c8d6d0ad.mov
+[Sandbox video](https://user-images.githubusercontent.com/8978670/144666304-b9012177-aed6-4c26-afc3-3de8c8d6d0ad.mov)
+
 
 You can play with two bits of the interface to view your Blocks:
 
