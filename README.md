@@ -4,6 +4,8 @@
 
 This template is (built with [Vite](https://vitejs.dev/), [React](https://reactjs.org/) and [Typescript](https://www.typescriptlang.org/)) and we'll guide you through how to use it.
 
+[Tutorial Video](https://user-images.githubusercontent.com/8978670/156399836-96acfff1-e44d-4047-b508-6e3e4e83f68c.mp4)
+
 ## Setup
 
 This repo is already a template! To use it just click on the "Use this template" button on the top right to set it up for your use.
