@@ -193,3 +193,8 @@ We can only detect Blocks in public repos!
 ### Step 4.5: Wait for the Marketplace to find your Blocks
 
 Every hour we search GitHub for new custom Blocks. Wait about an hour before you can see your blocks on the [Blocks Marketplace](https://blocks-marketplace.githubnext.com/).
+
+## Troubleshooting
+
+* When developing folder blocks you might hit a "Something went wrong" message if you reach the rate limit of the GitHub API. This is because we're hitting the API unauthenticated.
+
