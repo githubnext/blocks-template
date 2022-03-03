@@ -69,7 +69,9 @@ async function getFolderContent(
 
 const PAT = import.meta.env.VITE_GITHUB_PAT;
 
-export async function getFileContent(params: UseFileContentParams): Promise<FileData> {
+export async function getFileContent(
+  params: UseFileContentParams
+): Promise<FileData> {
   // TODO: investigate a better way to parse urls
   const { repo, owner, path, fileRef } = params;
   const branch = fileRef || "HEAD";
@@ -79,10 +81,10 @@ export async function getFileContent(params: UseFileContentParams): Promise<File
     apiUrl,
     PAT
       ? {
-        headers: {
-          Accept: `Bearer ${PAT}`,
-        },
-      }
+          headers: {
+            Accept: `Bearer ${PAT}`,
+          },
+        }
       : {}
   );
 
@@ -169,12 +171,14 @@ const getFromLocalStorage = (key: string) => {
     console.log(error);
     return;
   }
-}
+};
 export const useLocalStorage = (key: string, initialValue: any) => {
-  const [storedValue, setStoredValue] = useState(getFromLocalStorage(key) || initialValue);
+  const [storedValue, setStoredValue] = useState(
+    getFromLocalStorage(key) || initialValue
+  );
   useEffect(() => {
     setStoredValue(getFromLocalStorage(key) || initialValue);
-  }, [key])
+  }, [key]);
 
   const setValue = (value: any) => {
     try {
@@ -185,13 +189,10 @@ export const useLocalStorage = (key: string, initialValue: any) => {
     }
   };
 
-  return [storedValue, setValue]
-}
+  return [storedValue, setValue];
+};
 
-
-export async function getRepoInfo(
-  params: RepoContext
-): Promise<string> {
+export async function getRepoInfo(params: RepoContext): Promise<string> {
   const { repo, owner } = params;
 
   const apiUrl = `https://api.github.com/repos/${owner}/${repo}`;
@@ -205,4 +206,17 @@ export async function getRepoInfo(
 
   const resObject = await res.json();
   return resObject;
+}
+
+export function useDebounce<T>(value: T, delay: number): T {
+  const [debouncedValue, setDebouncedValue] = useState<T>(value);
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      setDebouncedValue(value);
+    }, delay);
+    return () => {
+      clearTimeout(handler);
+    };
+  }, [value, delay]);
+  return debouncedValue;
 }
