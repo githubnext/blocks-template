@@ -4,7 +4,14 @@
 
 This template is (built with [Vite](https://vitejs.dev/), [React](https://reactjs.org/) and [Typescript](https://www.typescriptlang.org/)) and we'll guide you through how to use it.
 
+Here's a short tutorial video on how to get started creating your own block:
+
 [Tutorial Video](https://user-images.githubusercontent.com/8978670/156399836-96acfff1-e44d-4047-b508-6e3e4e83f68c.mp4)
+
+Here's a short tutorial video on the Blocks API:
+
+[Blocks API](https://user-images.githubusercontent.com/8978670/156633540-64d90ce8-9df6-48ce-98ee-6d99a796227a.mp4)
+
 
 ## Setup
 
