@@ -1,7 +1,7 @@
 import GitUrlParse from "git-url-parse";
 import { useEffect, useMemo, useState } from "react";
 import { AppInner } from "./components/app-inner";
-import { useLocalStorage, usePackageJson } from "./hooks";
+import { useDebounce, useLocalStorage, usePackageJson } from "./hooks";
 
 function App() {
   const [blockId, setBlockId] = useLocalStorage(
@@ -12,18 +12,24 @@ function App() {
     "fileUrl",
     "https://github.com/githubocto/flat/blob/main/src/git.ts"
   );
+
+  const debouncedFileUrl = useDebounce(fileUrl, 500);
+
   const [doMimicProductionEnvironment, setDoMimicProductionEnvironment] =
     useLocalStorage("doMimicProductionEnvironment", false);
 
   const { data: pkgJson, status } = usePackageJson();
 
-  const metadataKey = `composable-github-block-template--${blockId}-${fileUrl}`;
+  const metadataKey = `composable-github-block-template--${blockId}-${debouncedFileUrl}`;
   const [metadata, setMetadata] = useLocalStorage(metadataKey, {});
 
   useEffect(() => {
     const onUpdateMetadata = (event: MessageEvent) => {
-      const originRegex = new RegExp(/^https:\/\/\d{1,4}-\d{1,4}-\d{1,4}-sandpack\.codesandbox\.io$/)
-      if (!originRegex.test(origin) && origin !== window.location.origin) return;
+      const originRegex = new RegExp(
+        /^https:\/\/\d{1,4}-\d{1,4}-\d{1,4}-sandpack\.codesandbox\.io$/
+      );
+      if (!originRegex.test(origin) && origin !== window.location.origin)
+        return;
       if (event.data.codesandbox) return;
       if (event.data.type !== "update-metadata") return;
       const newMetadata = event?.data?.metadata || {};
@@ -37,54 +43,68 @@ function App() {
   }, [metadataKey]);
 
   const urlParts = useMemo(() => {
-    if (!fileUrl) return null;
+    if (!debouncedFileUrl) return null;
 
     try {
-      return GitUrlParse(fileUrl);
+      return GitUrlParse(debouncedFileUrl);
     } catch (e) {
       return null;
     }
-  }, [fileUrl]);
+  }, [debouncedFileUrl]);
 
-  const [block, setBlock] = useState(pkgJson?.blocks.find((v) => v.entry === blockId));
+  const [block, setBlock] = useState(
+    pkgJson?.blocks.find((v) => v.entry === blockId)
+  );
 
   useEffect(() => {
     const entry = pkgJson?.blocks.find((v) => v.entry === blockId);
 
     if (entry) {
       setBlock(entry);
-    }
-    else {
+    } else {
       const defaultBlockId = pkgJson?.blocks[0].entry;
-      if (!defaultBlockId) return
-      setBlockId(defaultBlockId)
+      if (!defaultBlockId) return;
+      setBlockId(defaultBlockId);
     }
   }, [blockId, pkgJson]);
 
   return (
-    <div style={{
-      height: "100vh",
-      display: "flex",
-      flexDirection: "column",
-      overflow: "hidden",
-      fontFamily: "sans-serif",
-    }}>
-      <div style={{
-        boxShadow: "0 0 1em rgba(0, 0, 0, 0.1)",
-        flex: "none",
+    <div
+      style={{
+        height: "100vh",
         display: "flex",
-        alignItems: "center",
-        flexWrap: "wrap",
-        padding: "0.5em",
-        zIndex: 10,
-      }}>
-        <div style={{ flex: 1, minWidth: "min(90vw, 13em)", margin: "0.6em 0.5em" }}>
-          <label style={{
-            fontSize: "0.9em",
-            fontWeight: 500,
-            display: "block",
-            marginBottom: "0.5em",
-          }} htmlFor="url">
+        flexDirection: "column",
+        overflow: "hidden",
+        fontFamily: "sans-serif",
+      }}
+    >
+      <div
+        style={{
+          boxShadow: "0 0 1em rgba(0, 0, 0, 0.1)",
+          flex: "none",
+          display: "flex",
+          alignItems: "center",
+          flexWrap: "wrap",
+          padding: "0.5em",
+          zIndex: 10,
+        }}
+      >
+        <div
+          style={{
+            flex: 1,
+            minWidth: "min(90vw, 13em)",
+            margin: "0.6em 0.5em",
+          }}
+        >
+          <label
+            style={{
+              fontSize: "0.9em",
+              fontWeight: 500,
+              display: "block",
+              marginBottom: "0.5em",
+            }}
+            htmlFor="url"
+          >
             GitHub File URL
           </label>
           <input
@@ -102,13 +122,22 @@ function App() {
             }}
           />
         </div>
-        <div style={{ flex: 1, minWidth: "min(90vw, 13em)", margin: "0.6em 0.5em" }}>
-          <label style={{
-            fontSize: "0.9em",
-            fontWeight: 500,
-            display: "block",
-            marginBottom: "0.5em",
-          }} htmlFor="block">
+        <div
+          style={{
+            flex: 1,
+            minWidth: "min(90vw, 13em)",
+            margin: "0.6em 0.5em",
+          }}
+        >
+          <label
+            style={{
+              fontSize: "0.9em",
+              fontWeight: 500,
+              display: "block",
+              marginBottom: "0.5em",
+            }}
+            htmlFor="block"
+          >
             Block
           </label>
           <select
@@ -155,13 +184,22 @@ function App() {
             </optgroup>
           </select>
         </div>
-        <div style={{ flex: 1, minWidth: "min(90vw, 13em)", margin: "0.6em 0.5em" }}>
-          <label style={{
-            fontSize: "0.9em",
-            fontWeight: 500,
-            display: "block",
-            marginBottom: "0.5em",
-          }} htmlFor="block">
+        <div
+          style={{
+            flex: 1,
+            minWidth: "min(90vw, 13em)",
+            margin: "0.6em 0.5em",
+          }}
+        >
+          <label
+            style={{
+              fontSize: "0.9em",
+              fontWeight: 500,
+              display: "block",
+              marginBottom: "0.5em",
+            }}
+            htmlFor="block"
+          >
             Environment
           </label>
           <select
@@ -187,20 +225,22 @@ function App() {
           </select>
         </div>
       </div>
-      <div style={{
-        flex: 1,
-        overflow: "auto",
-      }}>
-        {(!blockId || !fileUrl) && (
-          <div style={{
-            padding: "1em",
-          }}>
-            <p>
-              Please select a block and enter a file path.
-            </p>
+      <div
+        style={{
+          flex: 1,
+          overflow: "auto",
+        }}
+      >
+        {(!blockId || !debouncedFileUrl) && (
+          <div
+            style={{
+              padding: "1em",
+            }}
+          >
+            <p>Please select a block and enter a file path.</p>
           </div>
         )}
-        {!!block && !!fileUrl && !!urlParts && (
+        {!!block && !!debouncedFileUrl && !!urlParts && (
           <AppInner
             key={block.entry}
             metadata={metadata}
