@@ -73,6 +73,10 @@ export const ProductionBlock = (props: ProductionBlockProps) => {
 
   if (!bundleCode) return null;
 
+  const filesWithConfig = { ...files,
+    '/sandbox.config.json': JSON.stringify({ infiniteLoopProtection: false })
+  };
+
   return (
     <div
       ref={sandpackWrapper}
@@ -86,7 +90,7 @@ export const ProductionBlock = (props: ProductionBlockProps) => {
         template="react"
         customSetup={{
           dependencies: {},
-          files: files,
+          files: filesWithConfig,
         }}
         autorun
       >
