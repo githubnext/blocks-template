@@ -12,7 +12,6 @@ Here's a short tutorial video on the Blocks API:
 
 [Blocks API](https://user-images.githubusercontent.com/8978670/156633540-64d90ce8-9df6-48ce-98ee-6d99a796227a.mp4)
 
-
 ## Setup
 
 This repo is already a template! To use it just click on the "Use this template" button on the top right to set it up for your use.
@@ -39,7 +38,6 @@ When you visit [localhost:4000](localhost:4000) in your browser, you should see 
 This starter project has one example folder block and one example file block.
 
 [Sandbox video](https://user-images.githubusercontent.com/8978670/144666304-b9012177-aed6-4c26-afc3-3de8c8d6d0ad.mov)
-
 
 You can play with two bits of the interface to view your Blocks:
 
@@ -203,5 +201,4 @@ Every hour we search GitHub for new custom Blocks. Wait about an hour before you
 
 ## Troubleshooting
 
-* When developing folder blocks you might hit a "Something went wrong" message if you reach the rate limit of the GitHub API. This is because we're hitting the API unauthenticated.
-
+- When developing folder blocks you might hit a "Something went wrong" message if you reach the rate limit of the GitHub API. This is because we're hitting the API unauthenticated.

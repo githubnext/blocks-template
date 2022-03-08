@@ -2,7 +2,7 @@ import { useFileContent } from "../hooks";
 import { AppInnerProps } from "./app-inner";
 import { ErrorState } from "./error-state";
 import { LoadingState } from "./loading-state";
-import { ProductionBlock } from "./production-block"
+import { ProductionBlock } from "./production-block";
 import { LocalBlock } from "./local-block";
 
 export function FileBlock(props: Omit<AppInnerProps, "onReset" | "blockType">) {
@@ -19,14 +19,16 @@ export function FileBlock(props: Omit<AppInnerProps, "onReset" | "blockType">) {
     !urlParts.ref ||
     !urlParts.filepath
   ) {
-    <div style={{
-      padding: '10vh 1rem',
-      textAlign: 'center',
-      backgroundColor: '#FEF2F2',
-      color: '#DB2725',
-      height: '100%',
-      fontStyle: 'italic',
-    }}>
+    <div
+      style={{
+        padding: "10vh 1rem",
+        textAlign: "center",
+        backgroundColor: "#FEF2F2",
+        color: "#DB2725",
+        height: "100%",
+        fontStyle: "italic",
+      }}
+    >
       Unable to parse this GitHub URL. Are you sure you've linked to a folder
       and not a file?
     </div>;
@@ -45,10 +47,13 @@ export function FileBlock(props: Omit<AppInnerProps, "onReset" | "blockType">) {
   if (status === "error") return <ErrorState />;
   if (status === "success" && data) {
     return doMimicProductionEnvironment ? (
-      <div className="sandbox-wrapper" style={{
-        height: "100%",
-        width: "100%"
-      }}>
+      <div
+        className="sandbox-wrapper"
+        style={{
+          height: "100%",
+          width: "100%",
+        }}
+      >
         <ProductionBlock
           contents={data.content}
           context={{
@@ -60,10 +65,13 @@ export function FileBlock(props: Omit<AppInnerProps, "onReset" | "blockType">) {
         />
       </div>
     ) : (
-      <div className="sandbox-wrapper" style={{
-        height: "100%",
-        width: "100%"
-      }}>
+      <div
+        className="sandbox-wrapper"
+        style={{
+          height: "100%",
+          width: "100%",
+        }}
+      >
         <LocalBlock
           contents={data.content}
           context={{

@@ -8,23 +8,27 @@ import { LocalBlock } from "./local-block";
 export function FolderBlock(
   props: Omit<AppInnerProps, "onReset" | "blockType">
 ) {
-  const { block, metadata = {}, urlParts, doMimicProductionEnvironment } = props;
+  const {
+    block,
+    metadata = {},
+    urlParts,
+    doMimicProductionEnvironment,
+  } = props;
 
-  if (
-    urlParts.filepathtype === "blob" ||
-    !urlParts.owner ||
-    !urlParts.name
-  ) {
+  if (urlParts.filepathtype === "blob" || !urlParts.owner || !urlParts.name) {
     return (
-      <div style={{
-        padding: '10vh 1rem',
-        textAlign: 'center',
-        backgroundColor: '#FEF2F2',
-        color: '#DB2725',
-        height: '100%',
-        fontStyle: 'italic',
-      }}>
-        Unable to parse this GitHub URL. Are you sure you've linked to a folder and not a file?
+      <div
+        style={{
+          padding: "10vh 1rem",
+          textAlign: "center",
+          backgroundColor: "#FEF2F2",
+          color: "#DB2725",
+          height: "100%",
+          fontStyle: "italic",
+        }}
+      >
+        Unable to parse this GitHub URL. Are you sure you've linked to a folder
+        and not a file?
       </div>
     );
   }
@@ -42,10 +46,13 @@ export function FolderBlock(
   if (status === "error") return <ErrorState />;
   if (status === "success" && data) {
     return doMimicProductionEnvironment ? (
-      <div className="sandbox-wrapper" style={{
-        height: "100%",
-        width: "100%"
-      }}>
+      <div
+        className="sandbox-wrapper"
+        style={{
+          height: "100%",
+          width: "100%",
+        }}
+      >
         <ProductionBlock
           tree={data.tree}
           context={{
@@ -57,10 +64,13 @@ export function FolderBlock(
         />
       </div>
     ) : (
-      <div className="sandbox-wrapper" style={{
-        height: "100%",
-        width: "100%"
-      }}>
+      <div
+        className="sandbox-wrapper"
+        style={{
+          height: "100%",
+          width: "100%",
+        }}
+      >
         <LocalBlock
           tree={data.tree}
           context={{
@@ -71,9 +81,8 @@ export function FolderBlock(
           metadata={metadata}
         />
       </div>
-    )
+    );
   }
 
   return null;
 }
-

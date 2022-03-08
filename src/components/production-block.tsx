@@ -73,8 +73,9 @@ export const ProductionBlock = (props: ProductionBlockProps) => {
 
   if (!bundleCode) return null;
 
-  const filesWithConfig = { ...files,
-    '/sandbox.config.json': JSON.stringify({ infiniteLoopProtection: false })
+  const filesWithConfig = {
+    ...files,
+    "/sandbox.config.json": JSON.stringify({ infiniteLoopProtection: false }),
   };
 
   return (
