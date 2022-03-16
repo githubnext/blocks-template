@@ -122,7 +122,12 @@ interface BlockProps {
     currentMetadata: any
   ) => void;
   onRequestUpdateContent: (newContent: string) => void;
-  onRequestGitHubData: (type: string, config: any, id: string) => Promise<any>;
+  onRequestGitHubData: (
+    // this is any GET endpoint in the GitHub API:
+    // https://docs.github.com/en/rest/overview/endpoints-available-for-github-apps
+    path: string,
+    params: Record<string, any>
+  ) => Promise<any>;
   onNavigateToPath: (path: string) => void;
 
   // if a File Block
