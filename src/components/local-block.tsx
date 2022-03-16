@@ -69,21 +69,21 @@ export const LocalBlock = (props: LocalBlockProps) => {
     );
   }, []);
   const onRequestGitHubData = async (
-    type: string,
-    config: FileContext | FolderContext,
+    path: string,
+    params: Record<string, any>,
     id: string
   ) => {
-    console.log(`Triggered a request to fetch data from GitHub: ${type}`);
+    console.log(`Triggered a request to fetch data from GitHub: ${path}`);
     window.postMessage(
       {
         type: "github-data--request",
         id,
-        config,
-        requestType: type,
+        path,
+        params,
       },
       "*"
     );
-    const data = await fetchGitHubData(type, config);
+    const data = await fetchGitHubData(path, params);
     window.postMessage(
       {
         type: "github-data--response",
@@ -110,33 +110,29 @@ export const LocalBlock = (props: LocalBlockProps) => {
   );
 };
 
-const getBlockKey = (block: Block) =>
-  `${block?.owner}/${block?.repo}__${block?.id}`.replace(/\//g, "__");
-const getMetadataPath = (block: Block, path: string) =>
-  `.github/blocks/${block?.type}/${getBlockKey(block)}/${encodeURIComponent(
-    path
-  )}.json`;
 const fetchGitHubData = async (
-  type: string,
-  config: FileContext | FolderContext
+  path: string,
+  params: Record<string, any> = {},
+  id: string = ""
 ) => {
-  if (type === "file-content") {
-    const data = await getFileContent({
-      owner: config.owner,
-      repo: config.repo,
-      path: config.path,
-      fileRef: "HEAD",
+  try {
+    const apiUrl = `https://api.github.com${path}`;
+
+    const res = await fetch(apiUrl, {
+      ...params,
+      // this callback is limited to GET requests
+      method: "GET",
     });
-    return data;
-  } else if (type === "repo-info") {
-    try {
-      const res = await getRepoInfo({
-        owner: config.owner,
-        repo: config.repo,
-      });
-      return res;
-    } catch (e) {
-      return {};
+
+    if (res.status !== 200) {
+      throw new Error(
+        `Error fetching generic GitHub API data: ${apiUrl}\n${await res.text()}`
+      );
     }
+
+    const resObject = await res.json();
+    return resObject;
+  } catch (e) {
+    return {};
   }
 };
