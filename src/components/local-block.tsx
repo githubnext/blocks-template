@@ -70,8 +70,8 @@ export const LocalBlock = (props: LocalBlockProps) => {
   }, []);
   const onRequestGitHubData = async (
     path: string,
-    params: Record<string, any>,
-    id: string
+    params: Record<string, any> = {},
+    id: string = ""
   ) => {
     console.log(`Triggered a request to fetch data from GitHub: ${path}`);
     window.postMessage(
@@ -115,24 +115,20 @@ const fetchGitHubData = async (
   params: Record<string, any> = {},
   id: string = ""
 ) => {
-  try {
-    const apiUrl = `https://api.github.com${path}`;
+  const apiUrl = `https://api.github.com${path}`;
 
-    const res = await fetch(apiUrl, {
-      ...params,
-      // this callback is limited to GET requests
-      method: "GET",
-    });
+  const res = await fetch(apiUrl, {
+    ...params,
+    // this callback is limited to GET requests
+    method: "GET",
+  });
 
-    if (res.status !== 200) {
-      throw new Error(
-        `Error fetching generic GitHub API data: ${apiUrl}\n${await res.text()}`
-      );
-    }
-
-    const resObject = await res.json();
-    return resObject;
-  } catch (e) {
-    return {};
+  if (res.status !== 200) {
+    throw new Error(
+      `Error fetching generic GitHub API data: ${apiUrl}\n${await res.text()}`
+    );
   }
+
+  const resObject = await res.json();
+  return resObject;
 };
