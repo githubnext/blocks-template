@@ -91,7 +91,7 @@ const Notification = ({ title, info, details }: NotificationType) => {
   return (
     <div className="Box py-3 px-4 my-2" style={{ width: "20em" }}>
       <p className="f5 mb-0">Callback triggered:</p>
-      <div className="h3-mktg">{title}</div>
+      <div className="h3">{title}</div>
       <p className="text-sm mt-2">{info}</p>
       <pre
         className="py-1 px-2 wb-break-all overflow-y-hidden"
