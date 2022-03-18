@@ -61,31 +61,38 @@ export const ProductionBlock = (props: ProductionBlockProps) => {
   useEffect(() => {
     const onMessage = async (event: MessageEvent) => {
       if (event.data.id === id.current) {
-        const { data, origin } = event;
+        const { data, origin, source } = event;
 
         // handle messages from the sandboxed block
         const originRegex = new RegExp(
           /^https:\/\/\d{1,4}-\d{1,4}-\d{1,4}-sandpack\.codesandbox\.io$/
         );
-        if (!originRegex.test(origin)) return;
+        if (!source || !originRegex.test(origin)) return;
         if (data.type === "github-data--request") {
-          const res = await onRequestGitHubData(
-            data.path,
-            data.params,
-            data.id
-          );
-          const iframe = sandpackWrapper.current?.querySelector("iframe");
-          if (!iframe) return;
-          iframe.contentWindow?.postMessage(
-            {
-              type: "github-data--response",
-              id: id.current,
-              data: res,
-            },
-            "*"
-          );
+          onRequestGitHubData(data.path, data.params)
+            .then((res) => {
+              source.postMessage(
+                {
+                  type: "github-data--response",
+                  id: id.current,
+                  data: res,
+                },
+                origin as any
+              );
+            })
+            .catch((e) => {
+              source.postMessage(
+                {
+                  type: "github-data--response",
+                  id: id.current,
+                  // Error is not always serializable
+                  // https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API/Structured_clone_algorithm#things_that_dont_work_with_structured_clone
+                  error: e instanceof Error ? e.message : e,
+                },
+                origin as any
+              );
+            });
         }
-        return data;
       }
     };
     addEventListener("message", onMessage);
