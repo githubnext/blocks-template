@@ -6,6 +6,7 @@ import {
   FolderContext,
   RepoFiles,
   bundleCodesandboxFiles,
+  onRequestGitHubData,
 } from "@githubnext/utils";
 import uniqueId from "lodash.uniqueid";
 
@@ -56,6 +57,40 @@ export const ProductionBlock = (props: ProductionBlockProps) => {
   useEffect(() => {
     getContents();
   }, [block.entry]);
+
+  useEffect(() => {
+    const onMessage = async (event: MessageEvent) => {
+      if (event.data.id === id.current) {
+        const { data, origin } = event;
+
+        // handle messages from the sandboxed block
+        const originRegex = new RegExp(
+          /^https:\/\/\d{1,4}-\d{1,4}-\d{1,4}-sandpack\.codesandbox\.io$/
+        );
+        if (!originRegex.test(origin)) return;
+        if (data.type === "github-data--request") {
+          const res = await onRequestGitHubData(
+            data.path,
+            data.params,
+            data.id
+          );
+          const iframe = sandpackWrapper.current?.querySelector("iframe");
+          if (!iframe) return;
+          iframe.contentWindow?.postMessage(
+            {
+              type: "github-data--response",
+              id: id.current,
+              data: res,
+            },
+            "*"
+          );
+        }
+        return data;
+      }
+    };
+    addEventListener("message", onMessage);
+    return () => removeEventListener("message", onMessage);
+  }, []);
 
   if (!bundleCode.length) {
     return <div>No bundle found</div>;

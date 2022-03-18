@@ -1,8 +1,12 @@
 import { useCallback, useEffect, useState } from "react";
 // @ts-ignore
 import loadable from "@loadable/component";
-import { FileContext, FolderContext, RepoFiles } from "@githubnext/utils";
-import { getFileContent, getRepoInfo } from "../hooks";
+import {
+  FileContext,
+  FolderContext,
+  RepoFiles,
+  onRequestGitHubData as onRequestGitHubDataFetch,
+} from "@githubnext/utils";
 
 interface Block {
   id: string;
@@ -83,7 +87,7 @@ export const LocalBlock = (props: LocalBlockProps) => {
       },
       "*"
     );
-    const data = await fetchGitHubData(path, params);
+    const data = await onRequestGitHubDataFetch(path, params);
     window.postMessage(
       {
         type: "github-data--response",
