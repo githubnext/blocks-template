@@ -47,7 +47,7 @@
   ],
   "dependencies": {
     "@codesandbox/sandpack-react": "^0.13.13",
-    "@githubnext/utils": "^0.19.3",
+    "@githubnext/utils": "^0.19.5",
     "@loadable/component": "^5.15.0",
     "@octokit/rest": "^18.12.0",
     "@types/lodash.uniqueid": "^4.0.6",
