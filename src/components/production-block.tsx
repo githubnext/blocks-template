@@ -33,7 +33,6 @@ export const ProductionBlock = (props: ProductionBlockProps) => {
   const { block, contents, tree, metadata = {}, context } = props;
 
   const [bundleCode, setBundleCode] = useState<BundleCode[]>([]);
-  const sandpackWrapper = useRef<HTMLDivElement>(null);
   const id = useRef(uniqueId("sandboxed-block-"));
 
   const getContents = async () => {
@@ -61,31 +60,39 @@ export const ProductionBlock = (props: ProductionBlockProps) => {
   useEffect(() => {
     const onMessage = async (event: MessageEvent) => {
       if (event.data.id === id.current) {
-        const { data, origin } = event;
+        const { data, origin, source } = event;
 
         // handle messages from the sandboxed block
         const originRegex = new RegExp(
           /^https:\/\/\d{1,4}-\d{1,4}-\d{1,4}-sandpack\.codesandbox\.io$/
         );
-        if (!originRegex.test(origin)) return;
+        if (!source || !originRegex.test(origin)) return;
+        const window = source as Window;
         if (data.type === "github-data--request") {
-          const res = await onRequestGitHubData(
-            data.path,
-            data.params,
-            data.id
-          );
-          const iframe = sandpackWrapper.current?.querySelector("iframe");
-          if (!iframe) return;
-          iframe.contentWindow?.postMessage(
-            {
-              type: "github-data--response",
-              id: id.current,
-              data: res,
-            },
-            "*"
-          );
+          onRequestGitHubData(data.path, data.params)
+            .then((res) => {
+              window.postMessage(
+                {
+                  type: "github-data--response",
+                  id: id.current,
+                  data: res,
+                },
+                origin
+              );
+            })
+            .catch((e) => {
+              window.postMessage(
+                {
+                  type: "github-data--response",
+                  id: id.current,
+                  // Error is not always serializable
+                  // https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API/Structured_clone_algorithm#things_that_dont_work_with_structured_clone
+                  error: e instanceof Error ? e.message : e,
+                },
+                origin
+              );
+            });
         }
-        return data;
       }
     };
     addEventListener("message", onMessage);
@@ -108,14 +115,8 @@ export const ProductionBlock = (props: ProductionBlockProps) => {
 
   if (!bundleCode) return null;
 
-  const filesWithConfig = {
-    ...files,
-    "/sandbox.config.json": JSON.stringify({ infiniteLoopProtection: false }),
-  };
-
   return (
     <div
-      ref={sandpackWrapper}
       style={{
         width: "100%",
         height: "100%",
@@ -126,7 +127,7 @@ export const ProductionBlock = (props: ProductionBlockProps) => {
         template="react"
         customSetup={{
           dependencies: {},
-          files: filesWithConfig,
+          files,
         }}
         autorun
       >
