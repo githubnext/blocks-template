@@ -68,20 +68,21 @@ export const ProductionBlock = (props: ProductionBlockProps) => {
           /^https:\/\/\d{1,4}-\d{1,4}-\d{1,4}-sandpack\.codesandbox\.io$/
         );
         if (!source || !originRegex.test(origin)) return;
+        const window = source as Window;
         if (data.type === "github-data--request") {
           onRequestGitHubData(data.path, data.params)
             .then((res) => {
-              source.postMessage(
+              window.postMessage(
                 {
                   type: "github-data--response",
                   id: id.current,
                   data: res,
                 },
-                origin as any
+                origin
               );
             })
             .catch((e) => {
-              source.postMessage(
+              window.postMessage(
                 {
                   type: "github-data--response",
                   id: id.current,
@@ -89,7 +90,7 @@ export const ProductionBlock = (props: ProductionBlockProps) => {
                   // https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API/Structured_clone_algorithm#things_that_dont_work_with_structured_clone
                   error: e instanceof Error ? e.message : e,
                 },
-                origin as any
+                origin
               );
             });
         }
