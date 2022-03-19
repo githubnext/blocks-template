@@ -33,7 +33,6 @@ export const ProductionBlock = (props: ProductionBlockProps) => {
   const { block, contents, tree, metadata = {}, context } = props;
 
   const [bundleCode, setBundleCode] = useState<BundleCode[]>([]);
-  const sandpackWrapper = useRef<HTMLDivElement>(null);
   const id = useRef(uniqueId("sandboxed-block-"));
 
   const getContents = async () => {
@@ -118,7 +117,6 @@ export const ProductionBlock = (props: ProductionBlockProps) => {
 
   return (
     <div
-      ref={sandpackWrapper}
       style={{
         width: "100%",
         height: "100%",
