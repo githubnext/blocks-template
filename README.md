@@ -69,7 +69,8 @@ interface BlockDefinition {
   title: string;
   description: string;
   entry: string;
-  extensions: string[];
+  extensions: string[]; // Soon to be deprecated in favor of the following "matches" key.
+  matches?: string[]; // An array of globs written in picomatch syntax. See https://github.com/micromatch/picomatch for examples.
   example_path?: string;
 }
 ```
@@ -83,6 +84,7 @@ From top to bottom:
 - `title` and `description` are both presentational attributes that affect how the block will appear on the [Blocks Marketplace](https://blocks-marketplace.githubnext.com/)
 - `entry` is the most important attribute: its value should be a file path to your block's entry point (starting with `/` - the root)
 - `extensions` is an array of file extensions (the text of a filename _after_ the first `.`), which lets GitHub Blocks know for which types of files this block should be listed. `*` represents a wildcard value, meaning the block will always be listed.
+- `matches` is an array of globs (following https://github.com/micromatch/picomatch syntax), which lets GitHub Blocks know for which types of files this block should be listed.
 - `example_path` (optional) is the path to an example file that will be displayed in the block’s preview on the [Blocks Marketplace](https://blocks-marketplace.githubnext.com/).
 
 ### Step 3.2: Code your Block
@@ -104,6 +106,7 @@ interface BlockProps {
     description: string;
     entry: string;
     extensions?: string[];
+    matches?: string[];
   };
   context: {
     path: string;
