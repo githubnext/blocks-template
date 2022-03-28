@@ -164,6 +164,8 @@ A few caveats and callouts:
 VITE_GITHUB_PAT=${your personal access token} yarn dev
 ```
 
+or put it in your [`.env`](https://vitejs.dev/guide/env-and-mode.html#env-files) file in the project root directory.
+
 ##### Relevant repos
 
 [Blocks examples](https://github.com/githubnext/blocks-examples)
