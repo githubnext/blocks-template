@@ -8,6 +8,8 @@ import {
   onRequestGitHubData as onRequestGitHubDataFetch,
 } from "@githubnext/utils";
 
+const PAT = import.meta.env.VITE_GITHUB_PAT;
+
 interface Block {
   id: string;
   type: string;
@@ -87,7 +89,11 @@ export const LocalBlock = (props: LocalBlockProps) => {
       },
       "*"
     );
-    const data = await onRequestGitHubDataFetch(path, params);
+    const data = await onRequestGitHubDataFetch(
+      path,
+      params,
+      PAT ? `Bearer ${PAT}` : undefined
+    );
     window.postMessage(
       {
         type: "github-data--response",

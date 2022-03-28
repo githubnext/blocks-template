@@ -128,6 +128,7 @@ interface BlockProps {
   onRequestGitHubData: (
     // this is any GET endpoint in the GitHub API:
     // https://docs.github.com/en/rest/overview/endpoints-available-for-github-apps
+    // e.g. `/repos/{owner}/{repo}/contributors`
     path: string,
     params: Record<string, any>
   ) => Promise<any>;
@@ -157,6 +158,11 @@ A few caveats and callouts:
 - Blocks have access to [GitHub Primer CSS styles](https://primer.style/css/)
 - You can use both third-party _and_ relative imports in your Block code! Simply put, feel free to install any dependencies from NPM, or import a local JS/CSS file and it should be included in the final bundle.
 - Your Block entry file **must have the Block component as its default export**. If it does not, bad things will happen.
+- To make authenticated requests to the GitHub API, create a [personal access token](https://help.github.com/en/github/authenticating-to-github/creating-a-personal-access-token-for-the-command-line) and pass it when you start the dev server:
+
+```
+VITE_GITHUB_PAT=${your personal access token} yarn dev
+```
 
 ##### Relevant repos
 
