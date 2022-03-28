@@ -30,9 +30,7 @@ async function getFolderContent(
   const apiUrl = `https://api.github.com/repos/${owner}/${repo}/git/trees/${branch}?recursive=1`;
 
   const res = await fetch(apiUrl, {
-    headers: {
-      Accept: `Bearer ${PAT}`,
-    },
+    headers: PAT ? { Authorization: `Bearer ${PAT}` } : {},
   });
   const { tree: rawTree } = await res.json();
 
@@ -77,16 +75,7 @@ export async function getFileContent(
   const branch = fileRef || "HEAD";
 
   const apiUrl = `https://raw.githubusercontent.com/${owner}/${repo}/${branch}/${path}`;
-  const res = await fetch(
-    apiUrl,
-    PAT
-      ? {
-          headers: {
-            Accept: `Bearer ${PAT}`,
-          },
-        }
-      : {}
-  );
+  const res = await fetch(apiUrl);
 
   if (res.status !== 200) throw new Error("Something bad happened");
 
