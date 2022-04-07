@@ -74,12 +74,9 @@ export async function getFileContent(
   const { repo, owner, path, fileRef } = params;
   const branch = fileRef || "HEAD";
 
-  const apiUrl = `https://api.github.com/repos/${owner}/${repo}/contents/${path}?ref=${branch}`;
+  const apiUrl = `https://raw.githubusercontent.com/${owner}/${repo}/${branch}/${path}`;
   const res = await fetch(apiUrl, {
-    headers: {
-      ...(PAT ? { Authorization: `token ${PAT}` } : {}),
-      Accept: "application/vnd.github.VERSION.raw",
-    },
+    headers: PAT ? { Authorization: `token ${PAT}` } : {},
   });
 
   if (res.status !== 200) throw new Error("Something bad happened");
@@ -185,6 +182,22 @@ export const useLocalStorage = (key: string, initialValue: any) => {
 
   return [storedValue, setValue];
 };
+
+export async function getRepoInfo(params: RepoContext): Promise<string> {
+  const { repo, owner } = params;
+
+  const apiUrl = `https://api.github.com/repos/${owner}/${repo}`;
+
+  const res = await fetch(apiUrl);
+  if (res.status !== 200) {
+    throw new Error(
+      `Error fetching repo info: ${owner}/${repo}\n${await res.text()}`
+    );
+  }
+
+  const resObject = await res.json();
+  return resObject;
+}
 
 export function useDebounce<T>(value: T, delay: number): T {
   const [debouncedValue, setDebouncedValue] = useState<T>(value);
