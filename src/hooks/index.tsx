@@ -30,7 +30,7 @@ async function getFolderContent(
   const apiUrl = `https://api.github.com/repos/${owner}/${repo}/git/trees/${branch}?recursive=1`;
 
   const res = await fetch(apiUrl, {
-    headers: PAT ? { Authorization: `Bearer ${PAT}` } : {},
+    headers: PAT ? { Authorization: `token ${PAT}` } : {},
   });
   const { tree: rawTree } = await res.json();
 
