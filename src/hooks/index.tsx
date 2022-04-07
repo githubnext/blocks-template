@@ -75,7 +75,9 @@ export async function getFileContent(
   const branch = fileRef || "HEAD";
 
   const apiUrl = `https://raw.githubusercontent.com/${owner}/${repo}/${branch}/${path}`;
-  const res = await fetch(apiUrl);
+  const res = await fetch(apiUrl, {
+    headers: PAT ? { Authorization: `token ${PAT}` } : {},
+  });
 
   if (res.status !== 200) throw new Error("Something bad happened");
 
