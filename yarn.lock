@@ -497,10 +497,10 @@
     react-devtools-inline "4.4.0"
     react-is "^17.0.2"
 
-"@githubnext/utils@^0.19.6":
-  version "0.19.6"
-  resolved "https://registry.yarnpkg.com/@githubnext/utils/-/utils-0.19.6.tgz#d48ff8861deee3b6c2f826bc1dc7b1ad00819a6f"
-  integrity sha512-Y+NSr9ykNxa0WEm7175fp3aekKJK4d52jqhv3vs0hr2BdQwftmq3rPrsE2Fe2LIpUu+/4XqwG9F+07icyTnvQw==
+"@githubnext/utils@^0.19.7":
+  version "0.19.7"
+  resolved "https://registry.yarnpkg.com/@githubnext/utils/-/utils-0.19.7.tgz#c2a29cce364c8de3df4b6c224f566cec59b33454"
+  integrity sha512-gl4a7YfcYmCJuSaZRi4BMTq9Lmfvx4U4k5OzMoISh1auAUPwEwR2F8XNlIsaqVtf9wkWGR6iUkz1UR22BzgCtw==
   dependencies:
     "@types/lodash.uniqueid" "^4.0.6"
     lodash.uniqueid "^4.0.1"
