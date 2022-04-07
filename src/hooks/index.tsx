@@ -76,7 +76,10 @@ export async function getFileContent(
 
   const apiUrl = `https://api.github.com/repos/${owner}/${repo}/contents/${path}?ref=${branch}`;
   const res = await fetch(apiUrl, {
-    headers: PAT ? { Authorization: `token ${PAT}` } : {},
+    headers: {
+      ...(PAT ? { Authorization: `token ${PAT}` } : {}),
+      Accept: "application/vnd.github.VERSION.raw",
+    },
   });
 
   if (res.status !== 200) throw new Error("Something bad happened");
