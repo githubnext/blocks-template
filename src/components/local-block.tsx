@@ -92,7 +92,7 @@ export const LocalBlock = (props: LocalBlockProps) => {
     const data = await onRequestGitHubDataFetch(
       path,
       params,
-      PAT ? `Bearer ${PAT}` : undefined
+      PAT ? `${PAT}` : undefined
     );
     window.postMessage(
       {
