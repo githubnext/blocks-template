@@ -7,8 +7,7 @@ import {
   RepoFiles,
   onRequestGitHubData as onRequestGitHubDataFetch,
 } from "@githubnext/utils";
-
-const PAT = import.meta.env.VITE_GITHUB_PAT;
+import { BaseStyles, ThemeProvider } from "@primer/react";
 
 interface Block {
   id: string;
@@ -22,13 +21,20 @@ interface Block {
 }
 interface LocalBlockProps {
   block: Block;
-  contents?: string;
+  content?: string;
   tree?: RepoFiles;
   metadata?: any;
   context: FileContext | FolderContext;
 }
 export const LocalBlock = (props: LocalBlockProps) => {
-  const { block, contents, tree, metadata = {}, context } = props;
+  const {
+    block,
+    content: originalContent,
+    tree,
+    metadata = {},
+    context,
+  } = props;
+  const [content, setContent] = useState<string>(originalContent || "");
 
   const [Block, setBlock] = useState<React.ComponentType<any> | null>(null);
 
@@ -62,18 +68,6 @@ export const LocalBlock = (props: LocalBlockProps) => {
       "*"
     );
   }, []);
-  const onRequestUpdateContent = useCallback((content) => {
-    console.log(`Triggered a request to update the file contents`);
-    console.log("From:", contents);
-    console.log("To:", content);
-    window.postMessage(
-      {
-        type: "update-file",
-        content,
-      },
-      "*"
-    );
-  }, []);
   const onRequestGitHubData = async (
     path: string,
     params: Record<string, any> = {},
@@ -89,11 +83,7 @@ export const LocalBlock = (props: LocalBlockProps) => {
       },
       "*"
     );
-    const data = await onRequestGitHubDataFetch(
-      path,
-      params,
-      PAT ? `${PAT}` : undefined
-    );
+    const data = await onRequestGitHubDataFetch(path, params);
     window.postMessage(
       {
         type: "github-data--response",
@@ -107,38 +97,21 @@ export const LocalBlock = (props: LocalBlockProps) => {
 
   if (!Block) return null;
   return (
-    <Block
-      context={context}
-      content={contents}
-      tree={tree}
-      metadata={metadata}
-      onUpdateMetadata={onUpdateMetadata}
-      onNavigateToPath={onNavigateToPath}
-      onRequestUpdateContent={onRequestUpdateContent}
-      onRequestGitHubData={onRequestGitHubData}
-    />
+    <ThemeProvider>
+      <BaseStyles>
+        <Block
+          context={context}
+          content={content}
+          originalContent={originalContent}
+          isEditable={true}
+          tree={tree}
+          metadata={metadata}
+          onUpdateMetadata={onUpdateMetadata}
+          onNavigateToPath={onNavigateToPath}
+          onUpdateContent={setContent}
+          onRequestGitHubData={onRequestGitHubData}
+        />
+      </BaseStyles>
+    </ThemeProvider>
   );
-};
-
-const fetchGitHubData = async (
-  path: string,
-  params: Record<string, any> = {},
-  id: string = ""
-) => {
-  const apiUrl = `https://api.github.com${path}`;
-
-  const res = await fetch(apiUrl, {
-    ...params,
-    // this callback is limited to GET requests
-    method: "GET",
-  });
-
-  if (res.status !== 200) {
-    throw new Error(
-      `Error fetching generic GitHub API data: ${apiUrl}\n${await res.text()}`
-    );
-  }
-
-  const resObject = await res.json();
-  return resObject;
 };

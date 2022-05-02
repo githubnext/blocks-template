@@ -1,4 +1,5 @@
 import { FileBlockProps, getLanguageFromFilename } from "@githubnext/utils";
+import { Button, Box } from "@primer/react";
 import "./index.css";
 
 export default function (props: FileBlockProps) {
@@ -8,24 +9,35 @@ export default function (props: FileBlockProps) {
     : "N/A";
 
   return (
-    <div className="Box m-4">
-      <div className="Box-header">
-        <h3 className="Box-title">
-          File: {context.path} {language}
-        </h3>
-      </div>
-      <div className="Box-body">
-        Metadata example: this button has been clicked{" "}
-        <button
-          className="btn"
-          onClick={() =>
-            onUpdateMetadata({ number: (metadata.number || 0) + 1 })
-          }
+    <Box p={4}>
+      <Box
+        borderColor="border.default"
+        borderWidth={1}
+        borderStyle="solid"
+        borderRadius={6}
+        overflow="hidden"
+      >
+        <Box
+          bg="canvas.subtle"
+          p={3}
+          borderBottomWidth={1}
+          borderBottomStyle="solid"
+          borderColor="border.default"
         >
-          {metadata.number || 0} times
-        </button>
-        <pre className="mt-3 p-3">{content}</pre>
-      </div>
-    </div>
+          File: {context.path} {language}
+        </Box>
+        <Box p={4}>
+          <p>Metadata example: this button has been clicked:</p>
+          <Button
+            onClick={() =>
+              onUpdateMetadata({ number: (metadata.number || 0) + 1 })
+            }
+          >
+            {metadata.number || 0} times
+          </Button>
+          <pre className="mt-3 p-3">{content}</pre>
+        </Box>
+      </Box>
+    </Box>
   );
 }

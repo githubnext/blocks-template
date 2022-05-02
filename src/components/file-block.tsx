@@ -55,7 +55,7 @@ export function FileBlock(props: Omit<AppInnerProps, "onReset" | "blockType">) {
         }}
       >
         <ProductionBlock
-          contents={data.content}
+          content={data.content}
           context={{
             ...data.context,
             file: name,
@@ -73,7 +73,7 @@ export function FileBlock(props: Omit<AppInnerProps, "onReset" | "blockType">) {
         }}
       >
         <LocalBlock
-          contents={data.content}
+          content={data.content}
           context={{
             ...data.context,
             file: name,

@@ -46,10 +46,11 @@
     }
   ],
   "dependencies": {
-    "@codesandbox/sandpack-react": "^0.13.13",
-    "@githubnext/utils": "^0.19.7",
+    "@codesandbox/sandpack-react": "^0.19.3",
+    "@githubnext/utils": "^0.22.0",
     "@loadable/component": "^5.15.0",
     "@octokit/rest": "^18.12.0",
+    "@primer/react": "^35.2.0",
     "@types/lodash.uniqueid": "^4.0.6",
     "git-url-parse": "^11.6.0",
     "lodash.uniqueid": "^4.0.1",
@@ -57,7 +58,14 @@
     "react": "^17.0.0",
     "react-dom": "^17.0.0",
     "react-error-boundary": "^3.1.4",
-    "react-query": "^3.32.3"
+    "react-query": "^3.32.3",
+    "styled-components": "^5.3.3"
+  },
+  "resolutions": {
+    "react": "^17.x.x",
+    "react-dom": "^17.x.x",
+    "@types/react": "^17.x.x",
+    "@types/react-dom": "^17.x.x"
   },
   "devDependencies": {
     "@types/git-url-parse": "^9.0.1",

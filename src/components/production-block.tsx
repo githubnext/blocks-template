@@ -1,5 +1,5 @@
 import { SandpackProvider, SandpackPreview } from "@codesandbox/sandpack-react";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 // @ts-ignore
 import {
   FileContext,
@@ -20,7 +20,7 @@ type Block = {
 };
 interface ProductionBlockProps {
   block: Block;
-  contents?: string;
+  content?: string;
   tree?: RepoFiles;
   metadata?: any;
   context: FileContext | FolderContext;
@@ -30,10 +30,19 @@ interface BundleCode {
   content: string;
 }
 export const ProductionBlock = (props: ProductionBlockProps) => {
-  const { block, contents, tree, metadata = {}, context } = props;
+  const {
+    block,
+    content: originalContent,
+    tree,
+    metadata = {},
+    context,
+  } = props;
+  const [content, setContent] = useState<string>(originalContent || "");
 
   const [bundleCode, setBundleCode] = useState<BundleCode[]>([]);
-  const id = useRef(uniqueId("sandboxed-block-"));
+  const id = useMemo(() => uniqueId("sandboxed-block-"), []);
+
+  const [sandbox, setSandbox] = useState<Window | null>(null);
 
   const getContents = async () => {
     const allContent = await import.meta.glob(`./../../dist/**`);
@@ -59,7 +68,7 @@ export const ProductionBlock = (props: ProductionBlockProps) => {
 
   useEffect(() => {
     const onMessage = async (event: MessageEvent) => {
-      if (event.data.id === id.current) {
+      if (event.data.id === id) {
         const { data, origin, source } = event;
 
         // handle messages from the sandboxed block
@@ -68,30 +77,43 @@ export const ProductionBlock = (props: ProductionBlockProps) => {
         );
         if (!source || !originRegex.test(origin)) return;
         const window = source as Window;
-        if (data.type === "github-data--request") {
-          onRequestGitHubData(data.path, data.params)
-            .then((res) => {
-              window.postMessage(
-                {
-                  type: "github-data--response",
-                  id: id.current,
-                  data: res,
-                },
-                origin
-              );
-            })
-            .catch((e) => {
-              window.postMessage(
-                {
-                  type: "github-data--response",
-                  id: id.current,
-                  // Error is not always serializable
-                  // https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API/Structured_clone_algorithm#things_that_dont_work_with_structured_clone
-                  error: e instanceof Error ? e.message : e,
-                },
-                origin
-              );
-            });
+
+        switch (data.type) {
+          case "sandbox-ready":
+            setSandbox(window);
+            break;
+
+          case "update-file":
+            setContent(data.content);
+            break;
+
+          case "github-data--request":
+            onRequestGitHubData(data.path, data.params)
+              .then((res) => {
+                window.postMessage(
+                  {
+                    type: "github-data--response",
+                    id,
+                    requestId: data.requestId,
+                    data: res,
+                  },
+                  origin
+                );
+              })
+              .catch((e) => {
+                window.postMessage(
+                  {
+                    type: "github-data--response",
+                    id,
+                    requestId: data.requestId,
+                    // Error is not always serializable
+                    // https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API/Structured_clone_algorithm#things_that_dont_work_with_structured_clone
+                    error: e instanceof Error ? e.message : e,
+                  },
+                  origin
+                );
+              });
+            break;
         }
       }
     };
@@ -99,21 +121,36 @@ export const ProductionBlock = (props: ProductionBlockProps) => {
     return () => removeEventListener("message", onMessage);
   }, []);
 
-  if (!bundleCode.length) {
-    return <div>No bundle found</div>;
-  }
+  const files = useMemo(() => {
+    if (!bundleCode) return null;
+    return bundleCodesandboxFiles({
+      block,
+      bundleCode,
+      id,
+    });
+  }, [bundleCode, block, id]);
 
-  const files = bundleCodesandboxFiles({
-    block,
-    bundleCode,
-    context,
-    id: id.current,
-    contents,
-    tree,
-    metadata,
-  });
+  useEffect(() => {
+    if (!sandbox) return;
 
-  if (!bundleCode) return null;
+    // the file / folder contents may still be loading
+    if (
+      (block.type === "file" && !content) ||
+      (block.type === "folder" && !tree)
+    )
+      return;
+
+    const props = {
+      block,
+      content,
+      originalContent,
+      isEditable: true,
+      tree,
+      metadata,
+      context,
+    };
+    sandbox.postMessage({ type: "set-props", id, props }, "*");
+  }, [sandbox, block, content, originalContent, tree, metadata, context, id]);
 
   return (
     <div
@@ -123,10 +160,12 @@ export const ProductionBlock = (props: ProductionBlockProps) => {
       }}
     >
       <SandpackProvider
-        externalResources={["https://cdn.tailwindcss.com"]}
         template="react"
         customSetup={{
-          dependencies: {},
+          dependencies: {
+            "styled-components": "^5.3.3",
+            "@primer/react": "^35.2.0",
+          },
           files,
         }}
         autorun
