@@ -61,6 +61,12 @@
     "react-query": "^3.32.3",
     "styled-components": "^5.3.3"
   },
+  "resolutions": {
+    "react": "17.0.0",
+    "react-dom": "17.0.0",
+    "@types/react": "17.0.0",
+    "@types/react-dom": "17.0.0"
+  },
   "devDependencies": {
     "@types/git-url-parse": "^9.0.1",
     "@types/parse-github-url": "^1.0.0",

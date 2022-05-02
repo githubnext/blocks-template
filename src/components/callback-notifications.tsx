@@ -29,11 +29,6 @@ export const CallbackNotifications = ({}) => {
           info: <>New metadata:</>,
           details: JSON.stringify(event.data.metadata, null, 2),
         },
-        "update-file": {
-          title: "Update file contents",
-          info: <>New file contents:</>,
-          details: JSON.stringify(event.data.content, null, 2),
-        },
         "navigate-to-path": {
           title: "Navigate to path",
           info: <>Requested to navigate to page:</>,
