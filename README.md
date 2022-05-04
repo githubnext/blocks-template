@@ -117,6 +117,10 @@ interface BlockProps {
   };
   metadata: any;
 
+  // whether or not a user can edit the content
+  // for example, this will be false if they only have read access to the repo
+  isEditable: boolean;
+
   // callback functions
   onUpdateMetadata: (
     newMetadata: any,
@@ -124,7 +128,7 @@ interface BlockProps {
     block: Block,
     currentMetadata: any
   ) => void;
-  onRequestUpdateContent: (newContent: string) => void;
+  onUpdateContent: (newContent: string) => void;
   onRequestGitHubData: (
     // this is any GET endpoint in the GitHub API:
     // https://docs.github.com/en/rest/overview/endpoints-available-for-github-apps
