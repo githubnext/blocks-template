@@ -207,6 +207,11 @@ git push --tags # Push the tag to GitHub
 
 Pushing a new tag should kick-start a GitHub action that builds your relase. Wait for that to finish and find a release with your same tag number.
 
+From the repository settings page, make sure that your workflow have **Read and write** permissions or the action will fail with a 403 error.
+
+<img width="805" alt="Screen Shot 2022-05-11 at 8 14 06 AM" src="https://user-images.githubusercontent.com/5148596/167847856-22ad190a-d73c-4b97-a0e2-c3c854db0d4f.png">
+
+
 <img width="1097" alt="Screen Shot 2021-12-03 at 3 03 33 PM" src="https://user-images.githubusercontent.com/8978670/144665796-cb1ff450-c872-47c5-90b3-f74aea10286b.png" />
 
 <img width="152" alt="Screen Shot 2021-12-03 at 3 02 10 PM" src="https://user-images.githubusercontent.com/8978670/144665673-431e28f9-9e9d-43b3-87f8-1e5d98bed92c.png" />
