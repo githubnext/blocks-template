@@ -1,4 +1,4 @@
-import { FileBlockProps, getLanguageFromFilename } from "@githubnext/utils";
+import { FileBlockProps, getLanguageFromFilename } from "blocks-dev";
 import { Button, Box } from "@primer/react";
 import "./index.css";
 
