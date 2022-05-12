@@ -5,7 +5,7 @@
     "title": "Example File Block",
     "description": "A basic file block",
     "entry": "blocks/example-file-block/index.tsx",
-    "extensions": ["*"],
+    "matches": ["*"],
     "example_path": "https://github.com/facebook/react/blob/main/packages/react-dom/index.js"
   },
   {
@@ -14,7 +14,7 @@
     "title": "Example Folder Block",
     "description": "A basic folder block",
     "entry": "blocks/example-folder-block.tsx",
-    "extensions": ["*"],
+    "matches": ["*"],
     "example_path": "https://github.com/githubocto/flat"
   }
 ]
