@@ -26,7 +26,7 @@ The button will take you to a screen to specify what you want to name your own r
 
 ```bash
 yarn # install dependencies
-yarn dev # start the dev server
+yarn start # start the dev server
 ```
 
 A development server should now be running on [localhost:4000](localhost:4000).
