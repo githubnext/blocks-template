@@ -26,7 +26,7 @@ The button will take you to a screen to specify what you want to name your own r
 
 ```bash
 yarn # install dependencies
-yarn dev # start the dev server
+yarn start # start the dev server
 ```
 
 A development server should now be running on [localhost:4000](localhost:4000).
@@ -50,7 +50,7 @@ You can play with two bits of the interface to view your Blocks:
 - https://github.com/facebook/react/tree/0.3-stable (folder)
 - https://github.com/facebook/react/tree/main/packages (folder)
 
-2. **List of custom blocks**: A `select` that lists out the contents of the `blocks` array that you have defined in `/package.json`.
+2. **List of custom blocks**: A `select` that lists out the contents of the array that you have defined in `/blocks.config.json`.
 
 Once you've entered a valid path, choose from the different block types and the content should be rendered beneath. Be sure to check your console for errors if you think something has broken!
 
@@ -60,7 +60,7 @@ To create or customize your own custom blocks you need to do two things:
 
 ### Step 3.1: Define your custom block
 
-If you open up `package.json` and locate the `blocks` key, you'll notice an array of block objects with the definitions for each custom block. It looks lke this:
+If you open up `/blocks.config.json`, you'll notice an array of block objects with the definitions for each custom block. It looks like this:
 
 ```ts
 interface BlockDefinition {
@@ -89,7 +89,7 @@ From top to bottom:
 
 ### Step 3.2: Code your Block
 
-Most of your code will go within: `src/blocks/`.
+Most of your code will go within: `blocks/`.
 
 This is where you'll find our two example blocks.
 
@@ -210,7 +210,6 @@ Pushing a new tag should kick-start a GitHub action that builds your relase. Wai
 From the repository settings page, make sure that your workflow have **Read and write** permissions or the action will fail with a 403 error.
 
 <img width="805" alt="Screen Shot 2022-05-11 at 8 14 06 AM" src="https://user-images.githubusercontent.com/5148596/167847856-22ad190a-d73c-4b97-a0e2-c3c854db0d4f.png">
-
 
 <img width="1097" alt="Screen Shot 2021-12-03 at 3 03 33 PM" src="https://user-images.githubusercontent.com/8978670/144665796-cb1ff450-c872-47c5-90b3-f74aea10286b.png" />
 

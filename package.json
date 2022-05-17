@@ -1,85 +1,14 @@
 {
   "name": "custom-block-template",
   "version": "0.0.0",
-  "watch": {
-    "build-blocks": {
-      "patterns": [
-        "src"
-      ],
-      "extensions": "js,jsx,ts,tsx,css"
-    }
-  },
-  "lint-staged": {
-    "**/*": "prettier --write --ignore-unknown"
-  },
+  "license": "MIT",
   "scripts": {
-    "watch": "npm-watch",
-    "dev": "concurrently --kill-others \"npm run local\" \"npm run watch\"",
-    "local": "vite --port 4000",
-    "build": "tsc && vite build",
-    "build-blocks": "node ./build.ts",
-    "serve": "vite preview",
-    "prepare": "husky install"
+    "start": "blocks start",
+    "build": "blocks build"
   },
-  "blocks": [
-    {
-      "type": "file",
-      "id": "file-block",
-      "title": "Example File Block",
-      "description": "A basic file block",
-      "entry": "/src/blocks/example-file-block/index.tsx",
-      "extensions": [
-        "*"
-      ],
-      "example_path": "https://github.com/facebook/react/blob/main/packages/react-dom/index.js"
-    },
-    {
-      "type": "folder",
-      "id": "folder-block",
-      "title": "Example Folder Block",
-      "description": "A basic folder block",
-      "entry": "/src/blocks/example-folder-block/index.tsx",
-      "extensions": [
-        "*"
-      ],
-      "example_path": "https://github.com/githubocto/flat"
-    }
-  ],
   "dependencies": {
-    "@codesandbox/sandpack-react": "^0.19.3",
-    "@githubnext/utils": "^0.22.0",
-    "@loadable/component": "^5.15.0",
-    "@octokit/rest": "^18.12.0",
-    "@primer/react": "^35.2.0",
-    "@types/lodash.uniqueid": "^4.0.6",
-    "git-url-parse": "^11.6.0",
-    "lodash.uniqueid": "^4.0.1",
-    "parse-static-imports": "^1.1.0",
-    "react": "^17.0.0",
-    "react-dom": "^17.0.0",
-    "react-error-boundary": "^3.1.4",
-    "react-query": "^3.32.3",
-    "styled-components": "^5.3.3"
-  },
-  "resolutions": {
-    "react": "^17.x.x",
-    "react-dom": "^17.x.x",
-    "@types/react": "^17.x.x",
-    "@types/react-dom": "^17.x.x"
-  },
-  "devDependencies": {
-    "@types/git-url-parse": "^9.0.1",
-    "@types/parse-github-url": "^1.0.0",
-    "@types/react": "^17.0.0",
-    "@types/react-dom": "^17.0.0",
-    "@vitejs/plugin-react": "^1.0.0",
-    "concurrently": "^6.4.0",
-    "esbuild": "^0.13.14",
-    "husky": "^7.0.4",
-    "lint-staged": "^12.3.5",
-    "npm-watch": "^0.11.0",
-    "prettier": "2.5.1",
-    "typescript": "^4.3.2",
-    "vite": "^2.6.4"
+    "@githubnext/blocks": "^1.0.0",
+    "react": "^18.1.0",
+    "react-dom": "^18.1.0"
   }
 }

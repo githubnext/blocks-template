@@ -1,4 +1,4 @@
-import { FolderBlockProps } from "@githubnext/utils";
+import { FolderBlockProps } from "@githubnext/blocks";
 import { Box } from "@primer/react";
 
 export default function (props: FolderBlockProps) {
