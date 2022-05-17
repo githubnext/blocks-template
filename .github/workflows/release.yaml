@@ -14,7 +14,7 @@ jobs:
         run: yarn install
 
       - name: Compile assets
-        run: node ./build.ts
+        run: yarn build
 
       - name: Create block tarballs
         run: node ./release.ts
