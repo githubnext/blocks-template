@@ -207,9 +207,7 @@ If you want your blocks to show up in the block picker in GitHub Blocks, you nee
 
 <img width="323" alt="Screen Shot 2021-12-03 at 2 54 55 PM" src="https://user-images.githubusercontent.com/8978670/144665902-63543c98-2486-4e13-9c54-f1d4bc6544a4.png" />
 
-**This step is optional!** If you aren't ready to share your block with others, don't tag the repo. Your blocks won't show up in the block picker, but you can still paste the block key (`{owner}/{repo}/{block id}`) into the search box at the top of the block picker.
-
-Blocks in private repos tagged with the `github-blocks` topic show up in the block picker, but only for users who can access the repo.
+**This step is optional!** If you aren't ready to share your block with others, don't tag the repo. Your blocks won't show up in the block picker by default, but you can paste the repo URL (`https://github.com/{owner}/{repo}`) into the search box at the top of the block picker to search blocks in the repo.
 
 ### Step 4.2: Push a new tag
 
