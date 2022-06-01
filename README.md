@@ -106,7 +106,7 @@ A few caveats and callouts:
 - To make authenticated requests to the GitHub API, create a [personal access token](https://help.github.com/en/github/authenticating-to-github/creating-a-personal-access-token-for-the-command-line) (with `repo` scope) and pass it when you start the dev server:
 
 ```
-VITE_GITHUB_PAT=${your personal access token} yarn dev
+VITE_GITHUB_PAT=${your personal access token} yarn start
 ```
 
 or put it in your [`.env`](https://vitejs.dev/guide/env-and-mode.html#env-files) file in the project root directory.
