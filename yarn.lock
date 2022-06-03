@@ -265,10 +265,10 @@
   resolved "https://registry.yarnpkg.com/@emotion/unitless/-/unitless-0.7.5.tgz#77211291c1900a700b8a78cfafda3160d76949ed"
   integrity sha512-OWORNpfjMsSSUBVrRBVGECkhWcULOAJz9ZW8uK9qgxD+87M7jHRcvh/A96XXNhXTLmKcoYSQtBEX7lHMO7YRwg==
 
-"@githubnext/blocks@^1.0.6":
-  version "1.0.6"
-  resolved "https://registry.yarnpkg.com/@githubnext/blocks/-/blocks-1.0.6.tgz#c9c73e554c6e33be1c7aace76d03c5f030365fe6"
-  integrity sha512-yp/70/ni2z0IdeB8u5b7djhZpQhHdjLFT97xLgFl19n2ugKfL+A4/tzaZBjDf1bQpx2viQErtDFTLjxa8Mxikw==
+"@githubnext/blocks@^1.1.1":
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/@githubnext/blocks/-/blocks-1.1.1.tgz#c488eeb3cd0ebba63f7af672bd077701bcc1bf66"
+  integrity sha512-W6fVSzltLeEWlZUdP/Rg6BqqYlyXCbFkElhDdceO6ip/UdSOF+WrSDsqTILqwJMmW9Sbkn0MgBmFzNXi9b21Xw==
   dependencies:
     "@loadable/component" "^5.15.0"
     "@octokit/openapi-types" "^11.2.0"
