@@ -161,7 +161,7 @@ redirected to the Blocks app with your locally-developed blocks embedded in it.
 You can see your blocks by clicking on the block picker toward the top of the
 page (they're shown at the top in blue with a plug icon):
 
-![Block picker](https://user-images.githubusercontent.com/56439/181648955-101b6567-3f9b-44b3-af99-7ef3ca6161b9.png)
+<img src="https://user-images.githubusercontent.com/56439/181648955-101b6567-3f9b-44b3-af99-7ef3ca6161b9.png" width="418" />
 
 This starter project has one example folder block and one example file block.
 Try choosing one of the example blocks in the block picker to see it in action.
