@@ -2,7 +2,9 @@
 
 > 📣 Use this repository as a starter template if you're a GitHub user interested in building your own custom Blocks!
 
-The project is built with [React](https://reactjs.org/), [Typescript](https://www.typescriptlang.org/), and [Vite](https://vitejs.dev/). We'll guide you through how to use it.
+This project contains [React](https://reactjs.org/) components written in
+[Typescript](https://www.typescriptlang.org/) and bundled with
+[Vite](https://vitejs.dev/). Read on to learn how to build Blocks with it!
 
 #### GitHub Blocks API
 
@@ -64,13 +66,14 @@ interface CommonBlockProps {
     // owner, repo, and id identifying the block
     block: { owner: string; repo: string; id: string };
 
-    // the file or folder to view; omitted fields default to the current file or folder
-    context: Partial<{
-      owner: string;
-      repo: string;
-      path: string;
-      sha: string;
-    }>;
+    // optional context specifying the file or folder to view;
+    // omitted context or omitted fields default to the current file or folder
+    context?:
+      owner?: string;
+      repo?: string;
+      path?: string;
+      sha?: string;
+    };
   }) => JSX.Element;
 }
 ```
@@ -138,11 +141,11 @@ This template project includes a dependency on the GitHub Blocks utility library
 
 This repo is a template! To use it just click on the "Use this template" button on the top right to set it up for your use.
 
-<img width="495" alt="Screen Shot 2021-12-06 at 12 29 29 PM" src="https://user-images.githubusercontent.com/8978670/144893319-5d45ab5c-12c0-42b4-99f8-97f658deb03b.png" />
+<img width="495" alt="&quot;Use this template&quot; button" src="https://user-images.githubusercontent.com/8978670/144893319-5d45ab5c-12c0-42b4-99f8-97f658deb03b.png" />
 
 The button will take you to a screen to specify what you want to name your own repo.
 
-<img width="801" alt="Screen Shot 2021-12-06 at 12 29 17 PM" src="https://user-images.githubusercontent.com/8978670/144893351-25b24bfa-3400-4e92-9a2a-618b3ac06a5e.png" />
+<img width="801" alt="&quot;Create a new repository from blocks-template&quot; screen" src="https://user-images.githubusercontent.com/8978670/144893351-25b24bfa-3400-4e92-9a2a-618b3ac06a5e.png" />
 
 ## Step 1. Develop locally
 
@@ -161,7 +164,7 @@ redirected to the Blocks app with your locally-developed blocks embedded in it.
 You can see your blocks by clicking on the block picker toward the top of the
 page (they're shown at the top in blue with a plug icon):
 
-<img src="https://user-images.githubusercontent.com/56439/181648955-101b6567-3f9b-44b3-af99-7ef3ca6161b9.png" width="418" />
+<img alt="Block picker" src="https://user-images.githubusercontent.com/56439/181648955-101b6567-3f9b-44b3-af99-7ef3ca6161b9.png" width="418" />
 
 This starter project has one example folder block and one example file block.
 Try choosing one of the example blocks in the block picker to see it in action.
@@ -169,17 +172,8 @@ When you make changes to the block code it will be hot-reloaded in the app.
 
 If you don't see your blocks, make sure that:
 
-- your repo is public
 - your development server is running
-- there's a `devServer` query parameter in the URL pointing to your development server
-
-If you prefer not the make your blocks development repo public, it is still
-possible to use the development server with the Blocks app. To do so you need to
-install the Blocks [GitHub
-App](https://docs.github.com/en/developers/apps/getting-started-with-apps/about-apps)
-on your repo: view the repo through the Blocks app (e.g.
-[https://blocks.githubnext.com/jaked/my-first-block]), then follow the "Install
-app" link at the top of the page.
+- there's a `devServer` query parameter in the URL pointing to your development server [like this](https://blocks.githubnext.com/githubnext/blocks-tutorial?devServer=http://localhost:4000)
 
 ## Step 3. Build your custom Blocks with the GitHub Blocks API
 
@@ -249,11 +243,11 @@ Look under Actions for your repo to see that your build has finished. The latest
 
 From the repository settings page, make sure that your workflow has **Read and write** permissions or the action will fail with a 403 error.
 
-<img width="805" alt="Screen Shot 2022-05-11 at 8 14 06 AM" src="https://user-images.githubusercontent.com/5148596/167847856-22ad190a-d73c-4b97-a0e2-c3c854db0d4f.png">
+<img width="805" alt="&quot;Workflow permissions&quot; setting" src="https://user-images.githubusercontent.com/5148596/167847856-22ad190a-d73c-4b97-a0e2-c3c854db0d4f.png" />
 
-<img width="1097" alt="Screen Shot 2021-12-03 at 3 03 33 PM" src="https://user-images.githubusercontent.com/8978670/144665796-cb1ff450-c872-47c5-90b3-f74aea10286b.png" />
+<img width="1097" alt="Successful build action screen" src="https://user-images.githubusercontent.com/8978670/144665796-cb1ff450-c872-47c5-90b3-f74aea10286b.png" />
 
-<img width="152" alt="Screen Shot 2021-12-03 at 3 02 10 PM" src="https://user-images.githubusercontent.com/8978670/144665673-431e28f9-9e9d-43b3-87f8-1e5d98bed92c.png" />
+<img width="152" alt="Tagged release" src="https://user-images.githubusercontent.com/8978670/144665673-431e28f9-9e9d-43b3-87f8-1e5d98bed92c.png" />
 
 ### Step 4.3: Test your production block in the Blocks app
 
@@ -269,9 +263,11 @@ Everything should work the same as before!
 
 If you want your blocks to show up in the block picker in GitHub Blocks, you need to tag this repository with the topic `github-blocks` so the application can find it.
 
-<img width="323" alt="Screen Shot 2021-12-03 at 2 54 55 PM" src="https://user-images.githubusercontent.com/8978670/144665902-63543c98-2486-4e13-9c54-f1d4bc6544a4.png" />
+<img width="323" alt="Repository tagged with &quot;github-blocks&quot;" src="https://user-images.githubusercontent.com/8978670/144665902-63543c98-2486-4e13-9c54-f1d4bc6544a4.png" />
 
 **This step is optional!** If you aren't ready to share your block with others,
 don't tag the repo. Your blocks won't show up in the block picker by default,
 but you can still paste the repo URL (`https://github.com/{owner}/{repo}`) into
-the search box at the top of the block picker to search blocks in the repo.
+the search box at the top of the block picker to search blocks in the repo. If
+your repo is private, only people with access to the repo can see and use your
+blocks.
