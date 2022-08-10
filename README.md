@@ -6,9 +6,19 @@ This project contains [React](https://reactjs.org/) components written in
 [Typescript](https://www.typescriptlang.org/) and bundled with
 [Vite](https://vitejs.dev/). Read on to learn how to build Blocks with it!
 
-#### GitHub Blocks API
+## What are blocks?
 
-A Block is a React component; it receives props and returns JSX. The Blocks application provides props describing the content to render, and also callback props that Blocks can use to update content or metadata, or call the GitHub API.
+Blocks allow you to extend GitHub's interface in some pretty powerful ways! It could be as simple as a custom renderer for files or folders in your repository, and it can be as flexible as a full interface for editing content.
+
+You can view any repository in the experimental Blocks interface at [blocks.githubnext.com](https://blocks.githubnext.com). 
+
+> 🚨 Blocks is currently a technical preview! It may have bugs or issues, and should not be used for anything mission-critical.
+
+Check out some [blocks examples](https://blocks.githubnext.com/githubnext/blocks-tutorial) to get a better sense for what you can do with blocks, and see how some are authored.
+
+## Under the hood
+
+A Block is a React component; it receives a fixed set of props and returns JSX. The Blocks web application which knows how to find and render Blocks provides props describing the content to render, and also hooks that a Block can use to update content or metadata, or call the GitHub API.
 
 There are two kinds of of Blocks: File Blocks and Folder Blocks. Their API is mostly the same, except that File Blocks receive file content and Folder Blocks receive folder content.
 
