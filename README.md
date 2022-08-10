@@ -147,13 +147,13 @@ Often, metadata is used to store configuration data, so that you can customize h
 
 To store or update metadata, call the `onUpdateMetadata` hook which is supplied to your block as a prop. The user will be prompted to accept the change and commit the new metadata to the repository.
 
-When you next view the specific content with that block, the metadata prop will include the committed metadata.
+When you next view the specific content with that block, the metadata prop will contain the committed metadata.
 
 ### Updating content
 
 Blocks are not just for viewing content! They can also offer custom interfaces for editing content.
 
-There are two props which facilitate editing content in blocks:
+There are three props which facilitate editing content in blocks:
 
 - `originalContent`: contains the original contents of the file. This is useful if you want to be able to display a diff of changes made, but not yet committed.
 - `isEditable`: a flag indicating whether the current user has permission to edit the file. If it is false, the block should disable editing functionality, if present.
@@ -177,7 +177,7 @@ block for an example of their use.
 
 ### Relevant repos
 
-* [Blocks examples](https://github.com/githubnext/blocks-examples)
+[Blocks examples](https://github.com/githubnext/blocks-examples)
 
 Example blocks that we've built to showcase the API.
 
