@@ -22,7 +22,25 @@ A Block is a React component; it receives a fixed set of props and returns JSX. 
 
 There are two kinds of of Blocks: File Blocks and Folder Blocks. Their API is mostly the same, except that File Blocks receive file content and Folder Blocks receive folder content.
 
-All blocks receive the following props:
+## How are blocks developed and shared?
+
+You develop blocks in regular GitHub repos. You can [click here to use this repository as a template](https://github.com/githubnext/blocks-template/generate) to develop a new block!
+
+> 💖 There's no deploy step needed! Just push your block to a GitHub repo in order to use it, anywhere.
+
+Once developed, you can _use_ a block on any repository by picking it from the block picker:
+
+![Screenshot showing the blocks interface with the block picker open and the mouse cursor hovering over the Markdown block](https://user-images.githubusercontent.com/22723/184006093-3dc85092-a783-4cf3-a953-0dc786f8bd62.png)
+
+If your block is not in the dropdown list, you can paste the URL of the repo containing your block into the search field at the top of the block picker.
+
+A block can be used by anyone that can see the repository where that block is developed. If the repo is private, it is usable by any collaborator that has read permissions (or better) on that repo.
+
+## Blocks API
+
+These are the props that are supplied to every block when it is mounted. These are fixed: you can't change the props, and you can't control the information passed in each prop as they are automatically determined based on the underlying repo and content.
+
+### Props received by all blocks
 
 ```ts
 interface CommonBlockProps {
@@ -88,7 +106,7 @@ interface CommonBlockProps {
 }
 ```
 
-File Blocks additionally receive
+### Props received by file blocks
 
 ```ts
 interface FileBlockProps {
@@ -105,7 +123,7 @@ interface FileBlockProps {
 }
 ```
 
-Folder Blocks additionally receive
+### Props received by folder blocks
 
 ```ts
 interface FolderBlockProps {
@@ -121,25 +139,45 @@ interface FolderBlockProps {
 }
 ```
 
-`metadata` is a free-form prop that can be used to store arbitrary data about the file. It's up to you to decide what you want to store in this object: anywhere from definitions of data visualizations in a charts Block to annotations for a code Block. This is unique per file/folder per Block and stored within a [`.github/blocks/file/`](https://github.com/githubnext/blocks-tutorial/tree/main/.github/blocks) folder within the viewed repo. To update the metadata, you can call the `onUpdateMetadata` prop with the updated data; the user will be prompted to accept the change and create a new commit in the repo.
+### Metadata
 
-File Blocks can implement editable content by calling `onUpdateContent` to update the current content. The Blocks application has a Save button which prompts the user to accept the change and create a new commit (or branch) in the repo. When content has been updated but not yet committed, the `originalContent` prop contains the original file content, so the block can show a diff. When the `isEditable` flag is false, the user does not have permission to edit the file, so the block should disable editing.
+Blocks can store freeform metadata about themselves in the repository where they are _used_ (as opposed to the repo containing the code that powers the block). Metadata is unique per file/folder per Block, and committed to the [`.github/blocks/`](https://github.com/githubnext/blocks-tutorial/tree/main/.github/blocks) folder.
+
+Often, metadata is used to store configuration data, so that you can customize how a block works by default for a specific file or folder in your repository.
+
+To store or update metadata, call the `onUpdateMetadata` hook which is supplied to your block as a prop. The user will be prompted to accept the change and commit the new metadata to the repository.
+
+When you next view the specific content with that block, the metadata prop will include the committed metadata.
+
+### Updating content
+
+Blocks are not just for viewing content! They can also offer custom interfaces for editing content.
+
+There are two props which facilitate editing content in blocks:
+
+- `originalContent`: contains the original contents of the file. This is useful if you want to be able to display a diff of changes made, but not yet committed.
+- `isEditable`: a flag indicating whether the current user has permission to edit the file. If it is false, the block should disable editing functionality, if present.
+- `onUpdateContent`: a hook that can be called to update content programmatically. Users can also commit changes using the `Save` button in the Blocks interface next to the block picker. Whether triggered via the hook or the save button, the Blocks application will display a dialog containing a diff to the user, and ask for their permission to make a commit. Commits recorded as being authored by the user that made (and approved) the request.
+
+
+### Nesting
 
 Blocks can be nested inside other blocks using `BlockComponent`; you can
 retrieve a list of available blocks using `onRequestBlocksRepos`. See the
 [edit-and-preview](https://github.com/githubnext/blocks-examples/blob/main/blocks/file-blocks/edit-and-preview/index.tsx)
 block for an example of their use.
 
-A few caveats and callouts:
+
+### Caveats and callouts:
 
 - You can import CSS files or split your block into multiple TypeScript files, and everything will be bundled with your block.
 - You can use any third-party dependencies from NPM; just add them with `yarn add` and import them as usual, and they'll be bundled with your block.
 - The [GitHub Primer React components](https://primer.style/react/) are already included as a dependency
 - Your Block entry file **must have the Block component as its default export** so the GitHub Blocks application can find it.
 
-##### Relevant repos
+### Relevant repos
 
-[Blocks examples](https://github.com/githubnext/blocks-examples)
+* [Blocks examples](https://github.com/githubnext/blocks-examples)
 
 Example blocks that we've built to showcase the API.
 
