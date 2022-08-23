@@ -7,7 +7,7 @@
     "build": "blocks build"
   },
   "dependencies": {
-    "@githubnext/blocks": "^2.0.7",
+    "@githubnext/blocks": "^2.0.8",
     "react": "^18.1.0",
     "react-dom": "^18.1.0"
   }
