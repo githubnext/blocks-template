@@ -6,6 +6,10 @@ This project contains [React](https://reactjs.org/) components written in
 [Typescript](https://www.typescriptlang.org/) and bundled with
 [Vite](https://vitejs.dev/). Read on to learn how to build Blocks with it!
 
+Or watch the video:
+
+https://user-images.githubusercontent.com/56439/186799325-41602d5b-708b-4905-b3a3-02f50ef52425.mp4
+
 ## What are blocks?
 
 Blocks allow you to extend GitHub's interface in some pretty powerful ways! It could be as simple as a custom renderer for files or folders in your repository, and it can be as flexible as a full interface for editing content.
