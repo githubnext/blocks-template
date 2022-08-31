@@ -385,10 +385,10 @@
   resolved "https://registry.yarnpkg.com/@esbuild/linux-loong64/-/linux-loong64-0.14.54.tgz#de2a4be678bd4d0d1ffbb86e6de779cde5999028"
   integrity sha512-bZBrLAIX1kpWelV0XemxBZllyRmM6vgFQQG2GdNb+r3Fkp0FOh1NJSvekXDs7jq70k4euu1cryLMfU+mTXlEpw==
 
-"@githubnext/blocks@^2.0.8":
-  version "2.0.8"
-  resolved "https://registry.yarnpkg.com/@githubnext/blocks/-/blocks-2.0.8.tgz#a1b7cd5ed739d8bb3cff09382d7fdabbf45d28ca"
-  integrity sha512-YBqIQzNBrEqWh8rAnC0TK/rXJH4oP7d7JTXiHgU/ZiEtqT+7gkSlVcpi6cUsWJ3MJBBdAKtLrzhvVfVn06QwLQ==
+"@githubnext/blocks@^2.1.1":
+  version "2.1.1"
+  resolved "https://registry.yarnpkg.com/@githubnext/blocks/-/blocks-2.1.1.tgz#73c65f2ff3d75b2fb8203fdf8cc1e3083e7c1a4e"
+  integrity sha512-53YsSBZRagNRjbaRRlUe9E47Vz20YPx+ZxsB9TuUjdzmnI4h4WzewJprk/L2sjNh9WcVMVCtKNB6lQGA9A6Hbw==
   dependencies:
     "@loadable/component" "^5.15.0"
     "@octokit/openapi-types" "^11.2.0"
@@ -403,6 +403,7 @@
     esbuild "0.14.54"
     express "^4.18.1"
     lodash.uniqueid "^4.0.1"
+    minimist "^1.2.6"
     parse-git-config "^3.0.0"
     picomatch-browser "^2.2.6"
     prettier "^2.6.2"
@@ -1698,6 +1699,11 @@ minimatch@^3.1.1:
   integrity sha512-J7p63hRiAjw1NDEww1W7i37+ByIrOWO5XQQAzZ3VOcL0PNybwpfmV/N05zFAzwQ9USyEcX6t3UO+K5aqBQOIHw==
   dependencies:
     brace-expansion "^1.1.7"
+
+minimist@^1.2.6:
+  version "1.2.6"
+  resolved "https://registry.yarnpkg.com/minimist/-/minimist-1.2.6.tgz#8637a5b759ea0d6e98702cfb3a9283323c93af44"
+  integrity sha512-Jsjnk4bw3YJqYzbdyBiNsPWHPfO++UGG749Cxs6peCu5Xg4nrena6OVxOYxrQTqww0Jmwt+Ref8rggumkTLz9Q==
 
 ms@2.0.0:
   version "2.0.0"
