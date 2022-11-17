@@ -17,7 +17,7 @@ yarn start # start the dev server
 # Or use npm, pnpm, you know the drill
 ```
 
-When you visit [localhost:4000](localhost:4000) in your browser, you'll be
+When you visit [localhost:4000](https://localhost:4000) in your browser, you'll be
 redirected to the Blocks app, but your locally-developed blocks will appear in the block picker:
 
 <img alt="Block picker" src="https://user-images.githubusercontent.com/56439/181648955-101b6567-3f9b-44b3-af99-7ef3ca6161b9.png" width="418" />
