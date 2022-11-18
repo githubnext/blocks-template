@@ -74,10 +74,15 @@ type Props = {
   metadata: any;
 } & (FileData | FolderData);
 
-const root = ReactDOM.createRoot(document.getElementById("root")!);
-
 function setProps(props: Props, blocksAPI: BlocksAPI) {
-  root.render(<BlockComponent {...props} {...blocksAPI} />);
+  let root: ReactDOM.Root | undefined;
+  let component = <BlockComponent {...props} {...blocksAPI} />;
+  if (root) {
+    root.render(component);
+  } else {
+    root = ReactDOM.createRoot(document.getElementById("root")!);
+    root.render(component);
+  }
 }
 
 export default setProps;
