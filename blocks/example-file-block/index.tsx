@@ -1,8 +1,16 @@
-import { FileBlockProps, getLanguageFromFilename } from "@githubnext/blocks";
-import { Button, Box } from "@primer/react";
+import {
+  Block,
+  BlocksRepo,
+  FileBlockProps,
+  FileData,
+  FolderData,
+  getLanguageFromFilename,
+} from "@githubnext/blocks";
+import { Box, Button } from "@primer/react";
+import ReactDOM from "react-dom/client";
 import "./index.css";
 
-export default function (props: FileBlockProps) {
+function BlockComponent(props: FileBlockProps) {
   const { context, content, metadata, onUpdateMetadata } = props;
   const language = Boolean(context.path)
     ? getLanguageFromFilename(context.path)
@@ -41,3 +49,35 @@ export default function (props: FileBlockProps) {
     </Box>
   );
 }
+
+type BlocksAPI = {
+  onUpdateMetadata: (_: any) => void;
+  onNavigateToPath: (_: string) => void;
+  onRequestUpdateContent: (_: string) => void;
+  onUpdateContent: (_: string) => void;
+  onRequestGitHubData: (
+    path: string,
+    params?: Record<string, any>
+  ) => Promise<any>;
+  onRequestBlocksRepos: (params?: {
+    path?: string;
+    searchTerm?: string;
+    repoUrl?: string;
+    type?: "file" | "folder";
+  }) => Promise<BlocksRepo[]>;
+  onStoreGet: (key: string) => Promise<any>;
+  onStoreSet: (key: string, value: any) => Promise<void>;
+};
+
+type Props = {
+  block: Block;
+  metadata: any;
+} & (FileData | FolderData);
+
+const root = ReactDOM.createRoot(document.getElementById("root")!);
+
+function setProps(props: Props, blocksAPI: BlocksAPI) {
+  root.render(<BlockComponent {...props} {...blocksAPI} />);
+}
+
+export default setProps;
