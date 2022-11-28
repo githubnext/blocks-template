@@ -385,10 +385,10 @@
   resolved "https://registry.yarnpkg.com/@esbuild/linux-loong64/-/linux-loong64-0.14.54.tgz#de2a4be678bd4d0d1ffbb86e6de779cde5999028"
   integrity sha512-bZBrLAIX1kpWelV0XemxBZllyRmM6vgFQQG2GdNb+r3Fkp0FOh1NJSvekXDs7jq70k4euu1cryLMfU+mTXlEpw==
 
-"@githubnext/blocks@^2.1.1":
-  version "2.1.1"
-  resolved "https://registry.yarnpkg.com/@githubnext/blocks/-/blocks-2.1.1.tgz#73c65f2ff3d75b2fb8203fdf8cc1e3083e7c1a4e"
-  integrity sha512-53YsSBZRagNRjbaRRlUe9E47Vz20YPx+ZxsB9TuUjdzmnI4h4WzewJprk/L2sjNh9WcVMVCtKNB6lQGA9A6Hbw==
+"@githubnext/blocks@^2.1.2":
+  version "2.1.2"
+  resolved "https://registry.yarnpkg.com/@githubnext/blocks/-/blocks-2.1.2.tgz#bf5334fa902b8ffb9dbff2b02d67ad7f55c96253"
+  integrity sha512-wgY8F5qSBfUWUfxTr+nxS/MBTGOx7giWdA1rzSVWGp9A2BzqANyO3lmycRepMxnaeJW6LipmNl9ShLUFhvrYaw==
   dependencies:
     "@loadable/component" "^5.15.0"
     "@octokit/openapi-types" "^11.2.0"
