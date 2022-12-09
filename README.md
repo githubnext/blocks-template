@@ -5,7 +5,7 @@ Use this repository as a starter template for building your own Blocks.
 
 > 🛑 Currently, you must be flagged into the [GitHub Blocks Technical Preview](https://blocks.githubnext.com) in order to develop blocks. There is no "offline" development mode at this time.
 
-Fork this repo using the `Use this template` button above:
+Fork this repo using the [`Use this template`](https://github.com/githubnext/blocks-template/generate) button above:
 
 !["Use this template" button](https://user-images.githubusercontent.com/8978670/144893319-5d45ab5c-12c0-42b4-99f8-97f658deb03b.png)
 
