@@ -26,7 +26,7 @@ This template includes one example File Block and one Folder Block. The dev serv
 
 ## Under the hood
 
-Currently, Blocks are [React](https://reactjs.org/) components. They have a well-defined contract with their surroundings, and receive a [fixed set of props](TODO) when they are instantiated. They are developed in [TypeScript](https://www.typescriptlang.org/), and bundled with [Vite](https://vitejs.dev/).
+Currently, Blocks are [React](https://reactjs.org/) components. They have a well-defined contract with their surroundings, and receive a [fixed set of props](https://github.com/githubnext/blocks/blob/main/docs/Developing%20blocks/4%20API%20reference%20and%20types.md) when they are instantiated. They are developed in [TypeScript](https://www.typescriptlang.org/), and bundled with [Vite](https://vitejs.dev/).
 
 ## More Info
 
