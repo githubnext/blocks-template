@@ -22,6 +22,8 @@ redirected to the Blocks app, but your locally-developed blocks will appear in t
 
 <img alt="Block picker" src="https://user-images.githubusercontent.com/56439/181648955-101b6567-3f9b-44b3-af99-7ef3ca6161b9.png" width="418" />
 
+(if you're using Safari (or another browser that doesn't permit calling `http` URLs from an `https` page), run `yarn start-https` and visit [https://localhost:4000](https://localhost:4000) instead.)
+
 This template includes one example File Block and one Folder Block. The dev server supports hot reloading, so make some changes, and see what they do!
 
 ## Under the hood
