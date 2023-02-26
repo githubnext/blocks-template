@@ -1,7 +1,7 @@
 import { FolderBlockProps } from "@githubnext/blocks";
 import { Box } from "@primer/react";
 
-export default function (props: FolderBlockProps) {
+export default function ExampleFolderBlock(props: FolderBlockProps) {
   return (
     <Box p={4}>
       <Box
